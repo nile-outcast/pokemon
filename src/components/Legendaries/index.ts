@@ -1,0 +1,1 @@
+export { Legendaries } from './Legendaries';
