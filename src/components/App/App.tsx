@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { Header } from 'src/components/Header';
+import { Header } from 'src/components';
+import { ThemeProvider } from 'src/containers';
 import { Routes } from 'src/routes';
-import { theme } from 'src/theme';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 
 export const App = (): React.ReactElement => {
   return (
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider>
         <PageLayout>
           <Header />
           <Routes />

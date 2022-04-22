@@ -1,19 +1,19 @@
 import React, { useCallback, useState } from 'react';
+import { Moon, Sun } from 'src/components/ui';
+import { useThemeTypeContex } from 'src/containers/ThemeProvider';
 import styled from 'styled-components';
 
-import { Moon, Sun } from './icons';
-
 export const ThemeToggle = (): JSX.Element => {
-  const [status, setStatus] = useState<'ligth' | 'dark'>('ligth');
+  const [themeType, setThemeType] = useThemeTypeContex();
 
-  const changeStatus = useCallback(
-    (): void => setStatus((prev) => (prev === 'ligth' ? 'dark' : 'ligth')),
-    [],
+  const changeTheme = useCallback(
+    (): void => setThemeType((prev) => (prev === 'light' ? 'dark' : 'light')),
+    [setThemeType],
   );
 
   return (
-    <Toggle data-status={status} onClick={changeStatus}>
-      <IconBox>{status === 'ligth' ? <Sun /> : <Moon />}</IconBox>
+    <Toggle data-status={themeType} onClick={changeTheme}>
+      <IconBox>{themeType === 'light' ? <Sun /> : <Moon />}</IconBox>
     </Toggle>
   );
 };

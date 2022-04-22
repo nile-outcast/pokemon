@@ -1,1 +1,1 @@
-export { ThemeToggle } from './ThemeToggle';
+export { Moon, PokemonLogo, Sun } from './icons';

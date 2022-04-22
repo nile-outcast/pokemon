@@ -1,35 +1,33 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { ThemeToggle } from 'src/components/ui';
-import { PokemonLogo } from 'src/components/ui/icons';
-import { routes } from 'src/routes/Routes';
+import { NavLink } from 'react-router-dom';
+import { PokemonLogo } from 'src/components/ui';
+import { routes } from 'src/routes';
 import styled from 'styled-components';
 
-export const Header = (): JSX.Element => {
-  const { pathname } = useLocation();
+import { ThemeToggle } from './components/ThemeToggle';
 
-  return (
-    <Container>
-      <LogoBox>
-        <PokemonLogo />
-      </LogoBox>
+export const Header = (): JSX.Element => (
+  <Container>
+    <LogoBox>
+      <PokemonLogo />
+    </LogoBox>
 
-      <NavBar>
-        {routes.map((route, idx) => (
-          <Link key={idx} to={route.path}>
-            <LinkText data-active={pathname === route.path}>{route.component}</LinkText>
-          </Link>
-        ))}
-      </NavBar>
-      <ThemeToggle />
-    </Container>
-  );
-};
+    <NavBar>
+      {routes.map((route, idx) => (
+        <LinkText key={idx} to={route.path} exact>
+          {route.component}
+        </LinkText>
+      ))}
+    </NavBar>
+
+    <ThemeToggle />
+  </Container>
+);
 
 const Container = styled.header`
   display: flex;
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.third};
+  background-color: ${({ theme }) => theme.dynamicTheme.header};
   height: 93px;
   box-shadow: 0px 4px 16px rgba(1, 28, 64, 0.2);
   padding: 0 83px 0 157px;
@@ -62,10 +60,12 @@ const NavBar = styled.div`
   }
 `;
 
-const LinkText = styled.span`
+const LinkText = styled(NavLink)`
   padding-bottom: 5px;
+  color: ${({ theme }) => theme.dynamicTheme.color};
 
-  &[data-active='true'] {
-    border-bottom: 3px solid #212121;
+  &.active {
+    color: ${({ theme }) => theme.dynamicTheme.activeLinkColor};
+    border-bottom: 3px solid ${({ theme }) => theme.dynamicTheme.activeLinkColor};
   }
 `;
