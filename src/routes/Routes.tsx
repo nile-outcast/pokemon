@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Home, Legendaries, Pokedex } from 'src/components';
+import { Home } from 'src/components/Home';
+import { Legendaries } from 'src/components/Legendaries';
+import { Pokedex } from 'src/components/Pokedex';
 
 const components = {
   Home: Home,
