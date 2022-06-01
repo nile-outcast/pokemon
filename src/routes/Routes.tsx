@@ -5,9 +5,9 @@ import { Legendaries } from 'src/components/Legendaries';
 import { Pokedex } from 'src/components/Pokedex';
 
 const components = {
-  Home: Home,
-  Pokedex: Pokedex,
-  Legendaries: Legendaries,
+  Home: <Home />,
+  Pokedex: <Pokedex />,
+  Legendaries: <Legendaries />,
 };
 
 export const routes: { path: string; component: keyof typeof components }[] = [

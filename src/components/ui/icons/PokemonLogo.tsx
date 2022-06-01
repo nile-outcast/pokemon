@@ -1,8 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
 
 export const PokemonLogo = (): JSX.Element => (
-  <Svg viewBox="0 0 998 371" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 998 371" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -170,15 +169,5 @@ export const PokemonLogo = (): JSX.Element => (
       d="M958.705 354.887V333.951H962.794L968.813 351.653L974.775 333.951H978.807V354.887H976.138V342.518C976.138 342.064 976.138 341.384 976.195 340.419C976.195 339.455 976.195 338.377 976.195 337.242L970.232 354.887H967.45L961.431 337.242V337.866C961.431 338.377 961.431 339.171 961.488 340.192C961.488 341.213 961.544 342.008 961.544 342.518V354.887H958.705Z"
       fill="black"
     />
-  </Svg>
+  </svg>
 );
-
-const Svg = styled.svg`
-  width: 157px;
-  height: 63px;
-
-  @media ${({ theme }) => theme.breakpoints.tablet} {
-    width: 121px;
-    height: 45px;
-  }
-`;
