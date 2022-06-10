@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { breakpoints, colors, dynamicTheme, gradients } from 'src/theme';
+import { breakpoints, colors, dynamicTheme, gradients, skeleton } from 'src/theme';
 import { ThemeType } from 'src/types';
 import { DefaultTheme } from 'styled-components';
 
@@ -10,6 +10,7 @@ export const useTheme = (themeType: ThemeType): DefaultTheme =>
       breakpoints: breakpoints,
       colors: colors,
       gradients: gradients,
+      skeleton: skeleton,
     }),
     [themeType],
   );

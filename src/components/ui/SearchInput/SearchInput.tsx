@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-export const SearchInput = (): JSX.Element => {
-  return <Input placeholder="Encuentra tu pokémon..." />;
+export const SearchInput = (props: InputHTMLAttributes<HTMLInputElement>): JSX.Element => {
+  return <Input {...props} />;
 };
 
 const Input = styled.input`

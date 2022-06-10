@@ -1,14 +1,32 @@
-import React from 'react';
-import { SearchInput } from 'src/components/ui';
+import React, { ChangeEvent, useCallback } from 'react';
+import { SearchInput, TitleH3 } from 'src/components/ui';
+import { useDebounce } from 'src/hooks/useDebounce';
 import styled from 'styled-components';
 
+import { setQueryParams, useQueryParams } from '../queryParams';
+
 export const SearchFilter = (): JSX.Element => {
+  const params = useQueryParams();
+
+  const setParams = (name: string): typeof params => setQueryParams({ ...params, offset: 0, name });
+
+  const deb = useDebounce(setParams, 500);
+
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      // eslint-disable-next-line no-console
+      console.log(e.target.value);
+      deb(e.target.value);
+    },
+    [deb],
+  );
+
   return (
     <Container>
-      <Title>
+      <TitleH3>
         800 <strong>Pokemons</strong> for you to choose your favorite
-      </Title>
-      <SearchInput />
+      </TitleH3>
+      <SearchInput placeholder="Encuentra tu pokémon..." onChange={handleChange} />
     </Container>
   );
 };
@@ -22,22 +40,5 @@ const Container = styled.div`
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
     padding: 0 8px;
-  }
-`;
-
-const Title = styled.h3`
-  color: ${({ theme }) => theme.dynamicTheme.color};
-  margin: 0 4px;
-  font-weight: 400;
-  font-size: 35px;
-  line-height: 41px;
-  text-align: center;
-  letter-spacing: 3px;
-  margin-bottom: 34px;
-
-  @media ${({ theme }) => theme.breakpoints.mobile} {
-    font-size: 24px;
-    line-height: 28px;
-    margin-bottom: 29px;
   }
 `;

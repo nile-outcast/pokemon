@@ -5,4 +5,26 @@ export const colors = {
   gray1: '#F6F7F9',
   gray2: '#E7E7E9',
   gray3: '#4F4F4F',
+  gray4: '#333333',
 };
+
+export enum typeColors {
+  normal = '#76AADB',
+  fighting = '#F76545',
+  flying = '#76AADB',
+  poison = '#A974BC',
+  ground = '#9B897B',
+  rock = '#A1A1A1',
+  bug = '#70A83B',
+  ghost = '#A974BC',
+  steel = '#A1A1A1',
+  fire = '#F76545',
+  water = '#A2CFF0',
+  grass = '#70A83B',
+  electric = '#F7C545',
+  psychic = '#A974BC',
+  ice = '#A2CFF0',
+  dragon = '#F76545',
+  dark = '#A1A1A1',
+  fairy = '#A974BC',
+}
