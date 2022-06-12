@@ -1,11 +1,11 @@
 import { useRef } from 'react';
 
-export function useDebounce(f: (str: string) => void, t: number): (str: string) => void {
+export const useDebounce = <T>(f: (args: T) => void, t: number): (args: T) => void => {
   const lastCall = useRef<number>();
 
   let lastCallTimer: NodeJS.Timeout;
 
-  return (args: string) => {
+  return (args: T) => {
     const previousCall = lastCall.current;
     lastCall.current = Date.now();
 
@@ -15,4 +15,4 @@ export function useDebounce(f: (str: string) => void, t: number): (str: string) 
 
     lastCallTimer = setTimeout(() => f(args), t);
   };
-}
+};

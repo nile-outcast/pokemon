@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { gradients, typeColors } from 'src/theme';
 import { Pokemon as PokemonType } from 'src/types';
 import { dataValidation, getTextFormat } from 'src/utils';
@@ -9,8 +9,10 @@ type Props = {
 };
 
 export const Pokemon = ({ pokemon }: Props): JSX.Element => {
-  // eslint-disable-next-line no-console
-  // console.log(pokemon?.pokemon_v2_pokemonspecy.pokemon_v2_pokemoncolor.name);
+  const onError = useCallback((err: React.SyntheticEvent<HTMLImageElement>) => {
+    err.currentTarget.setAttribute('src', 'sprites/00.png');
+  }, []);
+
   return (
     <Container>
       <Info>
@@ -49,6 +51,7 @@ export const Pokemon = ({ pokemon }: Props): JSX.Element => {
 
       <Image
         src={`sprites/official-artwork/${pokemon?.id || '00'}.png`}
+        onError={onError}
         bgcolor={pokemon?.pokemon_v2_pokemonspecy.pokemon_v2_pokemoncolor.name || ''}
         data-empty={!pokemon}
       />

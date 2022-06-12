@@ -1,10 +1,10 @@
-/* eslint-disable no-console */
-import React, { MouseEventHandler, useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useGetPokemons } from 'src/apollo/queries/apollo-hooks';
+import { useDebounce } from 'src/hooks';
 import { dataValidation } from 'src/utils';
 import styled from 'styled-components';
 
-import { Loader } from '../ui';
+import { TitleH3 } from '../ui';
 import { Pokemon, SearchFilter } from './components';
 import { setQueryParams, useQueryParams } from './queryParams';
 
@@ -20,7 +20,15 @@ export const Pokedex = (): React.ReactElement => {
     return () => window.removeEventListener('resize', getWidth);
   }, []);
 
+  const gridContainer = useRef<HTMLDivElement>(null);
+
   const params = useQueryParams();
+
+  useEffect(() => {
+    if (gridContainer.current && params.offset === 0) {
+      gridContainer.current.scrollTo(0, 0);
+    }
+  }, [params.offset]);
 
   const { data, loading, fetchMore, previousData } = useGetPokemons({
     limit: limit,
@@ -29,67 +37,82 @@ export const Pokedex = (): React.ReactElement => {
 
   const [isRefetch, setRefetch] = useState(false);
 
-  console.log(
-    params,
-    isRefetch,
-    loading,
-    data?.pokemon_v2_pokemon.length,
-    previousData?.pokemon_v2_pokemon.length,
-  );
-
-  const handleScrollNext = useCallback(
-    (event: React.UIEvent<HTMLElement>) => {
-      event.stopPropagation();
-      const { clientHeight, scrollHeight, scrollTop } = event.currentTarget;
+  const onScrollPagination = useCallback(
+    (currentTarget: HTMLDivElement): void => {
+      const { clientHeight, scrollHeight, scrollTop } = currentTarget;
       const minHeight = scrollHeight - (scrollTop + clientHeight);
       const threshold = clientHeight / 4;
-      const isSameLength =
-        data?.pokemon_v2_pokemon.length === previousData?.pokemon_v2_pokemon.length;
+      const isSameData =
+        JSON.stringify(data?.pokemon_v2_pokemon) ===
+        JSON.stringify(previousData?.pokemon_v2_pokemon);
 
       if (minHeight > threshold && isRefetch) {
         setRefetch(false);
         return;
       }
 
-      if (minHeight < threshold && !isRefetch && !isSameLength) {
+      if (minHeight < threshold && !isRefetch && !isSameData) {
         setRefetch(true);
-        const nextOffset = params.offset + limit;
+        let nextOffset = 0;
+
+        if (data?.pokemon_v2_pokemon) {
+          nextOffset =
+            data?.pokemon_v2_pokemon.length > params.offset + limit
+              ? data?.pokemon_v2_pokemon.length
+              : params.offset + limit;
+        }
+
         fetchMore({ variables: { offset: nextOffset } });
         setQueryParams({ ...params, offset: nextOffset });
         return;
       }
 
-      if (isRefetch && isSameLength) {
+      if (isRefetch && isSameData) {
         setRefetch(false);
         return;
       }
     },
     [
-      data?.pokemon_v2_pokemon.length,
+      data?.pokemon_v2_pokemon,
       fetchMore,
       isRefetch,
       limit,
       params,
-      previousData?.pokemon_v2_pokemon.length,
+      previousData?.pokemon_v2_pokemon,
     ],
+  );
+
+  const debounceScrollPagination = useDebounce<HTMLDivElement>(onScrollPagination, 300);
+
+  const handleScrollNext = useCallback(
+    (event: React.UIEvent<HTMLDivElement>) => {
+      event.stopPropagation();
+      debounceScrollPagination(event.currentTarget);
+    },
+    [debounceScrollPagination],
   );
 
   return (
     <Container>
       <SearchFilter />
-
-      <GridContainer onScroll={handleScrollNext}>
-        {dataValidation(data?.pokemon_v2_pokemon, limit).map((pokemon, idx) => (
-          <Pokemon key={pokemon?.id || idx} pokemon={pokemon} />
-        ))}
-      </GridContainer>
-
-      <LoderBox>{(loading || isRefetch) && <Loader />}</LoderBox>
+      {!loading && data?.pokemon_v2_pokemon.length === 0 ? (
+        <Notification>Incorrect filters</Notification>
+      ) : (
+        <GridContainer onScroll={handleScrollNext} ref={gridContainer}>
+          {dataValidation(data?.pokemon_v2_pokemon, limit).map((pokemon, idx) => (
+            <Pokemon key={pokemon?.id || idx} pokemon={pokemon} />
+          ))}
+          {(loading || isRefetch) &&
+            dataValidation([], 6).map((pokemon, idx) => <Pokemon key={idx} pokemon={pokemon} />)}
+        </GridContainer>
+      )}
     </Container>
   );
 };
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   background-color: ${({ theme }) => theme.dynamicTheme.pokedexBG};
   height: calc(100vh - 93px);
   padding: 73px 158px 0;
@@ -111,7 +134,6 @@ const GridContainer = styled.div`
   grid-template-rows: min-content;
   gap: 45px 34px;
   margin: 50px 0 30px;
-  height: 70%;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
@@ -123,7 +145,6 @@ const GridContainer = styled.div`
     grid-template-columns: repeat(2, 1fr);
     gap: 24px 18px;
     margin: 80px 0 50px;
-    height: 486px;
   }
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
@@ -133,14 +154,13 @@ const GridContainer = styled.div`
   }
 `;
 
-const LoderBox = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 8px;
+const Notification = styled(TitleH3)`
+  margin: 50px 0 30px;
+  @media ${({ theme }) => theme.breakpoints.tablet} {
+    margin: 80px 0 50px;
+  }
 
-  & > svg {
-    height: 8px;
-    width: 56px;
+  @media ${({ theme }) => theme.breakpoints.mobile} {
+    margin: 30px 0;
   }
 `;
