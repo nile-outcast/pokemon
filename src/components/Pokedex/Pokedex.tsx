@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { UIEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useGetPokemons } from 'src/apollo/queries/apollo-hooks';
 import { useDebounce } from 'src/hooks';
 import { dataValidation } from 'src/utils';
@@ -37,19 +37,14 @@ export const Pokedex = (): React.ReactElement => {
 
   const [isRefetch, setRefetch] = useState(false);
 
-  const onScrollPagination = useCallback(
-    (currentTarget: HTMLDivElement): void => {
-      const { clientHeight, scrollHeight, scrollTop } = currentTarget;
+  const handleScroll = useCallback(
+    (e: UIEvent<HTMLDivElement>) => {
+      const { clientHeight, scrollHeight, scrollTop } = e.target as HTMLDivElement;
       const minHeight = scrollHeight - (scrollTop + clientHeight);
       const threshold = clientHeight / 4;
       const isSameData =
         JSON.stringify(data?.pokemon_v2_pokemon) ===
         JSON.stringify(previousData?.pokemon_v2_pokemon);
-
-      if (minHeight > threshold && isRefetch) {
-        setRefetch(false);
-        return;
-      }
 
       if (minHeight < threshold && !isRefetch && !isSameData) {
         setRefetch(true);
@@ -62,13 +57,8 @@ export const Pokedex = (): React.ReactElement => {
               : params.offset + limit;
         }
 
-        fetchMore({ variables: { offset: nextOffset } });
+        fetchMore({ variables: { offset: nextOffset } }).finally(() => setRefetch(false));
         setQueryParams({ ...params, offset: nextOffset });
-        return;
-      }
-
-      if (isRefetch && isSameData) {
-        setRefetch(false);
         return;
       }
     },
@@ -82,15 +72,7 @@ export const Pokedex = (): React.ReactElement => {
     ],
   );
 
-  const debounceScrollPagination = useDebounce<HTMLDivElement>(onScrollPagination, 300);
-
-  const handleScrollNext = useCallback(
-    (event: React.UIEvent<HTMLDivElement>) => {
-      event.stopPropagation();
-      debounceScrollPagination(event.currentTarget);
-    },
-    [debounceScrollPagination],
-  );
+  const debounceHandleScroll = useDebounce<UIEvent<HTMLDivElement>>(handleScroll, 300);
 
   return (
     <Container>
@@ -98,7 +80,7 @@ export const Pokedex = (): React.ReactElement => {
       {!loading && data?.pokemon_v2_pokemon.length === 0 ? (
         <Notification>Incorrect filters</Notification>
       ) : (
-        <GridContainer onScroll={handleScrollNext} ref={gridContainer}>
+        <GridContainer onScroll={debounceHandleScroll} ref={gridContainer}>
           {dataValidation(data?.pokemon_v2_pokemon, limit).map((pokemon, idx) => (
             <Pokemon key={pokemon?.id || idx} pokemon={pokemon} />
           ))}

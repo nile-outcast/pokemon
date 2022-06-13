@@ -8,24 +8,20 @@ import { setQueryParams, useQueryParams } from '../queryParams';
 export const SearchFilter = (): JSX.Element => {
   const params = useQueryParams();
 
-  const setParams = useCallback(
-    (name: string) => setQueryParams({ ...params, offset: 0, name }),
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) =>
+      setQueryParams({ ...params, offset: 0, name: e.target.value }),
     [params],
   );
 
-  const debounceSetParams = useDebounce<string>(setParams, 700);
-
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => debounceSetParams(e.target.value),
-    [debounceSetParams],
-  );
+  const debounceHandleChange = useDebounce<ChangeEvent<HTMLInputElement>>(handleChange, 700);
 
   return (
     <Container>
       <Title>
         800 <strong>Pokemons</strong> for you to choose your favorite
       </Title>
-      <SearchInput placeholder="Encuentra tu pokémon..." onChange={handleChange} />
+      <SearchInput placeholder="Encuentra tu pokémon..." onChange={debounceHandleChange} />
     </Container>
   );
 };

@@ -1,18 +1,12 @@
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
-export const useDebounce = <T>(f: (args: T) => void, t: number): (args: T) => void => {
-  const lastCall = useRef<number>();
+export const useDebounce = <T>(callback: (args: T) => void, delay: number): (args: T) => void => {
+  const timer = useRef<NodeJS.Timeout>();
 
-  let lastCallTimer: NodeJS.Timeout;
+  return useCallback((args: T) => {
+    if(timer.current) clearTimeout(timer.current);
 
-  return (args: T) => {
-    const previousCall = lastCall.current;
-    lastCall.current = Date.now();
-
-    if (previousCall && lastCall.current - previousCall <= t) {
-      clearTimeout(lastCallTimer);
-    }
-
-    lastCallTimer = setTimeout(() => f(args), t);
-  };
+    timer.current = setTimeout(() => callback(args), delay);
+    
+  },[callback, delay]);
 };
