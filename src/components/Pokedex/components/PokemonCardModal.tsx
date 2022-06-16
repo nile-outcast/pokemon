@@ -1,4 +1,5 @@
 import React from 'react';
+import { BASE_IMAGE_URL } from 'src/api';
 import { useGetPokemonById } from 'src/apollo/queries/apollo-hooks';
 import { Image as Img } from 'src/components/ui';
 import { Close } from 'src/components/ui/icons';
@@ -26,7 +27,7 @@ export const PokemonCardModal = ({ id, closeModal }: Props): JSX.Element => {
           data-empty={!pokemon}
           bgcolor={pokemon?.pokemon_v2_pokemonspecy.pokemon_v2_pokemoncolor.name || ''}
         >
-          <Image src={`pictures/official-artwork/${pokemon?.id}.png`} bgcolor="" />
+          <Image src={pokemon ? `${BASE_IMAGE_URL}${pokemon?.id}.png` : ''} bgcolor="" />
 
           <Types>
             {dataValidation(pokemon?.pokemon_v2_pokemontypes, 2).map((type, idx) => (

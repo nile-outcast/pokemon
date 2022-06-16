@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import { setQueryParams, useQueryParams } from '../queryParams';
 import { Filter } from './Filter';
+import { FilterText } from './FilterText';
 
 export const SearchFilter = (): JSX.Element => {
   const params = useQueryParams();
@@ -31,7 +32,9 @@ export const SearchFilter = (): JSX.Element => {
         <Filter label="Type">
           <TypesBox>
             {types.map((type) => (
-              <div key={type}>{getTextFormat(type)}</div>
+              <div key={type}>
+                <FilterText>{getTextFormat(type)}</FilterText>
+              </div>
             ))}
           </TypesBox>
         </Filter>
@@ -41,7 +44,7 @@ export const SearchFilter = (): JSX.Element => {
 };
 
 const TypesBox = styled.div`
-  height: 100px;
+  height: 106px;
   text-align: left;
   overflow-y: scroll;
   margin: 12px;

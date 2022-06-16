@@ -8,7 +8,7 @@ type Props = {
 
 export const Image: FC<Props> = (props) => {
   const onError = useCallback((err: React.SyntheticEvent<HTMLImageElement>) => {
-    err.currentTarget.setAttribute('src', 'sprites/pictures/emptyImage.png');
+    err.currentTarget.setAttribute('src', 'pictures/emptyImage.png');
   }, []);
 
   return <Img {...props} onError={onError} />;

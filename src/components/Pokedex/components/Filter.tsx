@@ -2,6 +2,8 @@ import React, { ReactNode, useCallback, useState } from 'react';
 import { ArrowFilter } from 'src/components/ui/icons';
 import styled from 'styled-components';
 
+import { FilterText } from './FilterText';
+
 type Props = {
   label: string;
   children: ReactNode;
@@ -16,10 +18,12 @@ export const Filter = ({ label, children }: Props): JSX.Element => {
     <Container>
       <div onClick={handleClick}>
         <Arrow data-open={isOpen} />
-        <Text>{label}</Text>
+        <FilterText>{label}</FilterText>
       </div>
 
-      {isOpen && <ChildrenBox>{children}</ChildrenBox>}
+      <ChildrenBox data-open={isOpen} height={label === 'Type' ? 130 : 105}>
+        {children}
+      </ChildrenBox>
     </Container>
   );
 };
@@ -36,7 +40,7 @@ const Container = styled.div`
 
   & svg {
     position: absolute;
-    top: 11px;
+    top: 10px;
     right: 7px;
   }
 `;
@@ -49,14 +53,9 @@ const Arrow = styled(ArrowFilter)`
   }
 `;
 
-const Text = styled.span`
-  font-family: Source Sans Pro;
-  font-size: 16px;
-  line-height: 21px;
-  color: ${({ theme }) => theme.dynamicTheme.color};
-`;
-
-const ChildrenBox = styled.div`
+const ChildrenBox = styled.div<{ height: number }>`
+  height: 0;
+  overflow: hidden;
   min-width: 100%;
   z-index: 200;
   position: absolute;
@@ -65,4 +64,10 @@ const ChildrenBox = styled.div`
   box-shadow: 4px 4px 8px rgba(1, 28, 64, 0.2);
   border-radius: 8px;
   background-color: ${({ theme }) => theme.dynamicTheme.searchBG};
+
+  &[data-open='true'] {
+    height: ${({ height }) => height}px;
+  }
+
+  transition: height 0.3s ease-in;
 `;

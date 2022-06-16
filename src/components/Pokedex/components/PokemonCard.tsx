@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { BASE_IMAGE_URL } from 'src/api';
 import { Image as Img } from 'src/components/ui';
 import { typeColors } from 'src/theme';
 import { CorePokemon, Stats } from 'src/types';
@@ -55,7 +56,7 @@ export const PokemonCard = ({ pokemon }: Props): JSX.Element => {
         </Info>
 
         <Image
-          src={`pictures/official-artwork/${pokemon?.id}.png`}
+          src={pokemon ? `${BASE_IMAGE_URL}${pokemon?.id}.png` : ''}
           bgcolor={pokemon?.pokemon_v2_pokemonspecy.pokemon_v2_pokemoncolor.name || ''}
           data-empty={!pokemon}
         />
