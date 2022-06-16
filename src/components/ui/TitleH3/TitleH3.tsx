@@ -4,10 +4,11 @@ export const TitleH3 = styled.h3`
   color: ${({ theme }) => theme.dynamicTheme.color};
   margin: 0;
   font-weight: 400;
-  font-size: 35px;
-  line-height: 41px;
   text-align: center;
   letter-spacing: 3px;
+
+  font-size: 35px;
+  line-height: 41px;
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
     font-size: 24px;
