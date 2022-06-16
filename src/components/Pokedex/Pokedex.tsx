@@ -5,7 +5,7 @@ import { dataValidation } from 'src/utils';
 import styled from 'styled-components';
 
 import { TitleH3 } from '../ui';
-import { Pokemon, SearchFilter } from './components';
+import { PokemonCard, SearchFilter } from './components';
 import { setQueryParams, useQueryParams } from './queryParams';
 
 export const Pokedex = (): React.ReactElement => {
@@ -39,6 +39,7 @@ export const Pokedex = (): React.ReactElement => {
 
   const handleScroll = useCallback(
     (e: UIEvent<HTMLDivElement>) => {
+      e.stopPropagation();
       const { clientHeight, scrollHeight, scrollTop } = e.target as HTMLDivElement;
       const minHeight = scrollHeight - (scrollTop + clientHeight);
       const threshold = clientHeight / 4;
@@ -82,10 +83,12 @@ export const Pokedex = (): React.ReactElement => {
       ) : (
         <GridContainer onScroll={debounceHandleScroll} ref={gridContainer}>
           {dataValidation(data?.pokemon_v2_pokemon, limit).map((pokemon, idx) => (
-            <Pokemon key={pokemon?.id || idx} pokemon={pokemon} />
+            <PokemonCard key={pokemon?.id || idx} pokemon={pokemon} />
           ))}
           {(loading || isRefetch) &&
-            dataValidation([], 6).map((pokemon, idx) => <Pokemon key={idx} pokemon={pokemon} />)}
+            dataValidation([], 6).map((pokemon, idx) => (
+              <PokemonCard key={idx} pokemon={pokemon} />
+            ))}
         </GridContainer>
       )}
     </Container>

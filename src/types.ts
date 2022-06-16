@@ -2,7 +2,7 @@ import { gradients, typeColors } from './theme';
 
 export type ThemeType = 'light' | 'dark'
 
-export type Pokemon = {
+export type CorePokemon = {
   id: number
   name: string
 
@@ -17,7 +17,31 @@ export type Pokemon = {
     }
   }[]
   pokemon_v2_pokemonstats: {
-    base_stat: string
-    id: number
+    base_stat: number
+    pokemon_v2_stat: {
+      id: keyof typeof Stats
+    }    
   }[]
+};
+
+export type FullPokemon = CorePokemon & {
+  base_experience: number
+  pokemon_v2_pokemonspecy: {
+    generation_id: number
+  }
+  pokemon_v2_pokemonabilities: {
+    pokemon_v2_ability: {
+      name: string
+    }
+  }[]
+}
+
+export const Stats =  {
+  1: 'Healthy Points',
+  2: 'Attack',
+  3: 'Defense',
+  4: 'Special Attack',
+  5: 'Special Defense',
+  6: 'Speed',
+  7: 'Experience',
 };

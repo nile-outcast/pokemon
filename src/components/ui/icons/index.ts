@@ -1,5 +1,7 @@
+export { ArrowFilter } from './ArrowFilter';
+export { Close } from './Close';
 export { Loader } from './Loader';
 export { Menu } from './Menu';
 export { Moon } from './Moon';
 export { PokemonLogo } from './PokemonLogo';
-export { Sun } from './Sun';;
+export { Sun } from './Sun';

@@ -4,6 +4,21 @@
   box-sizing: border-box;
 }
 
+@keyframes pulse {
+  0% {
+    background-position: 0%;
+  }
+   100% {
+      background-position: -100%;
+    }
+  }
+
+*[data-empty='true'] {
+  background: linear-gradient(to right, #bababa 0%, #f6f7f9 40%, #bababa 100%);
+  background-size: 400% 400%;
+  animation: pulse 1s linear infinite;  
+}
+
 html,
 body {
   margin: 0;
