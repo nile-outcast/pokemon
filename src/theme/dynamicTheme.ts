@@ -1,6 +1,7 @@
 import { ThemeType } from 'src/types';
 
 import { colors } from './colors';
+import { gradients } from './gradients';
 
 export type DynamicTheme = {
   headerBG: string
@@ -11,6 +12,7 @@ export type DynamicTheme = {
   pokedexBG: string
   iconBG: string
   pokemonBG: string
+  homeBG: string
 }
 
 export const dynamicTheme: Record<ThemeType, DynamicTheme> = {
@@ -23,6 +25,7 @@ export const dynamicTheme: Record<ThemeType, DynamicTheme> = {
     pokedexBG: colors.white,
     iconBG: colors.black,
     pokemonBG: colors.gray1,
+    homeBG: gradients.yellow,
   },
 
   dark: {
@@ -34,5 +37,6 @@ export const dynamicTheme: Record<ThemeType, DynamicTheme> = {
     pokedexBG: colors.black,
     iconBG: colors.white,
     pokemonBG: colors.gray4,
+    homeBG:colors.black,
   },
 };
