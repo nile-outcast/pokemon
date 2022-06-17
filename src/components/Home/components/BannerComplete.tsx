@@ -103,8 +103,7 @@ export const BannerComplete = (props: SVGProps<SVGSVGElement>): JSX.Element => (
         width="373"
         height="183"
         filterUnits="userSpaceOnUse"
-        colorInterpolationFilters="sRGB"
-      >
+        colorInterpolationFilters="sRGB">
         <feFlood floodOpacity="0" result="BackgroundImageFix" />
         <feColorMatrix
           in="SourceAlpha"
@@ -128,8 +127,7 @@ export const BannerComplete = (props: SVGProps<SVGSVGElement>): JSX.Element => (
         width="246"
         height="122"
         filterUnits="userSpaceOnUse"
-        colorInterpolationFilters="sRGB"
-      >
+        colorInterpolationFilters="sRGB">
         <feFlood floodOpacity="0" result="BackgroundImageFix" />
         <feColorMatrix
           in="SourceAlpha"
@@ -153,8 +151,7 @@ export const BannerComplete = (props: SVGProps<SVGSVGElement>): JSX.Element => (
         width="367.317"
         height="368.999"
         filterUnits="userSpaceOnUse"
-        colorInterpolationFilters="sRGB"
-      >
+        colorInterpolationFilters="sRGB">
         <feFlood floodOpacity="0" result="BackgroundImageFix" />
         <feColorMatrix
           in="SourceAlpha"
@@ -180,8 +177,7 @@ export const BannerComplete = (props: SVGProps<SVGSVGElement>): JSX.Element => (
         cy="0"
         r="1"
         gradientUnits="userSpaceOnUse"
-        gradientTransform="translate(418 702) rotate(90) scale(10 93)"
-      >
+        gradientTransform="translate(418 702) rotate(90) scale(10 93)">
         <stop stopColor="#212121" stopOpacity="0.54" />
         <stop offset="1" stopColor="#C4C4C4" stopOpacity="0" />
       </radialGradient>

@@ -1,42 +1,42 @@
 import { gradients, typeColors } from './theme';
 
-export type ThemeType = 'light' | 'dark'
+export type ThemeType = 'light' | 'dark';
 
 export type CorePokemon = {
-  id: number
-  name: string
+  id: number;
+  name: string;
 
   pokemon_v2_pokemonspecy: {
     pokemon_v2_pokemoncolor: {
-      name: keyof typeof gradients
-    }
-  }
+      name: keyof typeof gradients;
+    };
+  };
   pokemon_v2_pokemontypes: {
     pokemon_v2_type: {
-      name: keyof typeof typeColors
-    }
-  }[]
+      name: keyof typeof typeColors;
+    };
+  }[];
   pokemon_v2_pokemonstats: {
-    base_stat: number
+    base_stat: number;
     pokemon_v2_stat: {
-      id: keyof typeof Stats
-    }    
-  }[]
+      id: keyof typeof Stats;
+    };
+  }[];
 };
 
 export type FullPokemon = CorePokemon & {
-  base_experience: number
+  base_experience: number;
   pokemon_v2_pokemonspecy: {
-    generation_id: number
-  }
+    generation_id: number;
+  };
   pokemon_v2_pokemonabilities: {
     pokemon_v2_ability: {
-      name: string
-    }
-  }[]
-}
+      name: string;
+    };
+  }[];
+};
 
-export const Stats =  {
+export const Stats = {
   1: 'Healthy Points',
   2: 'Attack',
   3: 'Defense',

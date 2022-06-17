@@ -15,7 +15,7 @@ export const Core_Pokemon = gql`
       }
     }
     pokemon_v2_pokemonstats {
-      base_stat      
+      base_stat
       pokemon_v2_stat {
         id
       }
@@ -25,31 +25,26 @@ export const Core_Pokemon = gql`
 
 export const Get_Pokemons = gql`
   ${Core_Pokemon}
-  query GetPokemons(
-    $limit: Int 
-    $offset: Int
-    $name: String
-  ) {
-    pokemon_v2_pokemon(      
+  query GetPokemons($limit: Int, $offset: Int, $name: String, $types: String) {
+    pokemon_v2_pokemon(
       limit: $limit
       offset: $offset
       where: {
-        name: {_regex: $name}
+        name: { _regex: $name }
+        pokemon_v2_pokemontypes: { pokemon_v2_type: { name: { _regex: $types } } }
       }
     ) {
       ...CorePokemon
-    }      
+    }
   }
 `;
 
 export const Get_Pokemon_By_Id = gql`
   ${Core_Pokemon}
-  query GetPokemonById(
-    $id: Int!
-  ) {
+  query GetPokemonById($id: Int!) {
     pokemon_v2_pokemon_by_pk(id: $id) {
       ...CorePokemon
- 
+
       base_experience
 
       pokemon_v2_pokemonspecy {
@@ -61,6 +56,6 @@ export const Get_Pokemon_By_Id = gql`
           name
         }
       }
-    }    
+    }
   }
 `;

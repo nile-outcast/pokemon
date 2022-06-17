@@ -47,8 +47,7 @@ export const PokemonCard = ({ pokemon }: Props): JSX.Element => {
               <Type
                 data-empty={!pokemon}
                 key={type?.pokemon_v2_type.name || idx}
-                bgcolor={type?.pokemon_v2_type.name ? typeColors[type?.pokemon_v2_type.name] : ''}
-              >
+                bgcolor={type?.pokemon_v2_type.name ? typeColors[type?.pokemon_v2_type.name] : ''}>
                 {getTextFormat(type?.pokemon_v2_type.name)}
               </Type>
             ))}
@@ -99,11 +98,7 @@ const Name = styled.h5`
   font-size: 18px;
   line-height: 21px;
   height: 21px;
-
-  &[data-empty='true'] {
-    border-radius: 10px;
-    ${({ theme }) => theme.skeleton}
-  }
+  border-radius: 10px;
 `;
 
 const Info = styled.div`
@@ -116,6 +111,7 @@ const Info = styled.div`
 
 const StatsBox = styled.div`
   margin-top: 20px;
+
   & > :first-child {
     margin-right: 8px;
   }

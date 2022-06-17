@@ -25,8 +25,7 @@ export const PokemonCardModal = ({ id, closeModal }: Props): JSX.Element => {
         <CloseIcon onClick={closeModal} />
         <LeftBox
           data-empty={!pokemon}
-          bgcolor={pokemon?.pokemon_v2_pokemonspecy.pokemon_v2_pokemoncolor.name || ''}
-        >
+          bgcolor={pokemon?.pokemon_v2_pokemonspecy.pokemon_v2_pokemoncolor.name || ''}>
           <Image src={pokemon ? `${BASE_IMAGE_URL}${pokemon?.id}.png` : ''} bgcolor="" />
 
           <Types>
@@ -34,8 +33,7 @@ export const PokemonCardModal = ({ id, closeModal }: Props): JSX.Element => {
               <Type
                 data-empty={!pokemon}
                 key={type?.pokemon_v2_type.name || idx}
-                bgcolor={type?.pokemon_v2_type.name ? typeColors[type?.pokemon_v2_type.name] : ''}
-              >
+                bgcolor={type?.pokemon_v2_type.name ? typeColors[type?.pokemon_v2_type.name] : ''}>
                 {getTextFormat(type?.pokemon_v2_type.name)}
               </Type>
             ))}

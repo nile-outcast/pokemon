@@ -1,5 +1,6 @@
-import React, { ReactNode, useCallback, useState } from 'react';
+import React, { MouseEvent, ReactNode, useCallback, useRef, useState } from 'react';
 import { ArrowFilter } from 'src/components/ui/icons';
+import { useOnClickOutside } from 'src/hooks';
 import styled from 'styled-components';
 
 import { FilterText } from './FilterText';
@@ -10,12 +11,17 @@ type Props = {
 };
 
 export const Filter = ({ label, children }: Props): JSX.Element => {
+  const ref = useRef(null);
+
   const [isOpen, setOpen] = useState(false);
 
   const handleClick = useCallback(() => setOpen((prev) => !prev), []);
+  const handleClose = useCallback(() => setOpen(false), []);
+
+  useOnClickOutside(ref, handleClose);
 
   return (
-    <Container>
+    <Container ref={ref}>
       <div onClick={handleClick}>
         <Arrow data-open={isOpen} />
         <FilterText>{label}</FilterText>
@@ -42,6 +48,10 @@ const Container = styled.div`
     position: absolute;
     top: 10px;
     right: 7px;
+  }
+
+  & > :first-child {
+    cursor: pointer;
   }
 `;
 

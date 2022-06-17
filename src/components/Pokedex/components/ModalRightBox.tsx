@@ -36,8 +36,7 @@ export const ModalRightBox = ({ pokemon }: Props): JSX.Element => (
           <Type
             data-empty={!pokemon}
             key={type?.pokemon_v2_type.name || idx}
-            bgcolor={type?.pokemon_v2_type.name ? typeColors[type?.pokemon_v2_type.name] : ''}
-          >
+            bgcolor={type?.pokemon_v2_type.name ? typeColors[type?.pokemon_v2_type.name] : ''}>
             {getTextFormat(type?.pokemon_v2_type.name)}
           </Type>
         ))}
@@ -77,6 +76,7 @@ export const ModalRightBox = ({ pokemon }: Props): JSX.Element => (
         .map((stat, idx) => (
           <StatBox key={stat?.pokemon_v2_stat.id || idx}>
             <Stat
+              staticTheme
               abbreviateLabel
               isEmptyData={!pokemon}
               label={stat && Stats[stat.pokemon_v2_stat.id]}
@@ -295,6 +295,7 @@ const Name = styled.h3`
   }
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
+    text-align: center;
     position: fixed;
     top: 40px;
     left: 50%;

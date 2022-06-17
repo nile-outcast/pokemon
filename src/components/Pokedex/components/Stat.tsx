@@ -1,7 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-type Props = {
+type ThemeProps = {
+  staticTheme?: boolean;
+};
+
+type Props = ThemeProps & {
   label: string | undefined;
   stat: number | undefined;
   isEmptyData: boolean;
@@ -14,10 +18,18 @@ const shortenText = (text: string): string => {
   return words.join(' ');
 };
 
-export const Stat = ({ label, stat, isEmptyData, abbreviateLabel }: Props): JSX.Element => (
+export const Stat = ({
+  label,
+  stat,
+  isEmptyData,
+  abbreviateLabel,
+  staticTheme,
+}: Props): JSX.Element => (
   <StatBox>
-    <StatText data-empty={isEmptyData}>{stat}</StatText>
-    <StatName data-empty={isEmptyData}>
+    <StatText data-empty={isEmptyData} staticTheme={staticTheme}>
+      {stat}
+    </StatText>
+    <StatName data-empty={isEmptyData} staticTheme={staticTheme}>
       {abbreviateLabel ? shortenText(label || '') : label}
     </StatName>
   </StatBox>
@@ -29,36 +41,34 @@ const StatBox = styled.div`
   align-items: center;
 `;
 
-const StatName = styled.p`
+const StatName = styled.p<ThemeProps>`
   margin: 0;
-  color: ${({ theme }) => theme.dynamicTheme.statNameColor};
+  width: 100%;
+  color: ${({ theme, staticTheme }) =>
+    staticTheme ? theme.colors.gray3 : theme.dynamicTheme.statNameColor};
   font-weight: 400;
   font-size: 12px;
   line-height: 14px;
-
-  &[data-empty='true'] {
-    ${({ theme }) => theme.skeleton}
-    width: 100%;
-    height: 14px;
-    border-radius: 7px;
-  }
+  height: 14px;
+  border-radius: 7px;
 `;
 
-const StatText = styled.div`
+const StatText = styled.div<ThemeProps>`
   text-align: center;
-  color: ${({ theme }) => theme.dynamicTheme.color};
+  color: ${({ theme, staticTheme }) =>
+    staticTheme ? theme.colors.black : theme.dynamicTheme.color};
   font-weight: 400;
   font-size: 15px;
   line-height: 30px;
 
   width: 36px;
   height: 36px;
-  border: 3px solid ${({ theme }) => theme.dynamicTheme.color};
+  border: 3px solid
+    ${({ theme, staticTheme }) => (staticTheme ? theme.colors.black : theme.dynamicTheme.color)};
   border-radius: 50%;
   margin-bottom: 7px;
 
   &[data-empty='true'] {
-    ${({ theme }) => theme.skeleton}
     border: none;
   }
 `;

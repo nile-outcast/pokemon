@@ -1,5 +1,6 @@
 export type GetPokemonsVars = {
-  limit: number
-  offset: number
-  name: string
+  limit: number;
+  offset: number;
+  name: string;
+  types: string[];
 };

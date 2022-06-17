@@ -4,15 +4,16 @@ import { useDebounce } from 'src/hooks';
 import { dataValidation } from 'src/utils';
 import styled from 'styled-components';
 
+import { Footer } from '../Footer';
 import { TitleH3 } from '../ui';
 import { PokemonCard, SearchFilter } from './components';
 import { setQueryParams, useQueryParams } from './queryParams';
 
 export const Pokedex = (): React.ReactElement => {
-  const [limit, setLimit] = useState(document.documentElement.clientWidth > 768 ? 21 : 10);
+  const [limit, setLimit] = useState(document.documentElement.clientWidth > 768 ? 21 : 20);
 
   useLayoutEffect(() => {
-    const getWidth = (): void => setLimit(document.documentElement.clientWidth > 768 ? 21 : 10);
+    const getWidth = (): void => setLimit(document.documentElement.clientWidth > 768 ? 21 : 20);
     getWidth();
 
     window.addEventListener('resize', getWidth);
@@ -77,20 +78,25 @@ export const Pokedex = (): React.ReactElement => {
 
   return (
     <Container>
-      <SearchFilter />
-      {!loading && data?.pokemon_v2_pokemon.length === 0 ? (
-        <Notification>Incorrect filters</Notification>
-      ) : (
-        <GridContainer onScroll={debounceHandleScroll} ref={gridContainer}>
-          {dataValidation(data?.pokemon_v2_pokemon, limit).map((pokemon, idx) => (
-            <PokemonCard key={pokemon?.id || idx} pokemon={pokemon} />
-          ))}
-          {(loading || isRefetch) &&
-            dataValidation([], 6).map((pokemon, idx) => (
-              <PokemonCard key={idx} pokemon={pokemon} />
+      <Content>
+        <SearchFilter />
+
+        {!loading && data?.pokemon_v2_pokemon.length === 0 ? (
+          <Notification>Incorrect filters</Notification>
+        ) : (
+          <GridContainer onScroll={debounceHandleScroll} ref={gridContainer}>
+            {dataValidation(data?.pokemon_v2_pokemon, limit).map((pokemon, idx) => (
+              <PokemonCard key={pokemon?.id || idx} pokemon={pokemon} />
             ))}
-        </GridContainer>
-      )}
+            {(loading || isRefetch) &&
+              dataValidation([], 6).map((pokemon, idx) => (
+                <PokemonCard key={idx} pokemon={pokemon} />
+              ))}
+          </GridContainer>
+        )}
+      </Content>
+
+      <Footer />
     </Container>
   );
 };
@@ -100,6 +106,20 @@ const Container = styled.div`
   flex-direction: column;
   background-color: ${({ theme }) => theme.dynamicTheme.pokedexBG};
   height: calc(100vh - 93px);
+
+  @media ${({ theme }) => theme.breakpoints.mobile} {
+    min-height: calc(100vh - 64px);
+
+    & > :last-child {
+      display: none;
+    }
+  }
+`;
+
+const Content = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 73px 158px 0;
   overflow: hidden;
 
@@ -108,7 +128,6 @@ const Container = styled.div`
   }
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
-    min-height: calc(100vh - 64px);
     padding: 20px 20px 0;
   }
 `;
@@ -118,7 +137,7 @@ const GridContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: min-content;
   gap: 45px 34px;
-  margin: 50px 0 30px;
+  margin: 50px 0 32px;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
@@ -129,13 +148,17 @@ const GridContainer = styled.div`
   @media ${({ theme }) => theme.breakpoints.tablet} {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px 18px;
-    margin: 80px 0 50px;
+    margin: 80px 0 62px;
   }
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
     grid-template-columns: repeat(1, 1fr);
     gap: 24px;
-    margin: 30px 0;
+    margin: 30px 0 0;
+
+    &::after {
+      content: '';
+    }
   }
 `;
 

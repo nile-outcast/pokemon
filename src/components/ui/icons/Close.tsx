@@ -7,8 +7,7 @@ export const Close = (props: SVGProps<SVGSVGElement>): JSX.Element => (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
+    {...props}>
     <rect
       width="35.4683"
       height="9.21254"

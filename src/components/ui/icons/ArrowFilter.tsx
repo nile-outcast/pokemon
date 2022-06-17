@@ -8,8 +8,7 @@ export const ArrowFilter = (props: SVGProps<SVGSVGElement>): JSX.Element => (
     viewBox="0 0 7 3"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
+    {...props}>
     <Line
       y1="-0.5"
       x2="3.60561"

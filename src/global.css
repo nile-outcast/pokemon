@@ -8,10 +8,10 @@
   0% {
     background-position: 0%;
   }
-   100% {
-      background-position: -100%;
-    }
+  100% {
+    background-position: -100%;
   }
+}
 
 *[data-empty='true'] {
   background: linear-gradient(to right, #bababa 0%, #f6f7f9 40%, #bababa 100%);

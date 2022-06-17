@@ -20,10 +20,12 @@ const Input = styled.input`
   line-height: 20px;
 
   @media ${({ theme }) => theme.breakpoints.tablet} {
+    box-shadow: 2px 2px 2px rgba(33, 33, 33, 0.1);
     height: 36px;
   }
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
+    box-shadow: 4px 4px 4px rgba(33, 33, 33, 0.1);
     height: 31px;
     font-size: 12px;
     line-height: 15px;

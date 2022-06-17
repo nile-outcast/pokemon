@@ -4,20 +4,20 @@ import { colors } from './colors';
 import { gradients } from './gradients';
 
 export type DynamicTheme = {
-  headerBG: string
-  color: string
-  statNameColor: string
-  activeLinkColor: string
-  searchBG: string
-  pokedexBG: string
-  iconBG: string
-  pokemonBG: string
-  homeBG: string
-}
+  headerBG: string;
+  color: string;
+  statNameColor: string;
+  activeLinkColor: string;
+  searchBG: string;
+  pokedexBG: string;
+  iconBG: string;
+  pokemonBG: string;
+  homeBG: string;
+};
 
 export const dynamicTheme: Record<ThemeType, DynamicTheme> = {
   light: {
-    headerBG: colors.third,    
+    headerBG: colors.third,
     color: colors.black,
     statNameColor: colors.gray3,
     activeLinkColor: colors.black,
@@ -37,6 +37,6 @@ export const dynamicTheme: Record<ThemeType, DynamicTheme> = {
     pokedexBG: colors.black,
     iconBG: colors.white,
     pokemonBG: colors.gray4,
-    homeBG:colors.black,
+    homeBG: colors.black,
   },
 };

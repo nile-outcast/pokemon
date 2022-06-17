@@ -7,8 +7,4 @@ export const BaseType = styled.div<{ bgcolor: string }>`
   background-color: ${({ bgcolor }) => bgcolor};
   box-shadow: inset 0px -2px 0px rgba(0, 0, 0, 0.18);
   border-radius: 11px;
-
-  &[data-empty='true'] {
-    ${({ theme }) => theme.skeleton}
-  }
 `;

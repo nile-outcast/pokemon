@@ -1,9 +1,12 @@
 {
+  "bracketSpacing": true,
+  "jsxBracketSameLine": true,
   "singleQuote": true,
   "arrowParens": "always",
   "tabWidth": 2,
   "trailingComma": "all",
   "printWidth": 100,
+  "endOfLine": "auto",
   "overrides": [
     {
       "files": "*.css",
