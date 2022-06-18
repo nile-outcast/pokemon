@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useDebounce } from 'src/hooks';
 import { typeColors } from 'src/theme';
 import { getTextFormat } from 'src/utils';
@@ -11,37 +11,29 @@ export const TypeFilter = (): JSX.Element => {
   const params = useQueryParams();
 
   const [checkedTypes, setTypes] = useState(params.types);
-  const refTypes = useRef<string[]>([]);
 
   const types = useMemo(() => Object.keys(typeColors).sort(), []);
 
-  const handleSetParams = useCallback(
-    () => setQueryParams({ ...params, offset: 0, types: refTypes.current }),
+  const setParams = useCallback(
+    (types: string[]) => setQueryParams({ ...params, offset: 0, types }),
     [params],
   );
 
-  const debounceSetParams = useDebounce<undefined>(handleSetParams, 700);
+  const debounceSetParams = useDebounce<string[]>(setParams, 700);
 
   const handleClickType = useCallback(
-    (type: string) => {
-      const idx = checkedTypes.indexOf(type);
+    (type: string) =>
+      setTypes((prev) => {
+        const typesSet = new Set(prev);
 
-      if (idx === -1)
-        setTypes((prev) => {
-          const types = [...prev, type];
-          refTypes.current = types;
-          return types;
-        });
-      else
-        setTypes((prev) => {
-          const types = [...prev.slice(0, idx), ...prev.slice(idx + 1)];
-          refTypes.current = types;
-          return types;
-        });
+        if (typesSet.has(type)) typesSet.delete(type);
+        else typesSet.add(type);
 
-      debounceSetParams(undefined);
-    },
-    [checkedTypes, debounceSetParams],
+        debounceSetParams([...typesSet]);
+
+        return [...typesSet];
+      }),
+    [debounceSetParams],
   );
 
   return (
@@ -63,12 +55,16 @@ const TypesBox = styled.div`
   margin: 12px;
   margin-left: 32px;
 
-  &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
   & > :nth-child(n + 2) {
     margin-top: 8px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 1px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.dynamicTheme.color}80;
+    border-radius: 1px;
   }
 `;
 

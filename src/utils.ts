@@ -1,4 +1,5 @@
-export const getTextFormat = (name: string | undefined): string => name ? `${name[0].toUpperCase()}${name.slice(1)}` : ' '; 
+export const getTextFormat = (name: string | undefined): string =>
+  name ? `${name[0].toUpperCase()}${name.slice(1)}` : ' ';
 
 export const dataValidation = <T extends Record<string, unknown>>(
   data: T[] | undefined,

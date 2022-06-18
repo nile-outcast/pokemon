@@ -1,2 +1,2 @@
 export { NavBar } from './Navbar';
-export { ThemeToggle } from './ThemeToggle';;
+export { ThemeToggle } from './ThemeToggle';
