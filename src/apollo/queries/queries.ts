@@ -44,7 +44,7 @@ export const Get_Pokemons = gql`
         base_experience: { _gte: $experienceFrom, _lte: $experienceTo }
         pokemon_v2_pokemonstats: {
           base_stat: { _gte: $attackFrom, _lte: $attackTo }
-          pokemon_v2_stat: { name: { _iregex: "attack" } }
+          pokemon_v2_stat: { id: { _eq: 2 } }
         }
       }
     ) {

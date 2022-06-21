@@ -1,7 +1,6 @@
-import React, { ChangeEvent, useCallback, useMemo } from 'react';
+import React, { ChangeEvent, useCallback } from 'react';
 import { Input, TitleH3 } from 'src/components/ui';
 import { useDebounce } from 'src/hooks';
-import { typeColors } from 'src/theme';
 import styled from 'styled-components';
 
 import { setQueryParams, useQueryParams } from '../queryParams';
@@ -17,8 +16,6 @@ export const SearchFilter = (): JSX.Element => {
   );
 
   const debounceHandleChange = useDebounce<ChangeEvent<HTMLInputElement>>(handleChange, 700);
-
-  const types = useMemo(() => Object.keys(typeColors).sort(), []);
 
   return (
     <Container>

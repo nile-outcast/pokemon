@@ -41,7 +41,7 @@ module.exports = {
     // Можно использовать переменные до их объявления (нужно для Styled-components)
     '@typescript-eslint/no-use-before-define': 'off',
     // FIXME: Отдаем unused-vars на откуп tsc-lint ('noUnusedLocals': true)
-    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
 
