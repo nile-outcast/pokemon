@@ -25,13 +25,27 @@ export const Core_Pokemon = gql`
 
 export const Get_Pokemons = gql`
   ${Core_Pokemon}
-  query GetPokemons($limit: Int, $offset: Int, $name: String, $types: String) {
+  query GetPokemons(
+    $limit: Int
+    $offset: Int
+    $name: String
+    $types: String
+    $experienceFrom: Int
+    $experienceTo: Int
+    $attackFrom: Int
+    $attackTo: Int
+  ) {
     pokemon_v2_pokemon(
       limit: $limit
       offset: $offset
       where: {
-        name: { _regex: $name }
-        pokemon_v2_pokemontypes: { pokemon_v2_type: { name: { _regex: $types } } }
+        name: { _iregex: $name }
+        pokemon_v2_pokemontypes: { pokemon_v2_type: { name: { _iregex: $types } } }
+        base_experience: { _gte: $experienceFrom, _lte: $experienceTo }
+        pokemon_v2_pokemonstats: {
+          base_stat: { _gte: $attackFrom, _lte: $attackTo }
+          pokemon_v2_stat: { name: { _iregex: "attack" } }
+        }
       }
     ) {
       ...CorePokemon

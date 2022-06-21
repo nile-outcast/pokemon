@@ -8,7 +8,10 @@ export const client = new ApolloClient({
     typePolicies: {
       Query: {
         fields: {
-          pokemon_v2_pokemon: offsetLimitPagination(['where', ['name', 'pokemon_v2_pokemontypes']]),
+          pokemon_v2_pokemon: offsetLimitPagination([
+            'where',
+            ['name', 'pokemon_v2_pokemontypes', 'base_experience', 'pokemon_v2_pokemonstats'],
+          ]),
           // {
           //   keyArgs: [ 'where', ['name']],
           //   merge: (existing: CorePokemon[], incoming: CorePokemon[]) => {

@@ -1,16 +1,23 @@
-import React, { MouseEvent, ReactNode, useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { ArrowFilter } from 'src/components/ui/icons';
 import { useOnClickOutside } from 'src/hooks';
 import styled from 'styled-components';
 
+import { AttackAndExperienceFilter } from './AttackAndExperienceFilter';
 import { FilterText } from './FilterText';
+import { TypeFilter } from './TypeFilter';
 
-type Props = {
-  label: string;
-  children: ReactNode;
+const FilterChildren = {
+  Type: <TypeFilter />,
+  Attack: <AttackAndExperienceFilter label="attack" />,
+  Experience: <AttackAndExperienceFilter label="experience" />,
 };
 
-export const Filter = ({ label, children }: Props): JSX.Element => {
+type Props = {
+  label: keyof typeof FilterChildren;
+};
+
+export const Filter = ({ label }: Props): JSX.Element => {
   const ref = useRef(null);
 
   const [isOpen, setOpen] = useState(false);
@@ -28,7 +35,7 @@ export const Filter = ({ label, children }: Props): JSX.Element => {
       </div>
 
       <ChildrenBox data-open={isOpen} height={label === 'Type' ? 130 : 105}>
-        {children}
+        {FilterChildren[label]}
       </ChildrenBox>
     </Container>
   );

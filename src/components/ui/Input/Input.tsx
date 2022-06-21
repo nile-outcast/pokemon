@@ -1,11 +1,6 @@
-import React, { InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-export const SearchInput = (props: InputHTMLAttributes<HTMLInputElement>): JSX.Element => {
-  return <Input {...props} />;
-};
-
-const Input = styled.input`
+export const Input = styled.input`
   background-color: ${({ theme }) => theme.dynamicTheme.searchBG};
   color: ${({ theme }) => theme.dynamicTheme.color};
   box-shadow: 4px 4px 16px rgba(1, 28, 64, 0.2);

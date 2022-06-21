@@ -8,13 +8,29 @@ type GetPokemonsData = {
   pokemon_v2_pokemon: CorePokemon[];
 };
 
-type GetPokemonsQueryVars = Omit<GetPokemonsVars, 'types'> & { types: string };
+type GetPokemonsQueryVars = Omit<GetPokemonsVars, 'types' | 'experience' | 'attack'> & {
+  types: string;
+  experienceFrom: number;
+  experienceTo: number;
+  attackFrom: number;
+  attackTo: number;
+};
 
-export const useGetPokemons = (
-  vars: GetPokemonsVars,
-): QueryResult<GetPokemonsData, GetPokemonsQueryVars> =>
+export const useGetPokemons = ({
+  types,
+  experience,
+  attack,
+  ...vars
+}: GetPokemonsVars): QueryResult<GetPokemonsData, GetPokemonsQueryVars> =>
   useQuery<GetPokemonsData, GetPokemonsQueryVars>(Get_Pokemons, {
-    variables: { ...vars, types: vars.types.join('|') },
+    variables: {
+      ...vars,
+      types: types.join('|'),
+      experienceFrom: experience.from,
+      experienceTo: experience.to,
+      attackFrom: attack.from,
+      attackTo: attack.to,
+    },
     notifyOnNetworkStatusChange: true,
   });
 
