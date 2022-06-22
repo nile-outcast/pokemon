@@ -97,7 +97,7 @@ const Input = styled(BaseInput)<InputProps>`
   width: 96px;
   height: 19px;
   padding: 2px 12px;
-  box-shadow: 1px 1px 2px 1px c20;
+  box-shadow: 0px 1px 7px 2px ${({ theme }) => theme.dynamicTheme.color}20;
 
   &[data-error='true'] {
     color: ${({ theme }) => theme.colors.danger};

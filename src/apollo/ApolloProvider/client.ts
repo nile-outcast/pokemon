@@ -1,6 +1,11 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { offsetLimitPagination } from '@apollo/client/utilities';
-import { CorePokemon } from 'src/types';
+// import { CorePokemon } from 'src/types';
+
+const keyArgs = [
+  'where',
+  ['name', 'pokemon_v2_pokemontypes', 'base_experience', 'pokemon_v2_pokemonstats'],
+];
 
 export const client = new ApolloClient({
   uri: 'https://beta.pokeapi.co/graphql/v1beta',
@@ -8,12 +13,9 @@ export const client = new ApolloClient({
     typePolicies: {
       Query: {
         fields: {
-          pokemon_v2_pokemon: offsetLimitPagination([
-            'where',
-            ['name', 'pokemon_v2_pokemontypes', 'base_experience', 'pokemon_v2_pokemonstats'],
-          ]),
+          pokemon_v2_pokemon: offsetLimitPagination(keyArgs),
           // {
-          //   keyArgs: [ 'where', ['name']],
+          //   keyArgs: keyArgs,
           //   merge: (existing: CorePokemon[], incoming: CorePokemon[]) => {
           //     if (existing) {
           //       return [...existing, ...incoming];

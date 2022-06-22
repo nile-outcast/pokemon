@@ -4,6 +4,9 @@ export const Core_Pokemon = gql`
   fragment CorePokemon on pokemon_v2_pokemon {
     id
     name
+    pokemon_v2_pokemonsprites {
+      sprites
+    }
     pokemon_v2_pokemonspecy {
       pokemon_v2_pokemoncolor {
         name

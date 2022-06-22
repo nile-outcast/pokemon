@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import { gql, useApolloClient } from '@apollo/client';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BASE_IMAGE_URL } from 'src/api';
 import { Image as Img } from 'src/components/ui';
 import { typeColors } from 'src/theme';
@@ -10,6 +11,15 @@ import { BaseType } from './BaseType';
 import { PokemonCardModal } from './PokemonCardModal';
 import { Stat } from './Stat';
 
+const Pokemon_Sprites = gql`
+  query PokemonSprites($id: Int) {
+    pokemon_v2_pokemon_by_pk(id: $id) {
+      id
+      pokemon_v2_pokemonsprites
+    }
+  }
+`;
+
 type Props = {
   pokemon: CorePokemon | undefined;
 };
@@ -20,6 +30,28 @@ export const PokemonCard = ({ pokemon }: Props): JSX.Element => {
   const openModal = useCallback(() => setOpenModal(true), []);
 
   const closeModal = useCallback(() => setOpenModal(false), []);
+
+  const client = useApolloClient();
+
+  useEffect(() => {
+    if (pokemon) {
+      client.writeQuery({
+        query: Pokemon_Sprites,
+        variables: { id: pokemon.id },
+        data: {
+          pokemon_v2_pokemon_by_pk: {
+            __typename: 'pokemon_v2_pokemon',
+            id: pokemon.id,
+            pokemon_v2_pokemonsprites: [
+              {
+                sprites: `${BASE_IMAGE_URL}${pokemon?.id}.png`,
+              },
+            ],
+          },
+        },
+      });
+    }
+  }, [client, pokemon]);
 
   return (
     <>
@@ -55,7 +87,7 @@ export const PokemonCard = ({ pokemon }: Props): JSX.Element => {
         </Info>
 
         <Image
-          src={pokemon ? `${BASE_IMAGE_URL}${pokemon?.id}.png` : ''}
+          src={pokemon?.pokemon_v2_pokemonsprites[0].sprites}
           bgcolor={pokemon?.pokemon_v2_pokemonspecy.pokemon_v2_pokemoncolor.name || ''}
           data-empty={!pokemon}
         />
