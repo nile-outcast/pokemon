@@ -13,7 +13,7 @@ module.exports = {
 
   extends: [
     'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
-    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from @typescript-eslint/eslint-plugin
+    'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
   ],
 
@@ -21,7 +21,7 @@ module.exports = {
     /** TYPESCRIPT RULES */
     //'@typescript-eslint/ban-ts-ignore': 1,
     // Предпочитать Array<...> формат с параметром (https://github.com/palantir/tslint/issues/2946)
-    '@typescript-eslint/array-type': [0, { generic: true }], //[0, { generic: 0 }], // [2, { 'generic' }], // ['error', 'generic'],
+    '@typescript-eslint/array-type': [0, { generic: true }],
     '@typescript-eslint/object-literal-sort-keys': 0,
     // I в IProps не нужно писать для интерфейсов (правильно просто Props)
     //'@typescript-eslint/interface-name-prefix': ['error', 'never'],
@@ -49,7 +49,7 @@ module.exports = {
     // Нельзя console.log
     'no-console': ['error', { allow: ['warn', 'error'] }],
     'no-unused-expressions': 'error',
-    //'max-len': ['error', 100],
+    'max-len': ['error', 100],
     'eol-last': ['error', 'always'],
     'comma-dangle': ['error', 'always-multiline'],
     semi: ['error', 'always', { omitLastInOneLineBlock: true }],
@@ -85,7 +85,8 @@ module.exports = {
   },
   settings: {
     react: {
-      version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
+      // Tells eslint-plugin-react to automatically detect the version of React to use
+      version: 'detect',
     },
   },
 };

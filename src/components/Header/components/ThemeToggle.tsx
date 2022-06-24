@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Moon, Sun } from 'src/components/ui';
 import { useThemeTypeContex } from 'src/containers/ThemeProvider';
 import styled from 'styled-components';

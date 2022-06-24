@@ -25,7 +25,7 @@ export const PokemonCardModal = ({ id, closeModal }: Props): JSX.Element => {
         <LeftBox
           data-empty={!pokemon}
           bgcolor={pokemon?.pokemon_v2_pokemonspecy.pokemon_v2_pokemoncolor.name || ''}>
-          <Image src={pokemon?.pokemon_v2_pokemonsprites[0].sprites} bgcolor="" />
+          <Image src={pokemon?.pokemon_v2_pokemonsprites.sprites} bgcolor="" />
 
           <Types>
             {dataValidation(pokemon?.pokemon_v2_pokemontypes, 2).map((type, idx) => (

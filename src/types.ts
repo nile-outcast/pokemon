@@ -22,9 +22,7 @@ export type CorePokemon = {
       id: keyof typeof Stats;
     };
   }[];
-  pokemon_v2_pokemonsprites: {
-    sprites: string;
-  }[];
+  pokemon_v2_pokemonsprites: { sprites: string };
 };
 
 export type FullPokemon = CorePokemon & {

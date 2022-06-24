@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { SVGProps } from 'react';
 
 export const BannerComplete = (props: SVGProps<SVGSVGElement>): JSX.Element => (
