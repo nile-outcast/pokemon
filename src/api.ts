@@ -1,2 +1,3 @@
+/* eslint-disable max-len */
 export const BASE_IMAGE_URL =
   'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/';

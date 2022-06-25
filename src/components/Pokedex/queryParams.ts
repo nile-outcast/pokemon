@@ -7,8 +7,8 @@ const initialVars: Omit<GetPokemonsVars, 'limit'> = {
   offset: 0,
   name: '',
   types: [],
-  experience: initialRange,
-  attack: initialRange,
+  experience: { ...initialRange },
+  attack: { ...initialRange },
 };
 
 export const setQueryParams = makeVar({

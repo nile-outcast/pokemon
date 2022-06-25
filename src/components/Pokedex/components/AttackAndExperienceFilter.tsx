@@ -15,7 +15,7 @@ export const AttackAndExperienceFilter = ({ label }: Props): JSX.Element => {
   const params = useQueryParams();
 
   const [values, setValues] = useState(params[label]);
-  const error = values.from > values.to;
+  const error = +values.from > +values.to;
 
   const handleChange = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement & InputProps>) =>
@@ -47,7 +47,7 @@ export const AttackAndExperienceFilter = ({ label }: Props): JSX.Element => {
         value={values.from}
         onChange={handleChange}
         onBlur={handleBlur}
-        maxLength={8}
+        maxLength={4}
         data-error={error}
       />
 
@@ -58,7 +58,7 @@ export const AttackAndExperienceFilter = ({ label }: Props): JSX.Element => {
         value={values.to}
         onChange={handleChange}
         onBlur={handleBlur}
-        maxLength={8}
+        maxLength={4}
         data-error={error}
       />
 

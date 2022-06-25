@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 import { Input, TitleH3 } from 'src/components/ui';
 import { useDebounce } from 'src/hooks';
 import styled from 'styled-components';
@@ -9,13 +9,22 @@ import { Filter } from './Filter';
 export const SearchFilter = (): JSX.Element => {
   const params = useQueryParams();
 
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) =>
-      setQueryParams({ ...params, offset: 0, name: e.target.value.toLowerCase() }),
+  const [text, setText] = useState(params.name);
+
+  const setParams = useCallback(
+    (name: string) => setQueryParams({ ...params, offset: 0, name }),
     [params],
   );
 
-  const debounceHandleChange = useDebounce<ChangeEvent<HTMLInputElement>>(handleChange, 700);
+  const debounceSetParams = useDebounce(setParams, 700);
+
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setText(e.target.value);
+      debounceSetParams(e.target.value);
+    },
+    [debounceSetParams],
+  );
 
   return (
     <Container>
@@ -23,7 +32,12 @@ export const SearchFilter = (): JSX.Element => {
         800 <strong>Pokemons</strong> for you to choose your favorite
       </Title>
 
-      <Input type="search" placeholder="Encuentra tu pokémon..." onChange={debounceHandleChange} />
+      <Input
+        value={text}
+        onChange={handleChange}
+        type="search"
+        placeholder="Encuentra tu pokémon..."
+      />
 
       <FilterBox>
         <Filter label="Type" />
