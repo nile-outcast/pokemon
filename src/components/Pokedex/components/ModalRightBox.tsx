@@ -23,7 +23,8 @@ const flatAbilities = (pokemon: Props['pokemon']): string | undefined => {
 export const ModalRightBox = ({ pokemon }: Props): JSX.Element => (
   <RightBox>
     <BoxHeader>
-      <Name data-empty={!pokemon}>{getTextFormat(pokemon?.name) || ''}</Name>
+      {/* TODO: modal for full name */}
+      <Name data-empty={!pokemon}>{getTextFormat(pokemon?.name, true) || ''}</Name>
 
       <Generation data-empty={!pokemon}>
         {pokemon ? `Generation ${pokemon?.pokemon_v2_pokemonspecy.generation_id}` : ''}
@@ -43,48 +44,50 @@ export const ModalRightBox = ({ pokemon }: Props): JSX.Element => (
       </Types>
     </BoxHeader>
 
-    <AbilitiesBox>
-      <AbilitiesText data-large>{'Abilities'}</AbilitiesText>
-      <AbilitiesText data-empty={!pokemon}>{flatAbilities(pokemon)}</AbilitiesText>
-    </AbilitiesBox>
+    <Content>
+      <AbilitiesBox>
+        <AbilitiesText data-large>{'Abilities'}</AbilitiesText>
+        <AbilitiesText data-empty={!pokemon}>{flatAbilities(pokemon)}</AbilitiesText>
+      </AbilitiesBox>
 
-    <ExperienceBox>
-      <div>
-        <ExperienceText>{Stats[1]}</ExperienceText>
-        <ExperienceText data-empty={!pokemon}>
-          <strong>{pokemon && `${pokemon?.pokemon_v2_pokemonstats[0].base_stat},000`}</strong>
-        </ExperienceText>
-        <ChargeBox data-empty={!pokemon}>
-          {pokemon && <Charge width={pokemon?.pokemon_v2_pokemonstats[0].base_stat / 10} />}
-        </ChargeBox>
-      </div>
+      <ExperienceBox>
+        <div>
+          <ExperienceText>{Stats[1]}</ExperienceText>
+          <ExperienceText data-empty={!pokemon}>
+            <strong>{pokemon && `${pokemon?.pokemon_v2_pokemonstats[0].base_stat},000`}</strong>
+          </ExperienceText>
+          <ChargeBox data-empty={!pokemon}>
+            {pokemon && <Charge width={pokemon?.pokemon_v2_pokemonstats[0].base_stat / 10} />}
+          </ChargeBox>
+        </div>
 
-      <div>
-        <ExperienceText>{Stats[7]}</ExperienceText>
-        <ExperienceText data-empty={!pokemon}>
-          <strong>{pokemon && `${pokemon?.base_experience},000`}</strong>
-        </ExperienceText>
-        <ChargeBox data-empty={!pokemon}>
-          {pokemon && <Charge data-bgcolor="green" width={pokemon?.base_experience / 10} />}
-        </ChargeBox>
-      </div>
-    </ExperienceBox>
+        <div>
+          <ExperienceText>{Stats[7]}</ExperienceText>
+          <ExperienceText data-empty={!pokemon}>
+            <strong>{pokemon && `${pokemon?.base_experience},000`}</strong>
+          </ExperienceText>
+          <ChargeBox data-empty={!pokemon}>
+            {pokemon && <Charge data-bgcolor="green" width={pokemon?.base_experience / 10} />}
+          </ChargeBox>
+        </div>
+      </ExperienceBox>
 
-    <StatsContainer>
-      {dataValidation(pokemon?.pokemon_v2_pokemonstats, 6)
-        .slice(1, 5)
-        .map((stat, idx) => (
-          <StatBox key={stat?.pokemon_v2_stat.id || idx}>
-            <Stat
-              staticTheme
-              abbreviateLabel
-              isEmptyData={!pokemon}
-              label={stat && Stats[stat.pokemon_v2_stat.id]}
-              stat={stat?.base_stat}
-            />
-          </StatBox>
-        ))}
-    </StatsContainer>
+      <StatsContainer>
+        {dataValidation(pokemon?.pokemon_v2_pokemonstats, 6)
+          .slice(1, 5)
+          .map((stat, idx) => (
+            <StatBox key={stat?.pokemon_v2_stat.id || idx}>
+              <Stat
+                staticTheme
+                abbreviateLabel
+                isEmptyData={!pokemon}
+                label={stat && Stats[stat.pokemon_v2_stat.id]}
+                stat={stat?.base_stat}
+              />
+            </StatBox>
+          ))}
+      </StatsContainer>
+    </Content>
   </RightBox>
 );
 
@@ -101,11 +104,25 @@ const RightBox = styled.div`
   }
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
+    width: 100%;
     border-radius: 16px;
     padding: 75px 12px 30px;
     position: absolute;
-    width: 100%;
+    top: 275px;
     bottom: 0;
+  }
+`;
+
+const Content = styled.div`
+  @media ${({ theme }) => theme.breakpoints.mobile} {
+    height: calc(100% - 60px);
+    overflow: hidden;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
   }
 `;
 
@@ -124,6 +141,7 @@ const Types = styled.div`
 const Type = styled(BaseType)`
   font-size: 12px;
   line-height: 18px;
+  color: ${({ theme }) => theme.colors.black};
   height: 21px;
   width: 74px;
 `;
@@ -280,6 +298,10 @@ const Charge = styled.div<{ width?: number }>`
 `;
 
 const Name = styled.h3`
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  width: 53%;
   color: ${({ theme }) => theme.colors.white};
   margin: 0;
   font-weight: 700;
@@ -287,19 +309,24 @@ const Name = styled.h3`
   line-height: 42px;
   height: 42px;
   border-radius: 21px;
+  cursor: pointer;
 
   @media ${({ theme }) => theme.breakpoints.tablet} {
+    width: 45%;
     font-size: 24px;
     line-height: 28px;
     height: 28px;
   }
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
+    justify-content: center;
+    align-items: center;
     text-align: center;
     position: fixed;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 35px;
+    left: 50px;
+    right: 50px;
+    width: auto;
   }
 
   &[data-empty='true'] {
@@ -308,9 +335,11 @@ const Name = styled.h3`
 `;
 
 const Generation = styled.div`
+  text-align: right;
   color: ${({ theme }) => theme.colors.white};
   font-family: Source Sans Pro;
   margin-right: 10px;
+  margin-left: auto;
 
   font-size: 24px;
   line-height: 30px;
@@ -324,9 +353,11 @@ const Generation = styled.div`
   }
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
+    text-align: left;
     font-size: 16px;
     line-height: 20px;
     height: 20px;
+    margin-left: 8px;
   }
 
   &[data-empty='true'] {
@@ -339,22 +370,18 @@ const ID = styled.div`
   color: ${({ theme }) => theme.colors.black};
   background-color: #f2cb07;
   font-size: 16px;
-  line-height: 41px;
+  line-height: 45px;
 
-  width: 41px;
-  height: 41px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
 `;
 
 const BoxHeader = styled.div`
+  display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  display: flex;
   margin-bottom: 25px;
-
-  & > :first-child {
-    margin-right: auto;
-  }
 
   @media ${({ theme }) => theme.breakpoints.tablet} {
     margin-bottom: 12px;
@@ -368,7 +395,6 @@ const BoxHeader = styled.div`
     & > :nth-child(2) {
       flex: 1;
       order: 2;
-      margin-left: 8px;
     }
 
     & > :last-child {

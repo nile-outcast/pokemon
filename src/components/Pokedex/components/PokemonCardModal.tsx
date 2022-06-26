@@ -25,7 +25,11 @@ export const PokemonCardModal = ({ id, closeModal }: Props): JSX.Element => {
         <LeftBox
           data-empty={!pokemon}
           bgcolor={pokemon?.pokemon_v2_pokemonspecy.pokemon_v2_pokemoncolor.name || ''}>
-          <Image src={pokemon?.pokemon_v2_pokemonsprites.sprites} bgcolor="" />
+          <Image
+            data-empty={!pokemon}
+            src={pokemon?.pokemon_v2_pokemonsprites.sprites}
+            bgcolor=""
+          />
 
           <Types>
             {dataValidation(pokemon?.pokemon_v2_pokemontypes, 2).map((type, idx) => (
@@ -63,7 +67,7 @@ const Container = styled.div`
   display: flex;
   border-radius: 16px;
   width: 100%;
-  max-width: 796px;
+  max-width: 816px;
   margin: 0 50px 0;
 
   height: 378px;
@@ -109,10 +113,14 @@ const Image = styled(Img)`
   background: none;
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
-    height: 30%;
+    height: 300px;
     z-index: 100;
     position: absolute;
-    top: 75px;
+    top: 65px;
+
+    &[data-empty='true'] {
+      display: none;
+    }
   }
 `;
 
@@ -143,6 +151,7 @@ const Types = styled.div`
 const Type = styled(BaseType)`
   font-size: 9px;
   line-height: 11px;
+  color: ${({ theme }) => theme.colors.black};
   height: 12px;
   width: 40px;
 `;

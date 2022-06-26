@@ -28,7 +28,7 @@ export const PokemonCard = ({ pokemon }: Props): JSX.Element => {
       <Container onClick={openModal}>
         <Info>
           <div>
-            <Name data-empty={!pokemon}>{getTextFormat(pokemon?.name)}</Name>
+            <Name data-empty={!pokemon}>{getTextFormat(pokemon?.name, true)}</Name>
           </div>
 
           <StatsBox>
@@ -56,11 +56,13 @@ export const PokemonCard = ({ pokemon }: Props): JSX.Element => {
           </Types>
         </Info>
 
-        <Image
-          src={pokemon?.pokemon_v2_pokemonsprites.sprites}
-          bgcolor={pokemon?.pokemon_v2_pokemonspecy.pokemon_v2_pokemoncolor.name || ''}
-          data-empty={!pokemon}
-        />
+        <ImageBox data-empty={!pokemon}>
+          <Image
+            src={pokemon?.pokemon_v2_pokemonsprites.sprites}
+            bgcolor={pokemon?.pokemon_v2_pokemonspecy.pokemon_v2_pokemoncolor.name || ''}
+            data-empty={!pokemon}
+          />
+        </ImageBox>
       </Container>
 
       {isOpenModal && <PokemonCardModal id={pokemon?.id || 0} closeModal={closeModal} />}
@@ -85,12 +87,21 @@ const Container = styled.div`
   }
 `;
 
-const Image = styled(Img)`
+const ImageBox = styled.div`
   position: absolute;
   top: 0;
   right: -5%;
   width: 70%;
   height: 100%;
+`;
+
+const Image = styled(Img)`
+  width: 100%;
+  height: 100%;
+
+  &[data-empty='true'] {
+    display: none;
+  }
 `;
 
 const Name = styled.h5`

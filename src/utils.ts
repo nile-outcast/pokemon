@@ -1,5 +1,13 @@
-export const getTextFormat = (name: string | undefined): string =>
-  name ? `${name[0].toUpperCase()}${name.slice(1)}` : ' ';
+export const getTextFormat = (text: string | undefined, isName?: boolean): string => {
+  if (!text) return ' ';
+
+  const isLong = text.length > 9;
+  const maxLength = isLong ? 9 : text?.length;
+
+  return isName
+    ? `${text[0].toUpperCase()}${text.slice(1, maxLength)}${isLong ? '...' : ''}`
+    : `${text[0].toUpperCase()}${text.slice(1)}`;
+};
 
 export const dataValidation = <T extends Record<string, unknown>>(
   data: T[] | undefined,

@@ -1,6 +1,6 @@
 import 'styled-components';
 
-import { breakpoints, colors, DynamicTheme, dynamicTheme, gradients } from 'src/theme';
+import { breakpoints, colors, DynamicTheme, gradients } from 'src/theme';
 
 declare module 'styled-components' {
   export interface DefaultTheme {
