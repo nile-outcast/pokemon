@@ -28,7 +28,7 @@ export const PokemonCard = ({ pokemon }: Props): JSX.Element => {
       <Container onClick={openModal}>
         <Info>
           <div>
-            <Name data-empty={!pokemon}>{getTextFormat(pokemon?.name, true)}</Name>
+            <Name data-empty={!pokemon}>{getTextFormat(pokemon?.name)}</Name>
           </div>
 
           <StatsBox>
@@ -110,6 +110,8 @@ const Name = styled.h5`
   font-weight: 700;
   font-size: 18px;
   line-height: 21px;
+  overflow-wrap: anywhere;
+  width: 30%;
   height: 21px;
   border-radius: 10px;
 `;
@@ -119,7 +121,7 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   padding: 5px 0 12px 25px;
-  min-width: 30%;
+  width: 100%;
 `;
 
 const StatsBox = styled.div`

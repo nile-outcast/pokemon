@@ -24,7 +24,9 @@ export const ModalRightBox = ({ pokemon }: Props): JSX.Element => (
   <RightBox>
     <BoxHeader>
       {/* TODO: modal for full name */}
-      <Name data-empty={!pokemon}>{getTextFormat(pokemon?.name, true) || ''}</Name>
+      <Name title={pokemon?.name} data-empty={!pokemon}>
+        {getTextFormat(pokemon?.name) || ''}
+      </Name>
 
       <Generation data-empty={!pokemon}>
         {pokemon ? `Generation ${pokemon?.pokemon_v2_pokemonspecy.generation_id}` : ''}
@@ -54,7 +56,7 @@ export const ModalRightBox = ({ pokemon }: Props): JSX.Element => (
         <div>
           <ExperienceText>{Stats[1]}</ExperienceText>
           <ExperienceText data-empty={!pokemon}>
-            <strong>{pokemon && `${pokemon?.pokemon_v2_pokemonstats[0].base_stat},000`}</strong>
+            <strong>{pokemon && `${pokemon?.pokemon_v2_pokemonstats[0].base_stat},00`}</strong>
           </ExperienceText>
           <ChargeBox data-empty={!pokemon}>
             {pokemon && <Charge width={pokemon?.pokemon_v2_pokemonstats[0].base_stat / 10} />}
@@ -64,7 +66,7 @@ export const ModalRightBox = ({ pokemon }: Props): JSX.Element => (
         <div>
           <ExperienceText>{Stats[7]}</ExperienceText>
           <ExperienceText data-empty={!pokemon}>
-            <strong>{pokemon && `${pokemon?.base_experience},000`}</strong>
+            <strong>{pokemon && `${pokemon?.base_experience},00`}</strong>
           </ExperienceText>
           <ChargeBox data-empty={!pokemon}>
             {pokemon && <Charge data-bgcolor="green" width={pokemon?.base_experience / 10} />}
@@ -302,6 +304,7 @@ const Name = styled.h3`
   align-items: flex-end;
   justify-content: flex-start;
   width: 53%;
+  overflow-wrap: anywhere;
   color: ${({ theme }) => theme.colors.white};
   margin: 0;
   font-weight: 700;
