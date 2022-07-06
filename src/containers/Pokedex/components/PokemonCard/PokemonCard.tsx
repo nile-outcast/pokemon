@@ -6,9 +6,9 @@ import { CorePokemon, Stats } from 'src/types';
 import { dataValidation, getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
-import { BaseType } from './BaseType';
-import { PokemonCardModal } from './PokemonCardModal';
-import { Stat } from './Stat';
+import { BaseType } from '../BaseType';
+import { PokemonCardModal } from '../PokemonCardModal';
+import { Stat } from '../Stat';
 
 type Props = {
   pokemon: CorePokemon | undefined;

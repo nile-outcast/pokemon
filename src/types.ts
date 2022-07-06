@@ -1,4 +1,4 @@
-import { gradients, typeColors } from './theme';
+import { ColorNameType, typeColors } from './theme';
 
 export type ThemeType = 'light' | 'dark';
 
@@ -8,7 +8,7 @@ export type CorePokemon = {
 
   pokemon_v2_pokemonspecy: {
     pokemon_v2_pokemoncolor: {
-      name: keyof typeof gradients;
+      name: ColorNameType;
     };
   };
   pokemon_v2_pokemontypes: {
@@ -45,4 +45,4 @@ export const Stats = {
   5: 'Special Defense',
   6: 'Speed',
   7: 'Experience',
-};
+} as const;

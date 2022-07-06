@@ -1,9 +1,9 @@
 import React, { ChangeEvent, FocusEvent, useCallback, useState } from 'react';
 import { GetPokemonsVars } from 'src/apollo/types';
-import { BaseButton, Input as BaseInput } from 'src/components/ui';
+import { BaseButton, BaseInput } from 'src/components/ui';
 import styled from 'styled-components';
 
-import { initialRange, setQueryParams, useQueryParams } from '../queryParams';
+import { initialRange, setQueryParams, useQueryParams } from '../../queryParams';
 
 type Props = {
   label: keyof Pick<GetPokemonsVars, 'attack' | 'experience'>;

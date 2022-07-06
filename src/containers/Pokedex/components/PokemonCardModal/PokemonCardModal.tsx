@@ -2,12 +2,12 @@ import React from 'react';
 import { useGetPokemonById } from 'src/apollo/queries/apollo-hooks';
 import { Image as Img } from 'src/components/ui';
 import { Close } from 'src/components/ui/icons';
-import { gradients, typeColors } from 'src/theme';
+import { ColorNameType, typeColors } from 'src/theme';
 import { dataValidation, getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
-import { BaseType } from './BaseType';
-import { ModalRightBox } from './ModalRightBox';
+import { BaseType } from '../BaseType';
+import { RightBox } from './RightBox';
 
 type Props = {
   id: number;
@@ -43,7 +43,7 @@ export const PokemonCardModal = ({ id, closeModal }: Props): JSX.Element => {
           </Types>
         </LeftBox>
 
-        <ModalRightBox pokemon={pokemon} />
+        <RightBox pokemon={pokemon} />
       </Container>
     </BackGround>
   );
@@ -83,14 +83,19 @@ const Container = styled.div`
   }
 `;
 
-const LeftBox = styled.div<{ bgcolor: keyof typeof gradients | '' }>`
+const LeftBox = styled.div<{ bgcolor: ColorNameType | '' }>`
   overflow: hidden;
   position: relative;
   height: 378px;
   width: 378px;
   border-top-left-radius: 16px;
   border-bottom-left-radius: 16px;
-  background: ${({ theme, bgcolor }) => (!bgcolor ? bgcolor : theme.gradients[bgcolor] ?? bgcolor)};
+  background: ${({ theme, bgcolor }) =>
+    !bgcolor
+      ? bgcolor
+      : !theme.gradients.horizontal[bgcolor]
+      ? bgcolor
+      : theme.gradients.horizontal[bgcolor]};
 
   @media ${({ theme }) => theme.breakpoints.tablet} {
     height: 323px;

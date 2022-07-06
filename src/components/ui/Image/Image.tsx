@@ -1,9 +1,9 @@
 import React, { FC, ImgHTMLAttributes, useCallback } from 'react';
-import { gradients } from 'src/theme';
+import { ColorNameType } from 'src/theme';
 import styled from 'styled-components';
 
 type Props = {
-  bgcolor: keyof typeof gradients | '';
+  bgcolor: ColorNameType | '';
 } & ImgHTMLAttributes<HTMLImageElement>;
 
 export const Image: FC<Props> = (props) => {
@@ -14,7 +14,12 @@ export const Image: FC<Props> = (props) => {
   return <Img {...props} onError={onError} />;
 };
 
-export const Img = styled.img<{ bgcolor: keyof typeof gradients | '' }>`
+export const Img = styled.img<{ bgcolor: ColorNameType | '' }>`
   object-fit: contain;
-  background: ${({ theme, bgcolor }) => (!bgcolor ? bgcolor : theme.gradients[bgcolor] ?? bgcolor)};
+  background: ${({ theme, bgcolor }) =>
+    !bgcolor
+      ? bgcolor
+      : !theme.gradients.horizontal[bgcolor]
+      ? bgcolor
+      : theme.gradients.horizontal[bgcolor]};
 `;

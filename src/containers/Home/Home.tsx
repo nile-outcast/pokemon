@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Footer } from 'src/components';
 import { BaseButton, TitleH1 } from 'src/components/ui';
 import styled from 'styled-components';
 
-import { Footer } from '../Footer';
 import { BannerComplete } from './components/BannerComplete';
 
 export const Home = (): JSX.Element => {

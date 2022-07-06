@@ -1,0 +1,1 @@
+export { PokemonCardModal } from './PokemonCardModal';

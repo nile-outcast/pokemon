@@ -4,7 +4,7 @@ import { typeColors } from 'src/theme';
 import { getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
-import { setQueryParams, useQueryParams } from '../queryParams';
+import { setQueryParams, useQueryParams } from '../../queryParams';
 import { FilterText } from './FilterText';
 
 export const TypeFilter = (): JSX.Element => {

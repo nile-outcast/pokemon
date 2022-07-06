@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useCallback, useState } from 'react';
-import { Input, TitleH3 } from 'src/components/ui';
+import { BaseInput, TitleH3 } from 'src/components/ui';
 import { useDebounce } from 'src/hooks';
 import styled from 'styled-components';
 
-import { setQueryParams, useQueryParams } from '../queryParams';
+import { setQueryParams, useQueryParams } from '../../queryParams';
 import { Filter } from './Filter';
 
-export const SearchFilter = (): JSX.Element => {
+export const Filters = (): JSX.Element => {
   const params = useQueryParams();
 
   const [text, setText] = useState(params.name);
@@ -32,7 +32,7 @@ export const SearchFilter = (): JSX.Element => {
         800 <strong>Pokemons</strong> for you to choose your favorite
       </Title>
 
-      <Input
+      <SearchInput
         value={text}
         onChange={handleChange}
         type="search"
@@ -66,6 +66,26 @@ const Title = styled(TitleH3)`
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
     margin-bottom: 29px;
+  }
+`;
+
+const SearchInput = styled(BaseInput)`
+  box-shadow: 4px 4px 16px rgba(1, 28, 64, 0.2);
+  padding: 0 30px;
+  height: 53px;
+  font-size: 16px;
+  line-height: 20px;
+
+  @media ${({ theme }) => theme.breakpoints.tablet} {
+    box-shadow: 2px 2px 2px rgba(33, 33, 33, 0.1);
+    height: 36px;
+  }
+
+  @media ${({ theme }) => theme.breakpoints.mobile} {
+    box-shadow: 4px 4px 4px rgba(33, 33, 33, 0.1);
+    height: 31px;
+    font-size: 12px;
+    line-height: 15px;
   }
 `;
 

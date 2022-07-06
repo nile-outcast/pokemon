@@ -25,7 +25,7 @@ export const dynamicTheme: Record<ThemeType, DynamicTheme> = {
     pokedexBG: colors.white,
     iconBG: colors.black,
     pokemonBG: colors.gray1,
-    homeBG: gradients.yellow,
+    homeBG: gradients.vertical.yellow,
   },
 
   dark: {

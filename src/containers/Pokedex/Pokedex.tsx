@@ -1,12 +1,12 @@
 import React, { UIEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useGetPokemons } from 'src/apollo/queries/apollo-hooks';
+import { Footer } from 'src/components';
+import { TitleH3 } from 'src/components/ui';
 import { useDebounce } from 'src/hooks';
 import { dataValidation } from 'src/utils';
 import styled from 'styled-components';
 
-import { Footer } from '../Footer';
-import { TitleH3 } from '../ui';
-import { PokemonCard, SearchFilter } from './components';
+import { Filters, PokemonCard } from './components';
 import { setQueryParams, useQueryParams } from './queryParams';
 
 export const Pokedex = (): React.ReactElement => {
@@ -79,7 +79,7 @@ export const Pokedex = (): React.ReactElement => {
   return (
     <Container>
       <Content>
-        <SearchFilter />
+        <Filters />
 
         {!loading && data?.pokemon_v2_pokemon.length === 0 ? (
           <Notification>Incorrect filters</Notification>
@@ -155,10 +155,6 @@ const GridContainer = styled.div`
     grid-template-columns: repeat(1, 1fr);
     gap: 24px;
     margin: 30px 0 0;
-
-    &::after {
-      content: '';
-    }
   }
 `;
 
