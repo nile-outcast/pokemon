@@ -14,7 +14,7 @@ export const RightBoxHeader = ({ pokemon }: Props): JSX.Element => (
   <BoxHeader>
     {/* TODO: modal for full name */}
     <Name title={pokemon?.name} data-empty={!pokemon}>
-      {getTextFormat(pokemon?.name) || ''}
+      {getTextFormat(pokemon?.name, true) || ''}
     </Name>
 
     <Generation data-empty={!pokemon}>
@@ -72,6 +72,12 @@ const Name = styled.h3`
 
   &[data-empty='true'] {
     width: 40%;
+
+    @media ${({ theme }) => theme.breakpoints.mobile} {
+      width: 60%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 `;
 

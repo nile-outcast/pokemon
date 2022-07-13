@@ -183,4 +183,10 @@ const CloseIcon = styled(Close)`
     left: 15px;
     right: auto;
   }
+
+  &:hover {
+    & rect {
+      fill: ${({ theme }) => theme.colors.danger};
+    }
+  }
 `;

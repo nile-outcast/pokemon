@@ -28,7 +28,7 @@ export const PokemonCard = ({ pokemon }: Props): JSX.Element => {
       <Container onClick={openModal}>
         <Info>
           <div>
-            <Name data-empty={!pokemon}>{getTextFormat(pokemon?.name)}</Name>
+            <Name data-empty={!pokemon}>{getTextFormat(pokemon?.name, true)}</Name>
           </div>
 
           <StatsBox>

@@ -1,8 +1,10 @@
+const MAX_LENGTH = 9 as const;
+
 export const getTextFormat = (text: string | undefined, isName?: boolean): string => {
   if (!text) return ' ';
 
-  const isLong = text.length > 9;
-  const maxLength = isLong ? 9 : text?.length;
+  const isLong = text.length > MAX_LENGTH;
+  const maxLength = isLong ? MAX_LENGTH : text?.length;
 
   return isName
     ? `${text[0].toUpperCase()}${text.slice(1, maxLength)}${isLong ? '...' : ''}`
