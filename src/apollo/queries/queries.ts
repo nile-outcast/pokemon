@@ -76,3 +76,18 @@ export const Get_Pokemon_By_Id = gql`
     }
   }
 `;
+
+export const Get_Pokemons_Shape = gql`
+  ${Core_Pokemon}
+  query GetPokemonsShape {
+    pokemon_v2_pokemonshape {
+      id
+      name
+      pokemon_v2_pokemonspecies {
+        pokemon_v2_pokemons {
+          ...CorePokemon
+        }
+      }
+    }
+  }
+`;
