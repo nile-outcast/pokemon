@@ -66,6 +66,10 @@ export const Get_Pokemon_By_Id = gql`
 
       pokemon_v2_pokemonspecy {
         generation_id
+        pokemon_v2_pokemonspeciesflavortexts(where: { language_id: { _in: 9 } }) {
+          flavor_text
+          language_id
+        }
       }
 
       pokemon_v2_pokemonabilities {
@@ -78,9 +82,17 @@ export const Get_Pokemon_By_Id = gql`
 `;
 
 export const Get_Pokemons_Shape = gql`
-  ${Core_Pokemon}
   query GetPokemonsShape {
     pokemon_v2_pokemonshape {
+      id
+    }
+  }
+`;
+
+export const Get_Pokemons_Shape_By_Id = gql`
+  ${Core_Pokemon}
+  query GetPokemonsShapeById($id: Int!) {
+    pokemon_v2_pokemonshape_by_pk(id: $id) {
       id
       name
       pokemon_v2_pokemonspecies {

@@ -34,7 +34,7 @@ const vertical: BaseGradients = {
   red: `linear-gradient(180deg, #732119 42.19%, #D93E30 100%)`,
   yellow: `linear-gradient(180deg, #F5DB13 0%, #F2B807 100%)`,
   brown: '',
-  gray: '',
+  gray: `linear-gradient(180deg, #FFFFFF 30.32%, #F5F5F5 100%)`,
   purple: '',
   white: '',
   black: '',

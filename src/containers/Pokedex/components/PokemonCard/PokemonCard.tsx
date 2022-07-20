@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Image as Img } from 'src/components/ui';
+import { Image as Img, TitleH5 } from 'src/components/ui';
 import { useSpritesWriteQuery } from 'src/hooks';
 import { typeColors } from 'src/theme';
 import { CorePokemon, Stats } from 'src/types';
@@ -104,16 +104,10 @@ const Image = styled(Img)`
   }
 `;
 
-const Name = styled.h5`
-  color: ${({ theme }) => theme.dynamicTheme.color};
-  margin: 0;
+const Name = styled(TitleH5)`
   font-weight: 700;
-  font-size: 18px;
-  line-height: 21px;
   overflow-wrap: anywhere;
   width: 30%;
-  height: 21px;
-  border-radius: 10px;
 `;
 
 const Info = styled.div`

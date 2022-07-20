@@ -2,7 +2,12 @@ import { QueryResult, useQuery } from '@apollo/client';
 import { CorePokemon, FullPokemon } from 'src/types';
 
 import { GetPokemonsVars } from '../types';
-import { Get_Pokemon_By_Id, Get_Pokemons, Get_Pokemons_Shape } from './queries';
+import {
+  Get_Pokemon_By_Id,
+  Get_Pokemons,
+  Get_Pokemons_Shape,
+  Get_Pokemons_Shape_By_Id,
+} from './queries';
 
 type GetPokemonsData = {
   pokemon_v2_pokemon: CorePokemon[];
@@ -52,12 +57,25 @@ export const useGetPokemonById = (
 type GetPokemonsShapeData = {
   pokemon_v2_pokemonshape: {
     id: number;
-    name: string;
-    pokemon_v2_pokemonspecies: {
-      pokemon_v2_pokemons: CorePokemon[];
-    }[];
   }[];
 };
 
 export const useGetPokemonsShape = (): QueryResult<GetPokemonsShapeData> =>
   useQuery<GetPokemonsShapeData>(Get_Pokemons_Shape);
+
+type GetPokemonsShapeByIdData = {
+  pokemon_v2_pokemonshape_by_pk: {
+    id: number;
+    name: string;
+    pokemon_v2_pokemonspecies: {
+      pokemon_v2_pokemons: CorePokemon[];
+    }[];
+  };
+};
+
+export const useGetPokemonsShapeById = (
+  vars: GetPokemonByIdVars,
+): QueryResult<GetPokemonsShapeByIdData, GetPokemonByIdVars> =>
+  useQuery<GetPokemonsShapeByIdData, GetPokemonByIdVars>(Get_Pokemons_Shape_By_Id, {
+    variables: vars,
+  });

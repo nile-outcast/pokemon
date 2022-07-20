@@ -29,6 +29,10 @@ export type FullPokemon = CorePokemon & {
   base_experience: number;
   pokemon_v2_pokemonspecy: {
     generation_id: number;
+    pokemon_v2_pokemonspeciesflavortexts: {
+      flavor_text: string;
+      language_id: number;
+    }[];
   };
   pokemon_v2_pokemonabilities: {
     pokemon_v2_ability: {

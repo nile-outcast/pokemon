@@ -9,10 +9,11 @@ export type DynamicTheme = {
   statNameColor: string;
   activeLinkColor: string;
   searchBG: string;
-  pokedexBG: string;
+  pageBG: string;
   iconBG: string;
   pokemonBG: string;
   homeBG: string;
+  arrowFill: string;
 };
 
 export const dynamicTheme: Record<ThemeType, DynamicTheme> = {
@@ -22,11 +23,12 @@ export const dynamicTheme: Record<ThemeType, DynamicTheme> = {
     statNameColor: colors.gray3,
     activeLinkColor: colors.black,
     searchBG: colors.gray1,
-    pokedexBG: colors.white,
+    pageBG: colors.white,
     iconBG: colors.black,
     pokemonBG: colors.gray1,
     homeBG: gradients.vertical.yellow,
-  },
+    arrowFill: colors.third,
+  } as const,
 
   dark: {
     headerBG: colors.gray3,
@@ -34,9 +36,10 @@ export const dynamicTheme: Record<ThemeType, DynamicTheme> = {
     statNameColor: colors.gray1,
     activeLinkColor: colors.third,
     searchBG: colors.gray3,
-    pokedexBG: colors.black,
+    pageBG: colors.black,
     iconBG: colors.white,
     pokemonBG: colors.gray4,
     homeBG: colors.black,
-  },
+    arrowFill: colors.gray1,
+  } as const,
 };

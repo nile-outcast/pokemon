@@ -7,7 +7,7 @@ export const colors = {
   gray2: '#E7E7E9',
   gray3: '#4F4F4F',
   gray4: '#333333',
-};
+} as const;
 
 export enum typeColors {
   normal = '#76AADB',

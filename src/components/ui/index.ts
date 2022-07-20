@@ -5,3 +5,4 @@ export { Loader, Menu, Moon, PokemonLogo, Sun } from './icons';
 export { Image } from './Image';
 export { TitleH1 } from './TitleH1';
 export { TitleH3 } from './TitleH3';
+export { TitleH5 } from './TitleH5';

@@ -104,7 +104,7 @@ export const Pokedex = (): React.ReactElement => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.dynamicTheme.pokedexBG};
+  background-color: ${({ theme }) => theme.dynamicTheme.pageBG};
   height: calc(100vh - 93px);
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
