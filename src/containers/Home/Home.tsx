@@ -43,7 +43,6 @@ const Container = styled.div`
   background: ${({ theme }) => theme.dynamicTheme.homeBG};
   height: calc(100vh - 93px);
   overflow: hidden;
-  overflow-y: scroll;
 
   &::-webkit-scrollbar {
     width: 0;
@@ -124,6 +123,7 @@ const Content = styled.div`
 
 const Title = styled(TitleH1)`
   margin-bottom: 6px;
+  height: auto;
 
   @media ${({ theme }) => theme.breakpoints.tablet} {
     margin-top: -60px;
