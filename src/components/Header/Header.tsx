@@ -1,32 +1,31 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import * as React from 'react';
 import { Menu, PokemonLogo } from 'src/components/ui';
 import styled from 'styled-components';
 
 import { NavBar, ThemeToggle } from './components';
 
 export const Header = (): JSX.Element => {
-  const [isOpenMenu, setOpenMenu] = useState(false);
+  const [isOpenMenu, setOpenMenu] = React.useState(false);
 
-  const handleOpenMenu = useCallback(() => setOpenMenu(true), []);
+  React.useEffect(() => {
+    if (!isOpenMenu) return;
 
-  useEffect(() => {
+    let startPoint = 0;
+
     const handleTouchStart = (e: TouchEvent): void => {
-      const startPoint = e.changedTouches[0].clientY;
-
-      const handleTouchEnd = (e: TouchEvent): void => {
-        const endPoint = e.changedTouches[0].clientY;
-        if (startPoint - endPoint > 100) setOpenMenu(false);
-
-        document.removeEventListener('touchend', handleTouchEnd);
-      };
-
-      document.addEventListener('touchend', handleTouchEnd);
+      startPoint = e.changedTouches[0].clientY;
+    };
+    const handleTouchEnd = (e: TouchEvent): void => {
+      if (startPoint - e.changedTouches[0].clientY > 100) setOpenMenu(false);
     };
 
-    if (isOpenMenu) {
-      document.addEventListener('touchstart', handleTouchStart);
-      return () => document.removeEventListener('touchstart', handleTouchStart);
-    }
+    document.addEventListener('touchstart', handleTouchStart);
+    document.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchend', handleTouchEnd);
+    };
   }, [isOpenMenu]);
 
   return (
@@ -43,7 +42,7 @@ export const Header = (): JSX.Element => {
           </HiddenBox>
 
           <MenuBox>
-            <Menu onClick={handleOpenMenu} />
+            <Menu onClick={() => setOpenMenu(true)} />
           </MenuBox>
         </Container>
       </BackGround>

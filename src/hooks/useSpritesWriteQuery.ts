@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { gql, useApolloClient } from '@apollo/client';
 import { useEffect } from 'react';
 import { BASE_IMAGE_URL } from 'src/api';
@@ -14,7 +13,6 @@ const Sprites_Query = gql`
 `;
 
 const getDataForSpritesQuery = (id: number): Record<string, unknown> => {
-  if (id === 1) console.count();
   return {
     pokemon_v2_pokemon_by_pk: {
       __typename: 'pokemon_v2_pokemon',

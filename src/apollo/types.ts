@@ -4,7 +4,7 @@ export type GetPokemonsVars = {
   name: string;
   experience: Range;
   attack: Range;
-  types: string[];
+  types: Array<string>;
 };
 
 type Range = {

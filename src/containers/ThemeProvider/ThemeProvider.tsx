@@ -7,9 +7,9 @@ type ContextType = [ThemeType, React.Dispatch<React.SetStateAction<ThemeType>>];
 
 const initialState: ContextType = ['light', () => undefined];
 
-const ThemeTypeContex = createContext(initialState);
+const ThemeTypeContext = createContext(initialState);
 
-export const useThemeTypeContex = (): ContextType => useContext(ThemeTypeContex);
+export const useThemeTypeContex = (): ContextType => useContext(ThemeTypeContext);
 
 export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [themeType, setThemeType] = useState<ThemeType>('light');
@@ -17,9 +17,9 @@ export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <Provider theme={theme}>
-      <ThemeTypeContex.Provider value={[themeType, setThemeType]}>
+      <ThemeTypeContext.Provider value={[themeType, setThemeType]}>
         {children}
-      </ThemeTypeContex.Provider>
+      </ThemeTypeContext.Provider>
     </Provider>
   );
 };

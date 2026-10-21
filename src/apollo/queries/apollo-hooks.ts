@@ -10,7 +10,13 @@ import {
 } from './queries';
 
 type GetPokemonsData = {
-  pokemon_v2_pokemon: CorePokemon[];
+  pokemon_v2_pokemon: Array<CorePokemon>;
+  /* Общее количество покемонов */
+  pokemon_v2_pokemon_aggregate: {
+    aggregate: {
+      count: number;
+    };
+  };
 };
 
 type GetPokemonsQueryVars = Omit<GetPokemonsVars, 'types' | 'experience' | 'attack'> & {
@@ -36,7 +42,6 @@ export const useGetPokemons = ({
       attackFrom: attack.from,
       attackTo: attack.to,
     },
-    notifyOnNetworkStatusChange: true,
   });
 
 type GetPokemonByIdVars = {
@@ -55,9 +60,9 @@ export const useGetPokemonById = (
   });
 
 type GetPokemonsShapeData = {
-  pokemon_v2_pokemonshape: {
+  pokemon_v2_pokemonshape: Array<{
     id: number;
-  }[];
+  }>;
 };
 
 export const useGetPokemonsShape = (): QueryResult<GetPokemonsShapeData> =>
@@ -67,9 +72,9 @@ type GetPokemonsShapeByIdData = {
   pokemon_v2_pokemonshape_by_pk: {
     id: number;
     name: string;
-    pokemon_v2_pokemonspecies: {
-      pokemon_v2_pokemons: CorePokemon[];
-    }[];
+    pokemon_v2_pokemonspecies: Array<{
+      pokemon_v2_pokemons: Array<CorePokemon>;
+    }>;
   };
 };
 

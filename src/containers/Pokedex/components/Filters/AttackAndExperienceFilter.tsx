@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FocusEvent, useCallback, useState } from 'react';
+import * as React from 'react';
 import { GetPokemonsVars } from 'src/apollo/types';
 import { BaseButton, BaseInput } from 'src/components/ui';
 import styled from 'styled-components';
@@ -14,11 +14,11 @@ type InputProps = { name: keyof GetPokemonsVars['attack'] };
 export const AttackAndExperienceFilter = ({ label }: Props): JSX.Element => {
   const params = useQueryParams();
 
-  const [values, setValues] = useState(params[label]);
+  const [values, setValues] = React.useState(params[label]);
   const error = +values.from > +values.to;
 
-  const handleChange = useCallback(
-    ({ target }: ChangeEvent<HTMLInputElement & InputProps>) =>
+  const handleChange = React.useCallback(
+    ({ target }: React.ChangeEvent<HTMLInputElement & InputProps>) =>
       setValues((prev) => ({
         ...prev,
         [target.name]: target.value.replace(/^(0)(\d+)/, '$2').replace(/[^0-9]/g, ''),
@@ -26,13 +26,13 @@ export const AttackAndExperienceFilter = ({ label }: Props): JSX.Element => {
     [],
   );
 
-  const handleBlur = useCallback(
-    ({ target }: FocusEvent<HTMLInputElement & InputProps>) =>
+  const handleBlur = React.useCallback(
+    ({ target }: React.FocusEvent<HTMLInputElement & InputProps>) =>
       !target.value && setValues((prev) => ({ ...prev, [target.name]: initialRange[target.name] })),
     [],
   );
 
-  const handleApply = useCallback(
+  const handleApply = React.useCallback(
     () => setQueryParams({ ...params, offset: 0, [label]: values }),
     [label, params, values],
   );

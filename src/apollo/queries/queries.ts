@@ -1,6 +1,18 @@
 import { gql } from '@apollo/client';
 
-export const Core_Pokemon = gql`
+const POKEMON_WHERE = `
+  where: {
+    name: { _iregex: $name }
+    pokemon_v2_pokemontypes: { pokemon_v2_type: { name: { _iregex: $types } } }
+    base_experience: { _gte: $experienceFrom, _lte: $experienceTo }
+    pokemon_v2_pokemonstats: {
+      base_stat: { _gte: $attackFrom, _lte: $attackTo }
+      pokemon_v2_stat: { id: { _eq: 2 } }
+    }
+  }
+`;
+
+const Core_Pokemon = gql`
   fragment CorePokemon on pokemon_v2_pokemon {
     id
     name
@@ -41,17 +53,14 @@ export const Get_Pokemons = gql`
     pokemon_v2_pokemon(
       limit: $limit
       offset: $offset
-      where: {
-        name: { _iregex: $name }
-        pokemon_v2_pokemontypes: { pokemon_v2_type: { name: { _iregex: $types } } }
-        base_experience: { _gte: $experienceFrom, _lte: $experienceTo }
-        pokemon_v2_pokemonstats: {
-          base_stat: { _gte: $attackFrom, _lte: $attackTo }
-          pokemon_v2_stat: { id: { _eq: 2 } }
-        }
-      }
+      ${POKEMON_WHERE}
     ) {
       ...CorePokemon
+    }
+    pokemon_v2_pokemon_aggregate(${POKEMON_WHERE}) {
+      aggregate {
+        count
+      }
     }
   }
 `;

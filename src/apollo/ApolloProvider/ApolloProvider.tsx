@@ -1,8 +1,8 @@
 import { ApolloProvider as Provider } from '@apollo/client';
-import React, { FC, ReactNode } from 'react';
+import * as React from 'react';
 
 import { client } from './client';
 
-export const ApolloProvider: FC<{ children: ReactNode }> = ({ children }) => (
+export const ApolloProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <Provider client={client}>{children}</Provider>
 );

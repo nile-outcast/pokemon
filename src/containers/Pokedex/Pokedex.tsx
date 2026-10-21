@@ -31,12 +31,16 @@ export const Pokedex = (): React.ReactElement => {
     }
   }, [params.offset]);
 
-  const { data, loading, fetchMore, previousData } = useGetPokemons({
+  const { data, loading, fetchMore } = useGetPokemons({
     limit: limit,
     ...params,
   });
 
   const [isRefetch, setRefetch] = useState(false);
+
+  const total = data?.pokemon_v2_pokemon_aggregate?.aggregate?.count ?? 0;
+  const loaded = data?.pokemon_v2_pokemon.length ?? 0;
+  const hasMore = loaded < total;
 
   const handleScroll = useCallback(
     (e: UIEvent<HTMLDivElement>) => {
@@ -44,34 +48,20 @@ export const Pokedex = (): React.ReactElement => {
       const { clientHeight, scrollHeight, scrollTop } = e.target as HTMLDivElement;
       const minHeight = scrollHeight - (scrollTop + clientHeight);
       const threshold = clientHeight / 4;
-      const isSameData =
-        JSON.stringify(data?.pokemon_v2_pokemon) ===
-        JSON.stringify(previousData?.pokemon_v2_pokemon);
 
-      if (minHeight < threshold && !isRefetch && !isSameData) {
+      if (minHeight < threshold && !isRefetch && hasMore) {
         setRefetch(true);
-        let nextOffset = 0;
+        const nextOffset = loaded;
 
-        if (data?.pokemon_v2_pokemon) {
-          nextOffset =
-            data?.pokemon_v2_pokemon.length > params.offset + limit
-              ? data?.pokemon_v2_pokemon.length
-              : params.offset + limit;
-        }
-
-        fetchMore({ variables: { offset: nextOffset } }).finally(() => setRefetch(false));
-        setQueryParams({ ...params, offset: nextOffset });
+        fetchMore({ variables: { offset: nextOffset } })
+          .then(() => {
+            setQueryParams({ ...params, offset: nextOffset });
+          })
+          .finally(() => setRefetch(false));
         return;
       }
     },
-    [
-      data?.pokemon_v2_pokemon,
-      fetchMore,
-      isRefetch,
-      limit,
-      params,
-      previousData?.pokemon_v2_pokemon,
-    ],
+    [hasMore, fetchMore, isRefetch, params, loaded],
   );
 
   const debounceHandleScroll = useDebounce<UIEvent<HTMLDivElement>>(handleScroll, 300);

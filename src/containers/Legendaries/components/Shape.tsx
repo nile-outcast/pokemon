@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import * as React from 'react';
 import { useGetPokemonsShapeById } from 'src/apollo/queries/apollo-hooks';
 import { TitleH1 } from 'src/components/ui';
 import { ArrowCarousel } from 'src/components/ui/icons/ArrowCarousel';
@@ -16,7 +16,7 @@ type Props = {
 export const Shape = ({ id }: Props): JSX.Element => {
   const { data } = useGetPokemonsShapeById({ id });
 
-  const pokemons = useMemo(
+  const pokemons = React.useMemo(
     () =>
       data?.pokemon_v2_pokemonshape_by_pk.pokemon_v2_pokemonspecies.reduce(
         (pokemons: CorePokemon[], pokemonspecy) => {
@@ -28,12 +28,9 @@ export const Shape = ({ id }: Props): JSX.Element => {
     [data?.pokemon_v2_pokemonshape_by_pk.pokemon_v2_pokemonspecies],
   );
 
-  const [currentPokemon, setCurrentPokemon] = useState(0);
+  const [currentPokemon, setCurrentPokemon] = React.useState(0);
 
-  // eslint-disable-next-line no-console
-  console.log(currentPokemon);
-
-  useEffect(() => {
+  React.useEffect(() => {
     if (pokemons) setCurrentPokemon((prev) => (prev === 0 ? pokemons[0].id : prev));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pokemons]);
