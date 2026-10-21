@@ -7,18 +7,14 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prettier": "prettier --check './src/**/*.tsx'",
-    "fix-prettier:staged": "prettier --write --loglevel warn",
-    "fix-prettier": "prettier --write './src/**/*.tsx' --loglevel warn",
-    "eslint": "eslint -c .eslintrc.js './src/**/*.tsx'",
+    "eslint": "eslint -c .eslintrc.js './src/**/*.{ts,tsx}'",
     "fix-eslint:staged": "eslint --fix -c .eslintrc.js",
-    "fix-eslint": "eslint --fix -c .eslintrc.js './src/**/*.tsx'",
-    "eslint-validate": "eslint --no-ignore --max-warnings=0 --fix -c .eslintrc.js './src/**/!(*.test).tsx'",
-    "fix": "yarn fix-prettier && yarn fix-eslint"
+    "fix-eslint": "eslint --fix -c .eslintrc.js './src/**/*.{ts,tsx}'",
+    "eslint-validate": "eslint --no-ignore --max-warnings=0 --fix -c .eslintrc.js './src/**/!(*.test).{ts,tsx}'",
+    "fix": "yarn fix-eslint"
   },
   "lint-staged": {
-    "src/**/!(*.test).tsx": [
-      "yarn fix-prettier:staged",
+    "src/**/!(*.test).{ts,tsx}": [
       "yarn fix-eslint:staged",
       "git add"
     ]

@@ -19,7 +19,7 @@ export const Shape = ({ id }: Props): JSX.Element => {
   const pokemons = React.useMemo(
     () =>
       data?.pokemon_v2_pokemonshape_by_pk.pokemon_v2_pokemonspecies.reduce(
-        (pokemons: CorePokemon[], pokemonspecy) => {
+        (pokemons: Array<CorePokemon>, pokemonspecy) => {
           pokemonspecy.pokemon_v2_pokemons.forEach((pokemon) => pokemons.push(pokemon));
           return pokemons;
         },

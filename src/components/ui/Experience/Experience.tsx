@@ -1,4 +1,3 @@
-import React from 'react';
 import { ColorNameType } from 'src/theme';
 import { Stats } from 'src/types';
 import styled from 'styled-components';
@@ -6,7 +5,7 @@ import styled from 'styled-components';
 type Props = {
   title: typeof Stats[keyof typeof Stats];
   isEmptyData: boolean;
-  baseStat: number | undefined;
+  baseStat?: number;
   chargeColor?: ColorNameType;
 };
 

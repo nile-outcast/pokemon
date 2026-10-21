@@ -11,17 +11,17 @@ export type CorePokemon = {
       name: ColorNameType;
     };
   };
-  pokemon_v2_pokemontypes: {
+  pokemon_v2_pokemontypes: Array<{
     pokemon_v2_type: {
       name: keyof typeof typeColors;
     };
-  }[];
-  pokemon_v2_pokemonstats: {
+  }>;
+  pokemon_v2_pokemonstats: Array<{
     base_stat: number;
     pokemon_v2_stat: {
       id: keyof typeof Stats;
     };
-  }[];
+  }>;
   pokemon_v2_pokemonsprites: { sprites: string };
 };
 
@@ -29,16 +29,16 @@ export type FullPokemon = CorePokemon & {
   base_experience: number;
   pokemon_v2_pokemonspecy: {
     generation_id: number;
-    pokemon_v2_pokemonspeciesflavortexts: {
+    pokemon_v2_pokemonspeciesflavortexts: Array<{
       flavor_text: string;
       language_id: number;
-    }[];
+    }>;
   };
-  pokemon_v2_pokemonabilities: {
+  pokemon_v2_pokemonabilities: Array<{
     pokemon_v2_ability: {
       name: string;
     };
-  }[];
+  }>;
 };
 
 export const Stats = {

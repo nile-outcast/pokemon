@@ -1,4 +1,3 @@
-import React from 'react';
 import { typeColors } from 'src/theme';
 import { FullPokemon } from 'src/types';
 import { dataValidation, getTextFormat } from 'src/utils';
@@ -7,7 +6,7 @@ import styled from 'styled-components';
 import { BaseType } from '../BaseType';
 
 type Props = {
-  pokemon: FullPokemon | undefined;
+  pokemon?: FullPokemon;
 };
 
 export const RightBoxHeader = ({ pokemon }: Props): JSX.Element => (

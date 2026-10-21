@@ -1,4 +1,4 @@
-import React, { UIEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React from 'react';
 import { useGetPokemons } from 'src/apollo/queries/apollo-hooks';
 import { Footer } from 'src/components';
 import { TitleH3 } from 'src/components/ui';
@@ -10,9 +10,9 @@ import { Filters, PokemonCard } from './components';
 import { setQueryParams, useQueryParams } from './queryParams';
 
 export const Pokedex = (): React.ReactElement => {
-  const [limit, setLimit] = useState(document.documentElement.clientWidth > 768 ? 21 : 20);
+  const [limit, setLimit] = React.useState(document.documentElement.clientWidth > 768 ? 21 : 20);
 
-  useLayoutEffect(() => {
+  React.useLayoutEffect(() => {
     const getWidth = (): void => setLimit(document.documentElement.clientWidth > 768 ? 21 : 20);
     getWidth();
 
@@ -21,11 +21,11 @@ export const Pokedex = (): React.ReactElement => {
     return () => window.removeEventListener('resize', getWidth);
   }, []);
 
-  const gridContainer = useRef<HTMLDivElement>(null);
+  const gridContainer = React.useRef<HTMLDivElement>(null);
 
   const params = useQueryParams();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (gridContainer.current && params.offset === 0) {
       gridContainer.current.scrollTo(0, 0);
     }
@@ -36,14 +36,14 @@ export const Pokedex = (): React.ReactElement => {
     ...params,
   });
 
-  const [isRefetch, setRefetch] = useState(false);
+  const [isRefetch, setRefetch] = React.useState(false);
 
   const total = data?.pokemon_v2_pokemon_aggregate?.aggregate?.count ?? 0;
   const loaded = data?.pokemon_v2_pokemon.length ?? 0;
   const hasMore = loaded < total;
 
-  const handleScroll = useCallback(
-    (e: UIEvent<HTMLDivElement>) => {
+  const handleScroll = React.useCallback(
+    (e: React.UIEvent<HTMLDivElement>) => {
       e.stopPropagation();
       const { clientHeight, scrollHeight, scrollTop } = e.target as HTMLDivElement;
       const minHeight = scrollHeight - (scrollTop + clientHeight);
@@ -64,7 +64,7 @@ export const Pokedex = (): React.ReactElement => {
     [hasMore, fetchMore, isRefetch, params, loaded],
   );
 
-  const debounceHandleScroll = useDebounce<UIEvent<HTMLDivElement>>(handleScroll, 300);
+  const debounceHandleScroll = useDebounce<React.UIEvent<HTMLDivElement>>(handleScroll, 300);
 
   return (
     <Container>

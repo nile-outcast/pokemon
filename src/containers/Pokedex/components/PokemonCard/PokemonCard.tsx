@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Image as Img, TitleH5 } from 'src/components/ui';
 import { useSpritesWriteQuery } from 'src/hooks';
 import { typeColors } from 'src/theme';
@@ -11,7 +11,7 @@ import { PokemonCardModal } from '../PokemonCardModal';
 import { Stat } from '../Stat';
 
 type Props = {
-  pokemon: CorePokemon | undefined;
+  pokemon?: CorePokemon;
 };
 
 export const PokemonCard = ({ pokemon }: Props): JSX.Element => {

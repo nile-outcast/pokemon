@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Home } from 'src/containers/Home';
 import { Legendaries } from 'src/containers/Legendaries';
@@ -10,7 +9,7 @@ const components = {
   Legendaries: <Legendaries />,
 };
 
-export const routes: { path: string; component: keyof typeof components }[] = [
+export const routes: Array<{ path: string; component: keyof typeof components }> = [
   {
     path: '/',
     component: 'Home',

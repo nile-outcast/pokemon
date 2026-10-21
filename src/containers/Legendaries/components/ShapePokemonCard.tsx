@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import { Image as Img, TitleH5 } from 'src/components/ui';
 import { useSpritesWriteQuery } from 'src/hooks';
 import { CorePokemon } from 'src/types';
@@ -6,7 +6,7 @@ import { getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
 type Props = {
-  pokemon: CorePokemon | undefined;
+  pokemon?: CorePokemon;
 } & HTMLAttributes<HTMLDivElement>;
 
 export const ShapePokemonCard = ({ pokemon, ...props }: Props): JSX.Element => {

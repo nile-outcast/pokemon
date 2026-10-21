@@ -1,4 +1,3 @@
-import React from 'react';
 import { Experience } from 'src/components/ui';
 import { FullPokemon, Stats } from 'src/types';
 import { dataValidation, getTextFormat } from 'src/utils';
@@ -8,16 +7,18 @@ import { Stat } from '../Stat';
 import { RightBoxHeader } from './RightBoxHeader';
 
 type Props = {
-  pokemon: FullPokemon | undefined;
+  pokemon?: FullPokemon;
 };
 
-const flatAbilities = (pokemon: Props['pokemon']): string | undefined => {
-  return pokemon?.pokemon_v2_pokemonabilities
-    .reduce((names: string[], ability) => {
-      names.push(getTextFormat(ability.pokemon_v2_ability.name));
-      return names;
-    }, [])
-    .join(' - ');
+const flatAbilities = (pokemon?: FullPokemon): string => {
+  return (
+    pokemon?.pokemon_v2_pokemonabilities
+      .reduce((names: Array<string>, ability) => {
+        names.push(getTextFormat(ability.pokemon_v2_ability.name));
+        return names;
+      }, [])
+      .join(' - ') ?? ''
+  );
 };
 
 export const RightBox = ({ pokemon }: Props): JSX.Element => (

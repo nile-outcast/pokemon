@@ -15,11 +15,11 @@ export const TypeFilter = (): JSX.Element => {
   const types = useMemo(() => Object.keys(typeColors).sort(), []);
 
   const setParams = useCallback(
-    (types: string[]) => setQueryParams({ ...params, offset: 0, types }),
+    (types: Array<string>) => setQueryParams({ ...params, offset: 0, types }),
     [params],
   );
 
-  const debounceSetParams = useDebounce<string[]>(setParams, 700);
+  const debounceSetParams = useDebounce<Array<string>>(setParams, 700);
 
   const handleClickType = useCallback(
     (type: string) =>

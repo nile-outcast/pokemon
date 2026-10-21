@@ -1,6 +1,6 @@
 const MAX_LENGTH = 9 as const;
 
-export const getTextFormat = (text: string | undefined, isName?: boolean): string => {
+export const getTextFormat = (text?: string, isName?: boolean): string => {
   if (!text) return ' ';
 
   const isLong = text.length > MAX_LENGTH;
@@ -12,9 +12,9 @@ export const getTextFormat = (text: string | undefined, isName?: boolean): strin
 };
 
 export const dataValidation = <T extends Record<string, unknown>>(
-  data: T[] | undefined,
+  data: Array<T> = [],
   limit: number,
-): T[] | undefined[] => {
+): Array<T> | Array<undefined> => {
   if (!data || data.length === 0) return new Array(limit).fill(undefined);
   return data;
 };

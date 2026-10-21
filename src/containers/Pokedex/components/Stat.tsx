@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 type ThemeProps = {
@@ -6,8 +5,8 @@ type ThemeProps = {
 };
 
 type Props = ThemeProps & {
-  label: string | undefined;
-  stat: number | undefined;
+  label?: string;
+  stat?: number;
   isEmptyData: boolean;
   abbreviateLabel?: boolean;
 };

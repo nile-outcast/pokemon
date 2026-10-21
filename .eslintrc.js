@@ -19,14 +19,8 @@ module.exports = {
 
   rules: {
     /** TYPESCRIPT RULES */
-    //'@typescript-eslint/ban-ts-ignore': 1,
     // Предпочитать Array<...> формат с параметром (https://github.com/palantir/tslint/issues/2946)
-    '@typescript-eslint/array-type': [0, { generic: true }],
-    '@typescript-eslint/object-literal-sort-keys': 0,
-    // I в IProps не нужно писать для интерфейсов (правильно просто Props)
-    //'@typescript-eslint/interface-name-prefix': ['error', 'never'],
-    // Разрешает type A = {} вместо interface A {}
-    '@typescript-eslint/prefer-interface': 'off',
+    '@typescript-eslint/array-type': ['error', { default: 'generic' }],
     // Не использовать any
     '@typescript-eslint/no-explicit-any': 'warn',
     // У функций нужно определять return type
@@ -62,26 +56,12 @@ module.exports = {
     'react/jsx-boolean-value': ['error', 'never'],
     // Можно не проверять propTypes, так как есть Typescript Props
     'react/prop-types': 'off',
+    // JSX Transform v2 (CRA) — React импортировать не нужно
+    'react/react-in-jsx-scope': 'off',
     // FIXME: Сделать хотя бы уровня warn
     'react/display-name': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
-
-    // FIXME: Группировка импортов
-    // '@typescript-eslint/ordered-imports': [
-    //   2,
-    //   {
-    //     'import-sources-order': 'any',
-    //     'named-imports-order': 'lowercase-first',
-    //     'grouped-imports': true,
-    //     groups: [
-    //       { name: 'root import', match: '^@components', order: 20 },
-    //       { name: 'current dir', match: '^[.]', order: 20 },
-    //       { name: 'parent dir', match: '^[.][.]', order: 20 },
-    //       { name: 'others', match: '^', order: 10 },
-    //     ],
-    //   },
-    // ],
   },
   settings: {
     react: {

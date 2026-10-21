@@ -24,7 +24,7 @@ const getDataForSpritesQuery = (id: number): Record<string, unknown> => {
   };
 };
 
-export const useSpritesWriteQuery = (pokemon: CorePokemon | undefined): void => {
+export const useSpritesWriteQuery = (pokemon?: CorePokemon): void => {
   const client = useApolloClient();
 
   useEffect(() => {
