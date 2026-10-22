@@ -2,12 +2,11 @@ import React from 'react';
 import { useGetPokemons } from 'src/apollo/queries/apollo-hooks';
 import { Footer } from 'src/components';
 import { TitleH3 } from 'src/components/ui';
-import { useDebounce } from 'src/hooks';
 import { dataValidation } from 'src/utils';
 import styled from 'styled-components';
 
 import { Filters, PokemonCard } from './components';
-import { setQueryParams, useQueryParams } from './queryParams';
+import { useQueryParams } from './queryParams';
 
 export const Pokedex = (): React.ReactElement => {
   const [limit, setLimit] = React.useState(document.documentElement.clientWidth > 768 ? 21 : 20);
@@ -21,50 +20,55 @@ export const Pokedex = (): React.ReactElement => {
     return () => window.removeEventListener('resize', getWidth);
   }, []);
 
-  const gridContainer = React.useRef<HTMLDivElement>(null);
+  const gridContainerRef = React.useRef<HTMLDivElement>(null);
+  const sentinelRef = React.useRef<HTMLDivElement>(null);
 
   const params = useQueryParams();
 
+  // Объект params меняется только при смене фильтров, поэтому сброс скролла
+  // привязан к нему, а не к offset: дозагрузка страниц его не трогает.
   React.useEffect(() => {
-    if (gridContainer.current && params.offset === 0) {
-      gridContainer.current.scrollTo(0, 0);
-    }
-  }, [params.offset]);
+    gridContainerRef.current?.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [params]);
 
   const { data, loading, fetchMore } = useGetPokemons({
     limit: limit,
     ...params,
   });
 
-  const [isRefetch, setRefetch] = React.useState(false);
-
   const total = data?.pokemon_v2_pokemon_aggregate?.aggregate?.count ?? 0;
   const loaded = data?.pokemon_v2_pokemon.length ?? 0;
   const hasMore = loaded < total;
 
-  const handleScroll = React.useCallback(
-    (e: React.UIEvent<HTMLDivElement>) => {
-      e.stopPropagation();
-      const { clientHeight, scrollHeight, scrollTop } = e.target as HTMLDivElement;
-      const minHeight = scrollHeight - (scrollTop + clientHeight);
-      const threshold = clientHeight / 4;
+  const [isFetching, setIsFetching] = React.useState(false);
+  const isLoading = loading || isFetching;
 
-      if (minHeight < threshold && !isRefetch && hasMore) {
-        setRefetch(true);
-        const nextOffset = loaded;
+  React.useEffect(() => {
+    const sentinel = sentinelRef.current;
 
-        fetchMore({ variables: { offset: nextOffset } })
-          .then(() => {
-            setQueryParams({ ...params, offset: nextOffset });
-          })
-          .finally(() => setRefetch(false));
-        return;
-      }
-    },
-    [hasMore, fetchMore, isRefetch, params, loaded],
-  );
+    if (!sentinel) {
+      return;
+    }
 
-  const debounceHandleScroll = useDebounce<React.UIEvent<HTMLDivElement>>(handleScroll, 300);
+    const observer = new IntersectionObserver(
+      ([target]) => {
+        if (target.isIntersecting && hasMore && !isLoading) {
+          setIsFetching(true);
+
+          fetchMore({ variables: { offset: loaded } }).finally(() => {
+            setIsFetching(false);
+          });
+        }
+      },
+      { root: gridContainerRef.current, rootMargin: '0px 0px 200px' },
+    );
+
+    observer.observe(sentinel);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [fetchMore, hasMore, isLoading, loaded]);
 
   return (
     <Container>
@@ -74,14 +78,15 @@ export const Pokedex = (): React.ReactElement => {
         {!loading && data?.pokemon_v2_pokemon.length === 0 ? (
           <Notification>Incorrect filters</Notification>
         ) : (
-          <GridContainer onScroll={debounceHandleScroll} ref={gridContainer}>
+          <GridContainer ref={gridContainerRef}>
             {dataValidation(data?.pokemon_v2_pokemon, limit).map((pokemon, idx) => (
               <PokemonCard key={pokemon?.id || idx} pokemon={pokemon} />
             ))}
-            {(loading || isRefetch) &&
+            {isLoading &&
               dataValidation([], 6).map((pokemon, idx) => (
                 <PokemonCard key={idx} pokemon={pokemon} />
               ))}
+            <Sentinel ref={sentinelRef} />
           </GridContainer>
         )}
       </Content>
@@ -157,4 +162,10 @@ const Notification = styled(TitleH3)`
   @media ${({ theme }) => theme.breakpoints.mobile} {
     margin: 30px 0;
   }
+`;
+
+const Sentinel = styled.div`
+  height: 1px;
+  width: 100%;
+  grid-column: 1 / -1;
 `;
