@@ -17,18 +17,18 @@ export const RightBoxHeader = ({ pokemon }: Props): JSX.Element => (
     </Name>
 
     <Generation data-empty={!pokemon}>
-      {pokemon ? `Generation ${pokemon?.pokemon_v2_pokemonspecy.generation_id}` : ''}
+      {pokemon ? `Generation ${pokemon?.pokemonspecy.generation_id}` : ''}
     </Generation>
 
     <ID data-empty={!pokemon}>{pokemon?.id || ''}</ID>
 
     <Types>
-      {dataValidation(pokemon?.pokemon_v2_pokemontypes, 2).map((type, idx) => (
+      {dataValidation(pokemon?.pokemontypes, 2).map((type, idx) => (
         <Type
           data-empty={!pokemon}
-          key={type?.pokemon_v2_type.name || idx}
-          bgcolor={type?.pokemon_v2_type.name ? ColorType[type?.pokemon_v2_type.name] : ''}>
-          {getTextFormat(type?.pokemon_v2_type.name)}
+          key={type?.type.name || idx}
+          bgcolor={type?.type.name ? ColorType[type?.type.name] : ''}>
+          {getTextFormat(type?.type.name)}
         </Type>
       ))}
     </Types>

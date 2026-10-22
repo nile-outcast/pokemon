@@ -18,36 +18,36 @@ export type CorePokemon = {
   id: number;
   name: string;
 
-  pokemon_v2_pokemonspecy: {
-    pokemon_v2_pokemoncolor: {
+  pokemonspecy: {
+    pokemoncolor: {
       name: ColorNameType;
     };
   };
-  pokemon_v2_pokemontypes: Array<{
-    pokemon_v2_type: {
+  pokemontypes: Array<{
+    type: {
       name: ColorTypeKey;
     };
   }>;
-  pokemon_v2_pokemonstats: Array<{
+  pokemonstats: Array<{
     base_stat: number;
-    pokemon_v2_stat: {
+    stat: {
       id: StatKey;
     };
   }>;
-  pokemon_v2_pokemonsprites: { sprites: string };
+  pokemonsprites: { sprites: string };
 };
 
 export type FullPokemon = CorePokemon & {
   base_experience: number;
-  pokemon_v2_pokemonspecy: {
+  pokemonspecy: {
     generation_id: number;
-    pokemon_v2_pokemonspeciesflavortexts: Array<{
+    pokemonspeciesflavortexts: Array<{
       flavor_text: string;
       language_id: number;
     }>;
   };
-  pokemon_v2_pokemonabilities: Array<{
-    pokemon_v2_ability: {
+  pokemonabilities: Array<{
+    ability: {
       name: string;
     };
   }>;

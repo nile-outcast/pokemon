@@ -1,4 +1,3 @@
-import React from 'react';
 import { useGetPokemonsShape } from 'src/apollo/queries/apollo-hooks';
 import styled from 'styled-components';
 
@@ -10,7 +9,7 @@ export const Legendaries = (): JSX.Element => {
   return (
     <Container>
       {loading && <div>{'loading'}</div>}
-      {data?.pokemon_v2_pokemonshape.map(({ id }) => (
+      {data?.pokemonshape.map(({ id }) => (
         <Shape key={id} id={id} />
       ))}
     </Container>

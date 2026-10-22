@@ -45,8 +45,8 @@ export const Pokedex = (): React.ReactElement => {
     ...params,
   });
 
-  const total = data?.pokemon_v2_pokemon_aggregate?.aggregate?.count ?? 0;
-  const loaded = data?.pokemon_v2_pokemon.length ?? 0;
+  const total = data?.pokemon_aggregate?.aggregate?.count ?? 0;
+  const loaded = data?.pokemon.length ?? 0;
   const hasMore = loaded < total;
 
   const [isFetching, setIsFetching] = React.useState(false);
@@ -84,11 +84,11 @@ export const Pokedex = (): React.ReactElement => {
       <Content>
         <Filters />
 
-        {!loading && data?.pokemon_v2_pokemon.length === 0 ? (
+        {!loading && data?.pokemon.length === 0 ? (
           <Notification>Incorrect filters</Notification>
         ) : (
           <GridContainer ref={gridContainerRef}>
-            {dataValidation(data?.pokemon_v2_pokemon, limit).map((pokemon, idx) => (
+            {dataValidation(data?.pokemon, limit).map((pokemon, idx) => (
               <PokemonCard key={pokemon?.id || idx} pokemon={pokemon} />
             ))}
             {isLoading &&

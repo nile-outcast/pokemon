@@ -5,22 +5,24 @@ import { CorePokemon } from 'src/apollo/types';
 
 const Sprites_Query = gql`
   query SpritesQuery($id: Int) {
-    pokemon_v2_pokemon_by_pk(id: $id) {
+    pokemon(where: { id: { _eq: $id } }, limit: 1) {
       id
-      pokemon_v2_pokemonsprites
+      pokemonsprites
     }
   }
 `;
 
 const getDataForSpritesQuery = (id: number): Record<string, unknown> => {
   return {
-    pokemon_v2_pokemon_by_pk: {
-      __typename: 'pokemon_v2_pokemon',
-      id,
-      pokemon_v2_pokemonsprites: {
-        sprites: `${BASE_IMAGE_URL}${id}.png`,
+    pokemon: [
+      {
+        __typename: 'pokemon',
+        id,
+        pokemonsprites: {
+          sprites: `${BASE_IMAGE_URL}${id}.png`,
+        },
       },
-    },
+    ],
   };
 };
 
@@ -28,7 +30,7 @@ export const useSpritesWriteQuery = (pokemon?: CorePokemon): void => {
   const client = useApolloClient();
 
   useEffect(() => {
-    if (pokemon && Array.isArray(pokemon.pokemon_v2_pokemonsprites)) {
+    if (pokemon && Array.isArray(pokemon.pokemonsprites)) {
       client.writeQuery({
         query: Sprites_Query,
         variables: { id: pokemon.id },

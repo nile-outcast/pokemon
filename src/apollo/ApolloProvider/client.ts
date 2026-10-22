@@ -1,24 +1,21 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { offsetLimitPagination } from '@apollo/client/utilities';
 
-const keyArgs = [
-  'where',
-  ['name', 'pokemon_v2_pokemontypes', 'base_experience', 'pokemon_v2_pokemonstats'],
-];
+const keyArgs = ['where', ['id', 'name', 'pokemontypes', 'base_experience', 'pokemonstats']];
 
 export const client = new ApolloClient({
-  uri: 'https://beta.pokeapi.co/graphql/v1beta',
+  uri: 'https://graphql.pokeapi.co/v1beta2',
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
         fields: {
-          pokemon_v2_pokemon: offsetLimitPagination(keyArgs),
+          pokemon: offsetLimitPagination(keyArgs),
         },
       },
 
-      pokemon_v2_pokemon: {
+      pokemon: {
         fields: {
-          pokemon_v2_pokemonsprites: {
+          pokemonsprites: {
             merge: (existing, incoming) =>
               existing && !Array.isArray(existing) ? existing : incoming,
           },

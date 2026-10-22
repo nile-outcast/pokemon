@@ -11,10 +11,11 @@ type Props = {
 
 export const ShapePokemonCard = ({ pokemon, ...props }: Props): JSX.Element => {
   useSpritesWriteQuery(pokemon);
+
   return (
     <Container {...props}>
       <ImageBox>
-        <Image bgcolor="" src={pokemon?.pokemon_v2_pokemonsprites.sprites} data-empty={!pokemon} />
+        <Image bgcolor="" src={pokemon?.pokemonsprites.sprites} data-empty={!pokemon} />
       </ImageBox>
       <NameBox>
         <TitleH5 data-empty={!pokemon} style={{ overflow: 'hidden' }}>

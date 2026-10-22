@@ -15,28 +15,22 @@ type Props = {
 export const PokemonCardModal = ({ id, closeModal }: Props): JSX.Element => {
   const { data } = useGetPokemonById({ id });
 
-  const pokemon = data?.pokemon_v2_pokemon_by_pk;
+  const pokemon = data?.pokemon.at(0);
 
   return (
     <BackGround>
       <Container>
         <CloseIcon onClick={closeModal} />
-        <LeftBox
-          data-empty={!pokemon}
-          bgcolor={pokemon?.pokemon_v2_pokemonspecy.pokemon_v2_pokemoncolor.name || ''}>
-          <Image
-            data-empty={!pokemon}
-            src={pokemon?.pokemon_v2_pokemonsprites.sprites}
-            bgcolor=""
-          />
+        <LeftBox data-empty={!pokemon} bgcolor={pokemon?.pokemonspecy.pokemoncolor.name || ''}>
+          <Image data-empty={!pokemon} src={pokemon?.pokemonsprites.sprites} bgcolor="" />
 
           <Types>
-            {dataValidation(pokemon?.pokemon_v2_pokemontypes, 2).map((type, idx) => (
+            {dataValidation(pokemon?.pokemontypes, 2).map((type, idx) => (
               <Type
                 data-empty={!pokemon}
-                key={type?.pokemon_v2_type.name || idx}
-                bgcolor={type?.pokemon_v2_type.name ? ColorType[type?.pokemon_v2_type.name] : ''}>
-                {getTextFormat(type?.pokemon_v2_type.name)}
+                key={type?.type.name || idx}
+                bgcolor={type?.type.name ? ColorType[type?.type.name] : ''}>
+                {getTextFormat(type?.type.name)}
               </Type>
             ))}
           </Types>

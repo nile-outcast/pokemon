@@ -12,9 +12,9 @@ type Props = {
 
 const flatAbilities = (pokemon?: FullPokemon): string => {
   return (
-    pokemon?.pokemon_v2_pokemonabilities
+    pokemon?.pokemonabilities
       .reduce((names: Array<string>, ability) => {
-        names.push(getTextFormat(ability.pokemon_v2_ability.name));
+        names.push(getTextFormat(ability.ability.name));
         return names;
       }, [])
       .join(' - ') ?? ''
@@ -35,7 +35,7 @@ export const RightBox = ({ pokemon }: Props): JSX.Element => (
         <div>
           <Experience
             title="Healthy Points"
-            baseStat={pokemon?.pokemon_v2_pokemonstats[0].base_stat}
+            baseStat={pokemon?.pokemonstats.at(0)?.base_stat}
             isEmptyData={!pokemon}
           />
         </div>
@@ -51,15 +51,15 @@ export const RightBox = ({ pokemon }: Props): JSX.Element => (
       </ExperienceBox>
 
       <StatsContainer>
-        {dataValidation(pokemon?.pokemon_v2_pokemonstats, 6)
+        {dataValidation(pokemon?.pokemonstats, 6)
           .slice(1, 5)
           .map((stat, idx) => (
-            <StatBox key={stat?.pokemon_v2_stat.id || idx}>
+            <StatBox key={stat?.stat.id || idx}>
               <Stat
                 staticTheme
                 abbreviateLabel
                 isEmptyData={!pokemon}
-                label={stat && Stats[stat.pokemon_v2_stat.id]}
+                label={stat && Stats[stat.stat.id]}
                 stat={stat?.base_stat}
               />
             </StatBox>

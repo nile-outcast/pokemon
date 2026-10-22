@@ -9,9 +9,9 @@ import {
 } from './queries';
 
 type GetPokemonsData = {
-  pokemon_v2_pokemon: Array<CorePokemon>;
+  pokemon: Array<CorePokemon>;
   /* Общее количество покемонов */
-  pokemon_v2_pokemon_aggregate: {
+  pokemon_aggregate: {
     aggregate: {
       count: number;
     };
@@ -48,7 +48,7 @@ type GetPokemonByIdVars = {
 };
 
 type GetPokemonByIdData = {
-  pokemon_v2_pokemon_by_pk: FullPokemon;
+  pokemon: Array<FullPokemon>;
 };
 
 export const useGetPokemonById = (
@@ -59,7 +59,7 @@ export const useGetPokemonById = (
   });
 
 type GetPokemonsShapeData = {
-  pokemon_v2_pokemonshape: Array<{
+  pokemonshape: Array<{
     id: number;
   }>;
 };
@@ -68,13 +68,13 @@ export const useGetPokemonsShape = (): QueryResult<GetPokemonsShapeData> =>
   useQuery<GetPokemonsShapeData>(Get_Pokemons_Shape);
 
 type GetPokemonsShapeByIdData = {
-  pokemon_v2_pokemonshape_by_pk: {
+  pokemonshape: Array<{
     id: number;
     name: string;
-    pokemon_v2_pokemonspecies: Array<{
-      pokemon_v2_pokemons: Array<CorePokemon>;
+    pokemonspecies: Array<{
+      pokemons: Array<CorePokemon>;
     }>;
-  };
+  }>;
 };
 
 export const useGetPokemonsShapeById = (

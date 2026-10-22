@@ -3,35 +3,35 @@ import { gql } from '@apollo/client';
 const POKEMON_WHERE = `
   where: {
     name: { _iregex: $name }
-    pokemon_v2_pokemontypes: { pokemon_v2_type: { name: { _iregex: $types } } }
+    pokemontypes: { type: { name: { _iregex: $types } } }
     base_experience: { _gte: $experienceFrom, _lte: $experienceTo }
-    pokemon_v2_pokemonstats: {
+    pokemonstats: {
       base_stat: { _gte: $attackFrom, _lte: $attackTo }
-      pokemon_v2_stat: { id: { _eq: 2 } }
+      stat: { id: { _eq: 2 } }
     }
   }
 `;
 
 const Core_Pokemon = gql`
-  fragment CorePokemon on pokemon_v2_pokemon {
+  fragment CorePokemon on pokemon {
     id
     name
-    pokemon_v2_pokemonsprites {
+    pokemonsprites {
       sprites
     }
-    pokemon_v2_pokemonspecy {
-      pokemon_v2_pokemoncolor {
+    pokemonspecy {
+      pokemoncolor {
         name
       }
     }
-    pokemon_v2_pokemontypes {
-      pokemon_v2_type {
+    pokemontypes {
+      type {
         name
       }
     }
-    pokemon_v2_pokemonstats {
+    pokemonstats {
       base_stat
-      pokemon_v2_stat {
+      stat {
         id
       }
     }
@@ -50,14 +50,14 @@ export const Get_Pokemons = gql`
     $attackFrom: Int
     $attackTo: Int
   ) {
-    pokemon_v2_pokemon(
+    pokemon(
       limit: $limit
       offset: $offset
       ${POKEMON_WHERE}
     ) {
       ...CorePokemon
     }
-    pokemon_v2_pokemon_aggregate(${POKEMON_WHERE}) {
+    pokemon_aggregate(${POKEMON_WHERE}) {
       aggregate {
         count
       }
@@ -68,21 +68,21 @@ export const Get_Pokemons = gql`
 export const Get_Pokemon_By_Id = gql`
   ${Core_Pokemon}
   query GetPokemonById($id: Int!) {
-    pokemon_v2_pokemon_by_pk(id: $id) {
+    pokemon(where: { id: { _eq: $id } }, limit: 1) {
       ...CorePokemon
 
       base_experience
 
-      pokemon_v2_pokemonspecy {
+      pokemonspecy {
         generation_id
-        pokemon_v2_pokemonspeciesflavortexts(where: { language_id: { _in: 9 } }) {
+        pokemonspeciesflavortexts(where: { language_id: { _in: 9 } }) {
           flavor_text
           language_id
         }
       }
 
-      pokemon_v2_pokemonabilities {
-        pokemon_v2_ability {
+      pokemonabilities {
+        ability {
           name
         }
       }
@@ -92,7 +92,7 @@ export const Get_Pokemon_By_Id = gql`
 
 export const Get_Pokemons_Shape = gql`
   query GetPokemonsShape {
-    pokemon_v2_pokemonshape {
+    pokemonshape {
       id
     }
   }
@@ -101,11 +101,11 @@ export const Get_Pokemons_Shape = gql`
 export const Get_Pokemons_Shape_By_Id = gql`
   ${Core_Pokemon}
   query GetPokemonsShapeById($id: Int!) {
-    pokemon_v2_pokemonshape_by_pk(id: $id) {
+    pokemonshape(where: { id: { _eq: $id } }, limit: 1) {
       id
       name
-      pokemon_v2_pokemonspecies {
-        pokemon_v2_pokemons {
+      pokemonspecies {
+        pokemons {
           ...CorePokemon
         }
       }

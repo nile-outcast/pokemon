@@ -1,4 +1,3 @@
-import React from 'react';
 import { useGetPokemonById } from 'src/apollo/queries/apollo-hooks';
 import { TitleH1 } from 'src/components/ui';
 import { getTextFormat } from 'src/utils';
@@ -7,9 +6,7 @@ import styled from 'styled-components';
 export const CurrentPokemonCard = ({ id }: { id: number }): JSX.Element => {
   const { data } = useGetPokemonById({ id });
 
-  return (
-    <NameTitle data-empty={!data}>{getTextFormat(data?.pokemon_v2_pokemon_by_pk?.name)}</NameTitle>
-  );
+  return <NameTitle data-empty={!data}>{getTextFormat(data?.pokemon.at(0)?.name)}</NameTitle>;
 };
 
 const NameTitle = styled(TitleH1)`

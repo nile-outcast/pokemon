@@ -32,25 +32,25 @@ export const PokemonCard = ({ pokemon }: Props): JSX.Element => {
           </div>
 
           <StatsBox>
-            {dataValidation(pokemon?.pokemon_v2_pokemonstats, 3)
+            {dataValidation(pokemon?.pokemonstats, 3)
               .slice(1, 3)
               .map((stat, idx) => (
                 <Stat
-                  key={stat?.pokemon_v2_stat.id || idx}
+                  key={stat?.stat.id || idx}
                   isEmptyData={!pokemon}
-                  label={stat && Stats[stat.pokemon_v2_stat.id]}
+                  label={stat && Stats[stat.stat.id]}
                   stat={stat?.base_stat}
                 />
               ))}
           </StatsBox>
 
           <Types>
-            {dataValidation(pokemon?.pokemon_v2_pokemontypes, 2).map((type, idx) => (
+            {dataValidation(pokemon?.pokemontypes, 2).map((type, idx) => (
               <Type
                 data-empty={!pokemon}
-                key={type?.pokemon_v2_type.name || idx}
-                bgcolor={type?.pokemon_v2_type.name ? ColorType[type?.pokemon_v2_type.name] : ''}>
-                {getTextFormat(type?.pokemon_v2_type.name)}
+                key={type?.type.name || idx}
+                bgcolor={type?.type.name ? ColorType[type?.type.name] : ''}>
+                {getTextFormat(type?.type.name)}
               </Type>
             ))}
           </Types>
@@ -58,8 +58,8 @@ export const PokemonCard = ({ pokemon }: Props): JSX.Element => {
 
         <ImageBox data-empty={!pokemon}>
           <Image
-            src={pokemon?.pokemon_v2_pokemonsprites.sprites}
-            bgcolor={pokemon?.pokemon_v2_pokemonspecy.pokemon_v2_pokemoncolor.name || ''}
+            src={pokemon?.pokemonsprites.sprites}
+            bgcolor={pokemon?.pokemonspecy.pokemoncolor.name || ''}
             data-empty={!pokemon}
           />
         </ImageBox>

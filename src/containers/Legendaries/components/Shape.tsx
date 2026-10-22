@@ -18,29 +18,28 @@ export const Shape = ({ id }: Props): JSX.Element => {
 
   const pokemons = React.useMemo(
     () =>
-      data?.pokemon_v2_pokemonshape_by_pk.pokemon_v2_pokemonspecies.reduce(
-        (pokemons: Array<CorePokemon>, pokemonspecy) => {
-          pokemonspecy.pokemon_v2_pokemons.forEach((pokemon) => pokemons.push(pokemon));
+      data?.pokemonshape
+        .at(0)
+        ?.pokemonspecies.reduce((pokemons: Array<CorePokemon>, pokemonspecy) => {
+          pokemonspecy.pokemons.forEach((pokemon) => pokemons.push(pokemon));
           return pokemons;
-        },
-        [],
-      ),
-    [data?.pokemon_v2_pokemonshape_by_pk.pokemon_v2_pokemonspecies],
+        }, []),
+    [data?.pokemonshape],
   );
 
   const [currentPokemon, setCurrentPokemon] = React.useState(0);
 
   React.useEffect(() => {
-    if (pokemons) setCurrentPokemon((prev) => (prev === 0 ? pokemons[0].id : prev));
+    const firstPokemon = pokemons?.at(0);
+
+    if (firstPokemon) setCurrentPokemon((prev) => (prev === 0 ? firstPokemon.id : prev));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pokemons]);
 
   return (
     <>
       <Content>
-        <ShapeTitle data-empty={!data}>
-          {getTextFormat(data?.pokemon_v2_pokemonshape_by_pk.name)}
-        </ShapeTitle>
+        <ShapeTitle data-empty={!data}>{getTextFormat(data?.pokemonshape.at(0)?.name)}</ShapeTitle>
         <Line />
 
         <CurrentPokemonCard id={currentPokemon} />
