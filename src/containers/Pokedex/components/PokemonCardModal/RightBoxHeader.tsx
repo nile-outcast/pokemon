@@ -1,5 +1,5 @@
-import { typeColors } from 'src/theme';
-import { FullPokemon } from 'src/types';
+import { FullPokemon } from 'src/apollo/types';
+import { ColorType } from 'src/theme';
 import { dataValidation, getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
@@ -27,7 +27,7 @@ export const RightBoxHeader = ({ pokemon }: Props): JSX.Element => (
         <Type
           data-empty={!pokemon}
           key={type?.pokemon_v2_type.name || idx}
-          bgcolor={type?.pokemon_v2_type.name ? typeColors[type?.pokemon_v2_type.name] : ''}>
+          bgcolor={type?.pokemon_v2_type.name ? ColorType[type?.pokemon_v2_type.name] : ''}>
           {getTextFormat(type?.pokemon_v2_type.name)}
         </Type>
       ))}

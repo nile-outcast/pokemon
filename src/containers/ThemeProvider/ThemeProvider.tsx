@@ -1,6 +1,6 @@
 import React, { createContext, FC, ReactNode, useContext, useState } from 'react';
 import { useTheme } from 'src/hooks';
-import { ThemeType } from 'src/types';
+import { ThemeType } from 'src/theme';
 import { ThemeProvider as Provider } from 'styled-components';
 
 type ContextType = [ThemeType, React.Dispatch<React.SetStateAction<ThemeType>>];

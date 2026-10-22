@@ -1,7 +1,6 @@
 import { QueryResult, useQuery } from '@apollo/client';
-import { CorePokemon, FullPokemon } from 'src/types';
 
-import { GetPokemonsVars } from '../types';
+import { CorePokemon, FullPokemon, GetPokemonsVars } from '../types';
 import {
   Get_Pokemon_By_Id,
   Get_Pokemons,

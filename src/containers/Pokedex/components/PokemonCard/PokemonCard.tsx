@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
+import { CorePokemon, Stats } from 'src/apollo/types';
 import { Image as Img, TitleH5 } from 'src/components/ui';
 import { useSpritesWriteQuery } from 'src/hooks';
-import { typeColors } from 'src/theme';
-import { CorePokemon, Stats } from 'src/types';
+import { ColorType } from 'src/theme';
 import { dataValidation, getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
@@ -49,7 +49,7 @@ export const PokemonCard = ({ pokemon }: Props): JSX.Element => {
               <Type
                 data-empty={!pokemon}
                 key={type?.pokemon_v2_type.name || idx}
-                bgcolor={type?.pokemon_v2_type.name ? typeColors[type?.pokemon_v2_type.name] : ''}>
+                bgcolor={type?.pokemon_v2_type.name ? ColorType[type?.pokemon_v2_type.name] : ''}>
                 {getTextFormat(type?.pokemon_v2_type.name)}
               </Type>
             ))}

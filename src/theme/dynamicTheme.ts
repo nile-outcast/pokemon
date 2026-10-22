@@ -1,7 +1,7 @@
-import { ThemeType } from 'src/types';
-
 import { colors } from './colors';
 import { gradients } from './gradients';
+
+export type ThemeType = 'light' | 'dark';
 
 export type DynamicTheme = {
   headerBG: string;

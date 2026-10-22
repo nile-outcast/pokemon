@@ -1,9 +1,9 @@
+import { StatValue } from 'src/apollo/types';
 import { ColorNameType } from 'src/theme';
-import { Stats } from 'src/types';
 import styled from 'styled-components';
 
 type Props = {
-  title: typeof Stats[keyof typeof Stats];
+  title: StatValue;
   isEmptyData: boolean;
   baseStat?: number;
   chargeColor?: ColorNameType;

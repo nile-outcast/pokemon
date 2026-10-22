@@ -1,8 +1,7 @@
-import React from 'react';
 import { useGetPokemonById } from 'src/apollo/queries/apollo-hooks';
 import { Image as Img } from 'src/components/ui';
 import { Close } from 'src/components/ui/icons';
-import { ColorNameType, typeColors } from 'src/theme';
+import { ColorNameType, ColorType } from 'src/theme';
 import { dataValidation, getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
@@ -36,7 +35,7 @@ export const PokemonCardModal = ({ id, closeModal }: Props): JSX.Element => {
               <Type
                 data-empty={!pokemon}
                 key={type?.pokemon_v2_type.name || idx}
-                bgcolor={type?.pokemon_v2_type.name ? typeColors[type?.pokemon_v2_type.name] : ''}>
+                bgcolor={type?.pokemon_v2_type.name ? ColorType[type?.pokemon_v2_type.name] : ''}>
                 {getTextFormat(type?.pokemon_v2_type.name)}
               </Type>
             ))}

@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react';
+import { CorePokemon } from 'src/apollo/types';
 import { Image as Img, TitleH5 } from 'src/components/ui';
 import { useSpritesWriteQuery } from 'src/hooks';
-import { CorePokemon } from 'src/types';
 import { getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 

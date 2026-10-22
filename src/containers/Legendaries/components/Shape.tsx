@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useGetPokemonsShapeById } from 'src/apollo/queries/apollo-hooks';
+import { CorePokemon } from 'src/apollo/types';
 import { TitleH1 } from 'src/components/ui';
 import { ArrowCarousel } from 'src/components/ui/icons/ArrowCarousel';
-import { CorePokemon } from 'src/types';
 import { dataValidation, getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 

@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDebounce } from 'src/hooks';
-import { typeColors } from 'src/theme';
+import { colorTypes } from 'src/theme/colors';
 import { getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
@@ -11,8 +11,6 @@ export const TypeFilter = (): JSX.Element => {
   const params = useQueryParams();
 
   const [checkedTypes, setTypes] = useState(params.types);
-
-  const types = useMemo(() => Object.keys(typeColors).sort(), []);
 
   const setParams = useCallback(
     (types: Array<string>) => setQueryParams({ ...params, offset: 0, types }),
@@ -26,8 +24,11 @@ export const TypeFilter = (): JSX.Element => {
       setTypes((prev) => {
         const typesSet = new Set(prev);
 
-        if (typesSet.has(type)) typesSet.delete(type);
-        else typesSet.add(type);
+        if (typesSet.has(type)) {
+          typesSet.delete(type);
+        } else {
+          typesSet.add(type);
+        }
 
         debounceSetParams([...typesSet]);
 
@@ -38,7 +39,7 @@ export const TypeFilter = (): JSX.Element => {
 
   return (
     <TypesBox>
-      {types.map((type) => (
+      {colorTypes.map((type) => (
         <Type key={type} onClick={() => handleClickType(type)}>
           <CheckBox checked={checkedTypes.includes(type)} />
           <FilterText>{getTextFormat(type)}</FilterText>

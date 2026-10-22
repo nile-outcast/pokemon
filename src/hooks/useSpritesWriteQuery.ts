@@ -1,7 +1,7 @@
 import { gql, useApolloClient } from '@apollo/client';
 import { useEffect } from 'react';
 import { BASE_IMAGE_URL } from 'src/api';
-import { CorePokemon } from 'src/types';
+import { CorePokemon } from 'src/apollo/types';
 
 const Sprites_Query = gql`
   query SpritesQuery($id: Int) {

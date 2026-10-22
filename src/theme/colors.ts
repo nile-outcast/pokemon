@@ -9,7 +9,7 @@ export const colors = {
   gray4: '#333333',
 } as const;
 
-export enum typeColors {
+export enum ColorType {
   normal = '#76AADB',
   fighting = '#F76545',
   flying = '#76AADB',
@@ -29,3 +29,7 @@ export enum typeColors {
   dark = '#A1A1A1',
   fairy = '#A974BC',
 }
+
+export type ColorTypeKey = keyof typeof ColorType;
+
+export const colorTypes = Object.keys(ColorType).sort();

@@ -1,5 +1,5 @@
+import { FullPokemon, Stats } from 'src/apollo/types';
 import { Experience } from 'src/components/ui';
-import { FullPokemon, Stats } from 'src/types';
 import { dataValidation, getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
