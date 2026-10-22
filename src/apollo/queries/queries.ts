@@ -7,7 +7,7 @@ const POKEMON_WHERE = `
     base_experience: { _gte: $experienceFrom, _lte: $experienceTo }
     pokemonstats: {
       base_stat: { _gte: $attackFrom, _lte: $attackTo }
-      stat: { id: { _eq: 2 } }
+      stat: { name: { _eq: "attack" }  }
     }
   }
 `;
@@ -32,7 +32,7 @@ const Core_Pokemon = gql`
     pokemonstats {
       base_stat
       stat {
-        id
+        name
       }
     }
   }

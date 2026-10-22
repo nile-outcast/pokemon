@@ -1,5 +1,5 @@
-import { FullPokemon, Stats } from 'src/apollo/types';
-import { Experience } from 'src/components/ui';
+import { FullPokemon, StatLabel } from 'src/apollo/types';
+import { StatBar } from 'src/components/ui';
 import { dataValidation, getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
@@ -33,15 +33,15 @@ export const RightBox = ({ pokemon }: Props): JSX.Element => (
 
       <ExperienceBox>
         <div>
-          <Experience
-            title="Healthy Points"
+          <StatBar
+            title={StatLabel.hp}
             baseStat={pokemon?.pokemonstats.at(0)?.base_stat}
             isEmptyData={!pokemon}
           />
         </div>
 
         <div>
-          <Experience
+          <StatBar
             title="Experience"
             baseStat={pokemon?.base_experience}
             isEmptyData={!pokemon}
@@ -54,12 +54,12 @@ export const RightBox = ({ pokemon }: Props): JSX.Element => (
         {dataValidation(pokemon?.pokemonstats, 6)
           .slice(1, 5)
           .map((stat, idx) => (
-            <StatBox key={stat?.stat.id || idx}>
+            <StatBox key={stat?.stat.name || idx}>
               <Stat
                 staticTheme
                 abbreviateLabel
                 isEmptyData={!pokemon}
-                label={stat && Stats[stat.stat.id]}
+                label={stat && StatLabel[stat.stat.name]}
                 stat={stat?.base_stat}
               />
             </StatBox>

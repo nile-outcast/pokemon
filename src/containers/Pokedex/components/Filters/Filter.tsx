@@ -1,16 +1,16 @@
-import React, { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { ArrowFilter } from 'src/components/ui/icons';
 import { useOnClickOutside } from 'src/hooks';
 import styled from 'styled-components';
 
-import { AttackAndExperienceFilter } from './AttackAndExperienceFilter';
 import { FilterText } from './FilterText';
+import { RangeFilter } from './RangeFilter';
 import { TypeFilter } from './TypeFilter';
 
 const FilterChildren = {
   Type: <TypeFilter />,
-  Attack: <AttackAndExperienceFilter label="attack" />,
-  Experience: <AttackAndExperienceFilter label="experience" />,
+  Attack: <RangeFilter label="attack" />,
+  Experience: <RangeFilter label="experience" />,
 };
 
 type Props = {

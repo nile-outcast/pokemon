@@ -1,15 +1,14 @@
-import { StatValue } from 'src/apollo/types';
 import { ColorNameType } from 'src/theme';
 import styled from 'styled-components';
 
 type Props = {
-  title: StatValue;
+  title: string;
   isEmptyData: boolean;
   baseStat?: number;
   chargeColor?: ColorNameType;
 };
 
-export const Experience = ({
+export const StatBar = ({
   title,
   isEmptyData,
   baseStat,
@@ -17,10 +16,10 @@ export const Experience = ({
 }: Props): JSX.Element => {
   return (
     <>
-      <ExperienceText>{title}</ExperienceText>
-      <ExperienceText data-empty={isEmptyData}>
+      <StatBarText>{title}</StatBarText>
+      <StatBarText data-empty={isEmptyData}>
         <strong>{!isEmptyData && `${baseStat},00`}</strong>
-      </ExperienceText>
+      </StatBarText>
       <ChargeBox data-empty={isEmptyData}>
         {!isEmptyData && baseStat && <Charge width={baseStat / 10} bgcolor={chargeColor} />}
       </ChargeBox>
@@ -28,7 +27,7 @@ export const Experience = ({
   );
 };
 
-const ExperienceText = styled.p`
+const StatBarText = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.colors.black};
 

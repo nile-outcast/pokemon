@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { CorePokemon, Stats } from 'src/apollo/types';
+import { CorePokemon, StatLabel } from 'src/apollo/types';
 import { Image as Img, TitleH5 } from 'src/components/ui';
 import { useSpritesWriteQuery } from 'src/hooks';
 import { ColorType } from 'src/theme';
@@ -36,9 +36,9 @@ export const PokemonCard = ({ pokemon }: Props): JSX.Element => {
               .slice(1, 3)
               .map((stat, idx) => (
                 <Stat
-                  key={stat?.stat.id || idx}
+                  key={stat?.stat.name || idx}
                   isEmptyData={!pokemon}
-                  label={stat && Stats[stat.stat.id]}
+                  label={stat && StatLabel[stat.stat.name]}
                   stat={stat?.base_stat}
                 />
               ))}

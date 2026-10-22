@@ -31,7 +31,7 @@ export type CorePokemon = {
   pokemonstats: Array<{
     base_stat: number;
     stat: {
-      id: StatKey;
+      name: StatName;
     };
   }>;
   pokemonsprites: { sprites: string };
@@ -53,16 +53,13 @@ export type FullPokemon = CorePokemon & {
   }>;
 };
 
-export const Stats = {
-  1: 'Healthy Points',
-  2: 'Attack',
-  3: 'Defense',
-  4: 'Special Attack',
-  5: 'Special Defense',
-  6: 'Speed',
-  7: 'Experience',
-} as const;
+export enum StatLabel {
+  hp = 'Healthy Points',
+  attack = 'Attack',
+  defense = 'Defense',
+  'special-attack' = 'Special Attack',
+  'special-defense' = 'Special Defense',
+  speed = 'Speed',
+}
 
-export type StatKey = keyof typeof Stats;
-
-export type StatValue = typeof Stats[StatKey];
+export type StatName = keyof typeof StatLabel;
