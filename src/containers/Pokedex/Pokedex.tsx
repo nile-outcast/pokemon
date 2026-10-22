@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { useGetPokemons } from 'src/apollo/queries/apollo-hooks';
 import { Footer } from 'src/components';
 import { TitleH3 } from 'src/components/ui';
@@ -6,7 +7,7 @@ import { dataValidation } from 'src/utils';
 import styled from 'styled-components';
 
 import { Filters, PokemonCard } from './components';
-import { useQueryParams } from './queryParams';
+import { buildQueryString, useQueryParams } from './queryParams';
 
 export const Pokedex = (): React.ReactElement => {
   const [limit, setLimit] = React.useState(document.documentElement.clientWidth > 768 ? 21 : 20);
@@ -20,10 +21,18 @@ export const Pokedex = (): React.ReactElement => {
     return () => window.removeEventListener('resize', getWidth);
   }, []);
 
+  const params = useQueryParams();
+
+  const history = useHistory();
+
+  // Отражаем фильтры в адресной строке. replace не засоряет историю:
+  // дозагрузка страниц params не меняет, поэтому лишних записей не будет.
+  React.useEffect(() => {
+    history.replace(`${history.location.pathname}${buildQueryString(params)}`);
+  }, [history, params]);
+
   const gridContainerRef = React.useRef<HTMLDivElement>(null);
   const sentinelRef = React.useRef<HTMLDivElement>(null);
-
-  const params = useQueryParams();
 
   // Объект params меняется только при смене фильтров, поэтому сброс скролла
   // привязан к нему, а не к offset: дозагрузка страниц его не трогает.
