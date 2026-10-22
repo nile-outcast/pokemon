@@ -34,7 +34,9 @@ export type CorePokemon = {
       name: StatName;
     };
   }>;
-  pokemonsprites: { sprites: string };
+  pokemonsprites: Array<{
+    sprites: string;
+  }>;
 };
 
 export type FullPokemon = CorePokemon & {

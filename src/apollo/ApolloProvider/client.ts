@@ -12,15 +12,6 @@ export const client = new ApolloClient({
           pokemon: offsetLimitPagination(keyArgs),
         },
       },
-
-      pokemon: {
-        fields: {
-          pokemonsprites: {
-            merge: (existing, incoming) =>
-              existing && !Array.isArray(existing) ? existing : incoming,
-          },
-        },
-      },
     },
   }),
 });

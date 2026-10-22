@@ -1,3 +1,4 @@
+import React from 'react';
 import { useGetPokemonById } from 'src/apollo/queries/apollo-hooks';
 import { Image as Img } from 'src/components/ui';
 import { Close } from 'src/components/ui/icons';
@@ -10,9 +11,10 @@ import { RightBox } from './RightBox';
 
 type Props = {
   id: number;
-  closeModal: () => void;
+  closeModal: VoidFunction;
 };
-export const PokemonCardModal = ({ id, closeModal }: Props): JSX.Element => {
+
+export const PokemonCardModal = React.memo(({ id, closeModal }: Props): JSX.Element => {
   const { data } = useGetPokemonById({ id });
 
   const pokemon = data?.pokemon.at(0);
@@ -21,15 +23,15 @@ export const PokemonCardModal = ({ id, closeModal }: Props): JSX.Element => {
     <BackGround>
       <Container>
         <CloseIcon onClick={closeModal} />
-        <LeftBox data-empty={!pokemon} bgcolor={pokemon?.pokemonspecy.pokemoncolor.name || ''}>
-          <Image data-empty={!pokemon} src={pokemon?.pokemonsprites.sprites} bgcolor="" />
+        <LeftBox data-empty={!pokemon} bgcolor={pokemon?.pokemonspecy.pokemoncolor.name}>
+          <Image data-empty={!pokemon} src={pokemon?.pokemonsprites.at(0)?.sprites} />
 
           <Types>
             {dataValidation(pokemon?.pokemontypes, 2).map((type, idx) => (
               <Type
                 data-empty={!pokemon}
-                key={type?.type.name || idx}
-                bgcolor={type?.type.name ? ColorType[type?.type.name] : ''}>
+                key={type?.type.name ?? idx}
+                bgcolor={type?.type.name && ColorType[type?.type.name]}>
                 {getTextFormat(type?.type.name)}
               </Type>
             ))}
@@ -40,7 +42,7 @@ export const PokemonCardModal = ({ id, closeModal }: Props): JSX.Element => {
       </Container>
     </BackGround>
   );
-};
+});
 
 const BackGround = styled.div`
   z-index: 200;
@@ -76,7 +78,7 @@ const Container = styled.div`
   }
 `;
 
-const LeftBox = styled.div<{ bgcolor: ColorNameType | '' }>`
+const LeftBox = styled.div<{ bgcolor?: ColorNameType }>`
   overflow: hidden;
   position: relative;
   height: 378px;

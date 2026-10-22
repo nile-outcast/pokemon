@@ -13,21 +13,21 @@ export const RightBoxHeader = ({ pokemon }: Props): JSX.Element => (
   <BoxHeader>
     {/* TODO: modal for full name */}
     <Name title={pokemon?.name} data-empty={!pokemon}>
-      {getTextFormat(pokemon?.name, true) || ''}
+      {getTextFormat(pokemon?.name, true) ?? ''}
     </Name>
 
     <Generation data-empty={!pokemon}>
       {pokemon ? `Generation ${pokemon?.pokemonspecy.generation_id}` : ''}
     </Generation>
 
-    <ID data-empty={!pokemon}>{pokemon?.id || ''}</ID>
+    <ID data-empty={!pokemon}>{pokemon?.id ?? ''}</ID>
 
     <Types>
       {dataValidation(pokemon?.pokemontypes, 2).map((type, idx) => (
         <Type
           data-empty={!pokemon}
-          key={type?.type.name || idx}
-          bgcolor={type?.type.name ? ColorType[type?.type.name] : ''}>
+          key={type?.type.name ?? idx}
+          bgcolor={type?.type.name && ColorType[type?.type.name]}>
           {getTextFormat(type?.type.name)}
         </Type>
       ))}

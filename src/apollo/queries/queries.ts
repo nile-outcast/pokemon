@@ -17,7 +17,7 @@ const Core_Pokemon = gql`
     id
     name
     pokemonsprites {
-      sprites
+      sprites(path: "other.official-artwork.front_default")
     }
     pokemonspecy {
       pokemoncolor {

@@ -6,7 +6,7 @@ import { TitleH3 } from 'src/components/ui';
 import { dataValidation } from 'src/utils';
 import styled from 'styled-components';
 
-import { Filters, PokemonCard } from './components';
+import { Filters, PokemonCard, PokemonCardModal } from './components';
 import { buildQueryString, useQueryParams } from './queryParams';
 
 export const Pokedex = (): React.ReactElement => {
@@ -79,29 +79,42 @@ export const Pokedex = (): React.ReactElement => {
     };
   }, [fetchMore, hasMore, isLoading, loaded]);
 
+  const [activePokemonId, setActivePokemonId] = React.useState<number | null>(null);
+  const handleCloseModal = React.useCallback(() => {
+    setActivePokemonId(null);
+  }, []);
+
   return (
-    <Container>
-      <Content>
-        <Filters />
+    <>
+      {activePokemonId && <PokemonCardModal id={activePokemonId} closeModal={handleCloseModal} />}
 
-        {!loading && data?.pokemon.length === 0 ? (
-          <Notification>Incorrect filters</Notification>
-        ) : (
-          <GridContainer ref={gridContainerRef}>
-            {dataValidation(data?.pokemon, limit).map((pokemon, idx) => (
-              <PokemonCard key={pokemon?.id || idx} pokemon={pokemon} />
-            ))}
-            {isLoading &&
-              dataValidation([], 6).map((pokemon, idx) => (
-                <PokemonCard key={idx} pokemon={pokemon} />
+      <Container>
+        <Content>
+          <Filters />
+
+          {!loading && data?.pokemon.length === 0 ? (
+            <Notification>Incorrect filters</Notification>
+          ) : (
+            <GridContainer ref={gridContainerRef}>
+              {dataValidation(data?.pokemon, limit).map((pokemon, idx) => (
+                <PokemonCard
+                  key={pokemon?.id || idx}
+                  pokemon={pokemon}
+                  onClick={setActivePokemonId}
+                />
               ))}
-            <Sentinel ref={sentinelRef} />
-          </GridContainer>
-        )}
-      </Content>
+              {isLoading &&
+                dataValidation([], 6).map((pokemon, idx) => (
+                  <PokemonCard key={idx} pokemon={pokemon} />
+                ))}
+              <Sentinel ref={sentinelRef} />
+            </GridContainer>
+          )}
+        </Content>
 
-      <Footer />
-    </Container>
+        <Footer />
+      </Container>
+    </>
   );
 };
 

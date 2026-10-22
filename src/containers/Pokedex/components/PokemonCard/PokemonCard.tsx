@@ -1,72 +1,64 @@
-import { useCallback, useState } from 'react';
 import { CorePokemon, StatLabel } from 'src/apollo/types';
 import { Image as Img, TitleH5 } from 'src/components/ui';
-import { useSpritesWriteQuery } from 'src/hooks';
 import { ColorType } from 'src/theme';
 import { dataValidation, getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
 import { BaseType } from '../BaseType';
-import { PokemonCardModal } from '../PokemonCardModal';
 import { Stat } from '../Stat';
 
 type Props = {
   pokemon?: CorePokemon;
+  onClick?: (pokemonId: number) => void;
 };
 
-export const PokemonCard = ({ pokemon }: Props): JSX.Element => {
-  const [isOpenModal, setOpenModal] = useState(false);
-
-  const openModal = useCallback(() => setOpenModal(true), []);
-
-  const closeModal = useCallback(() => setOpenModal(false), []);
-
-  useSpritesWriteQuery(pokemon);
+export const PokemonCard = ({ pokemon, onClick }: Props): JSX.Element => {
+  const handleClick = (): void => {
+    if (pokemon && onClick) {
+      onClick(pokemon.id);
+    }
+  };
 
   return (
-    <>
-      <Container onClick={openModal}>
-        <Info>
-          <div>
-            <Name data-empty={!pokemon}>{getTextFormat(pokemon?.name, true)}</Name>
-          </div>
+    <Container onClick={handleClick}>
+      <Info>
+        <div>
+          <Name data-empty={!pokemon}>{getTextFormat(pokemon?.name, true)}</Name>
+        </div>
 
-          <StatsBox>
-            {dataValidation(pokemon?.pokemonstats, 3)
-              .slice(1, 3)
-              .map((stat, idx) => (
-                <Stat
-                  key={stat?.stat.name || idx}
-                  isEmptyData={!pokemon}
-                  label={stat && StatLabel[stat.stat.name]}
-                  stat={stat?.base_stat}
-                />
-              ))}
-          </StatsBox>
-
-          <Types>
-            {dataValidation(pokemon?.pokemontypes, 2).map((type, idx) => (
-              <Type
-                data-empty={!pokemon}
-                key={type?.type.name || idx}
-                bgcolor={type?.type.name ? ColorType[type?.type.name] : ''}>
-                {getTextFormat(type?.type.name)}
-              </Type>
+        <StatsBox>
+          {dataValidation(pokemon?.pokemonstats, 3)
+            .slice(1, 3)
+            .map((stat, idx) => (
+              <Stat
+                key={stat?.stat.name ?? idx}
+                isEmptyData={!pokemon}
+                label={stat && StatLabel[stat.stat.name]}
+                stat={stat?.base_stat}
+              />
             ))}
-          </Types>
-        </Info>
+        </StatsBox>
 
-        <ImageBox data-empty={!pokemon}>
-          <Image
-            src={pokemon?.pokemonsprites.sprites}
-            bgcolor={pokemon?.pokemonspecy.pokemoncolor.name || ''}
-            data-empty={!pokemon}
-          />
-        </ImageBox>
-      </Container>
+        <Types>
+          {dataValidation(pokemon?.pokemontypes, 2).map((type, idx) => (
+            <Type
+              data-empty={!pokemon}
+              key={type?.type.name ?? idx}
+              bgcolor={type?.type.name && ColorType[type?.type.name]}>
+              {getTextFormat(type?.type.name)}
+            </Type>
+          ))}
+        </Types>
+      </Info>
 
-      {isOpenModal && <PokemonCardModal id={pokemon?.id || 0} closeModal={closeModal} />}
-    </>
+      <ImageBox data-empty={!pokemon}>
+        <Image
+          src={pokemon?.pokemonsprites.at(0)?.sprites}
+          bgcolor={pokemon?.pokemonspecy.pokemoncolor.name}
+          data-empty={!pokemon}
+        />
+      </ImageBox>
+    </Container>
   );
 };
 

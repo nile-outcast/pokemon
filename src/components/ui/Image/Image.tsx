@@ -3,7 +3,7 @@ import { ColorNameType } from 'src/theme';
 import styled from 'styled-components';
 
 type Props = {
-  bgcolor: ColorNameType | '';
+  bgcolor?: ColorNameType;
 } & ImgHTMLAttributes<HTMLImageElement>;
 
 export const Image: FC<Props> = (props) => {
@@ -14,7 +14,7 @@ export const Image: FC<Props> = (props) => {
   return <Img {...props} onError={onError} />;
 };
 
-export const Img = styled.img<{ bgcolor: ColorNameType | '' }>`
+export const Img = styled.img<{ bgcolor?: ColorNameType }>`
   object-fit: contain;
   background: ${({ theme, bgcolor }) =>
     !bgcolor

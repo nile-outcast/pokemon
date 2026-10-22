@@ -1,7 +1,6 @@
 import { HTMLAttributes } from 'react';
 import { CorePokemon } from 'src/apollo/types';
 import { Image as Img, TitleH5 } from 'src/components/ui';
-import { useSpritesWriteQuery } from 'src/hooks';
 import { getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
@@ -10,12 +9,10 @@ type Props = {
 } & HTMLAttributes<HTMLDivElement>;
 
 export const ShapePokemonCard = ({ pokemon, ...props }: Props): JSX.Element => {
-  useSpritesWriteQuery(pokemon);
-
   return (
     <Container {...props}>
       <ImageBox>
-        <Image bgcolor="" src={pokemon?.pokemonsprites.sprites} data-empty={!pokemon} />
+        <Image src={pokemon?.pokemonsprites.at(0)?.sprites} data-empty={!pokemon} />
       </ImageBox>
       <NameBox>
         <TitleH5 data-empty={!pokemon} style={{ overflow: 'hidden' }}>

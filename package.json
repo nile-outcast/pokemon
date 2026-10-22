@@ -11,7 +11,8 @@
     "fix-eslint:staged": "eslint --fix -c .eslintrc.js",
     "fix-eslint": "eslint --fix -c .eslintrc.js './src/**/*.{ts,tsx}'",
     "eslint-validate": "eslint --no-ignore --max-warnings=0 --fix -c .eslintrc.js './src/**/!(*.test).{ts,tsx}'",
-    "fix": "yarn fix-eslint"
+    "fix": "yarn fix-eslint",
+    "ts-check": "tsc --noEmit -p tsconfig.json 2>&1 | head -20"
   },
   "lint-staged": {
     "src/**/!(*.test).{ts,tsx}": [

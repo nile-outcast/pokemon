@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const BaseType = styled.div<{ bgcolor: string }>`
+export const BaseType = styled.div<{ bgcolor?: string }>`
   font-weight: 400;
   text-align: center;
   color: ${({ theme }) => theme.dynamicTheme.color};
