@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useGetPokemons } from 'src/apollo/queries/apollo-hooks';
 import { Footer } from 'src/components';
 import { TitleH3 } from 'src/components/ui';
+import { useIntersectionObserver } from 'src/hooks';
 import { dataValidation } from 'src/utils';
 import styled from 'styled-components';
 
@@ -32,7 +33,6 @@ export const Pokedex = (): React.ReactElement => {
   }, [history, params]);
 
   const gridContainerRef = React.useRef<HTMLDivElement>(null);
-  const sentinelRef = React.useRef<HTMLDivElement>(null);
 
   // Объект params меняется только при смене фильтров, поэтому сброс скролла
   // привязан к нему, а не к offset: дозагрузка страниц его не трогает.
@@ -49,35 +49,16 @@ export const Pokedex = (): React.ReactElement => {
   const loaded = data?.pokemon.length ?? 0;
   const hasMore = loaded < total;
 
-  const [isFetching, setIsFetching] = React.useState(false);
-  const isLoading = loading || isFetching;
+  const handleFetchMore = React.useCallback(() => {
+    return fetchMore({ variables: { offset: loaded } });
+  }, [fetchMore, loaded]);
 
-  React.useEffect(() => {
-    const sentinel = sentinelRef.current;
-
-    if (!sentinel) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([target]) => {
-        if (target.isIntersecting && hasMore && !isLoading) {
-          setIsFetching(true);
-
-          fetchMore({ variables: { offset: loaded } }).finally(() => {
-            setIsFetching(false);
-          });
-        }
-      },
-      { root: gridContainerRef.current, rootMargin: '0px 0px 200px' },
-    );
-
-    observer.observe(sentinel);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [fetchMore, hasMore, isLoading, loaded]);
+  const { sentinelRef, isLoading } = useIntersectionObserver<HTMLDivElement>({
+    fetchMoreFn: handleFetchMore,
+    root: gridContainerRef.current,
+    hasMore,
+    loading,
+  });
 
   const [activePokemonId, setActivePokemonId] = React.useState<number | null>(null);
   const handleCloseModal = React.useCallback(() => {
