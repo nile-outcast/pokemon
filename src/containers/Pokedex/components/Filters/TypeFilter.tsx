@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useDebounce } from 'src/hooks';
 import { colorTypes } from 'src/theme/colors';
-import { getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
 import { setQueryParams, useQueryParams } from '../../queryParams';
@@ -42,7 +41,7 @@ export const TypeFilter = (): JSX.Element => {
       {colorTypes.map((type) => (
         <Type key={type} onClick={() => handleClickType(type)}>
           <CheckBox checked={checkedTypes.includes(type)} />
-          <FilterText>{getTextFormat(type)}</FilterText>
+          <FilterText>{type}</FilterText>
         </Type>
       ))}
     </TypesBox>
@@ -77,6 +76,7 @@ const Type = styled.div`
 `;
 
 const CheckBox = styled.div<{ checked: boolean }>`
+  flex-shrink: 0;
   width: 12px;
   height: 12px;
   margin-right: 8px;

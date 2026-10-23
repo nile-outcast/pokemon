@@ -1,90 +1,106 @@
 import * as React from 'react';
-import { useGetPokemonsShapeById } from 'src/apollo/queries/apollo-hooks';
-import { BasePokemonData, CorePokemon } from 'src/apollo/types';
+import { useGetPokemonsByShapeId } from 'src/apollo/queries/apollo-hooks';
+import { BasePokemonData } from 'src/apollo/types';
 import { TitleH1 } from 'src/components/ui';
 import { ArrowCarousel } from 'src/components/ui/icons/ArrowCarousel';
-import { dataValidation, getTextFormat } from 'src/utils';
+import { useIntersectionObserver } from 'src/hooks';
+import { dataValidation } from 'src/utils';
 import styled from 'styled-components';
 
 import { CurrentPokemonCard } from './CurrentPokemonCard';
 import { ShapePokemonCard } from './ShapePokemonCard';
 
+const POKEMON_LIMIT = 10;
+
 type Props = {
-  shape: BasePokemonData;
+  shape?: BasePokemonData;
 };
 
-export const Shape = ({ shape }: Props): JSX.Element => {
-  const { data } = useGetPokemonsShapeById({ id: shape.id });
+export const Shape = React.memo(({ shape }: Props): JSX.Element => {
+  const carouselRef = React.useRef<HTMLDivElement>(null);
 
-  const pokemons = React.useMemo(
-    () =>
-      data?.pokemonshape
-        .at(0)
-        ?.pokemonspecies.reduce((pokemons: Array<CorePokemon>, pokemonspecy) => {
-          pokemonspecy.pokemons.forEach((pokemon) => pokemons.push(pokemon));
-          return pokemons;
-        }, []),
-    [data?.pokemonshape],
-  );
+  const { data, loading, fetchMore } = useGetPokemonsByShapeId({
+    shapeId: shape?.id,
+    limit: POKEMON_LIMIT,
+    offset: 0,
+  });
 
-  const [currentPokemon, setCurrentPokemon] = React.useState(0);
+  const pokemons = data?.pokemon;
 
-  React.useEffect(() => {
-    const firstPokemon = pokemons?.at(0);
+  const total = data?.pokemon_aggregate?.aggregate?.count ?? 0;
+  const loaded = pokemons?.length ?? 0;
+  const hasMore = loaded < total;
 
-    if (firstPokemon) {
-      setCurrentPokemon((prev) => (prev === 0 ? firstPokemon.id : prev));
-    }
-  }, [pokemons]);
+  const handleFetchMore = React.useCallback(() => {
+    return fetchMore({ variables: { offset: loaded } });
+  }, [fetchMore, loaded]);
+
+  const { sentinelRef, isFetching } = useIntersectionObserver<HTMLDivElement>({
+    fetchMoreFn: handleFetchMore,
+    root: carouselRef.current,
+    /* смещение вправо: догрузка начнётся до достижения конца карусели */
+    rootMargin: '0px 200px 0px 0px',
+    hasMore,
+    loading,
+  });
+
+  const [selectedId, setSelectedId] = React.useState<number>();
+
+  const currentPokemonId = selectedId ?? pokemons?.at(0)?.id;
 
   return (
-    <>
-      <Content>
-        <ShapeTitle data-empty={!shape}>{getTextFormat(shape.name)}</ShapeTitle>
-        <Line />
+    <Content>
+      <ShapeTitle data-empty={!shape} ellipsis capitalize>
+        {shape?.name}
+      </ShapeTitle>
+      <Line />
 
-        <CurrentPokemonCard id={currentPokemon} />
-      </Content>
+      <CurrentPokemonCard id={currentPokemonId} />
 
       <CarouselBox>
         <ArrowBox>
           <Arrow />
         </ArrowBox>
 
-        <Carousel>
-          {dataValidation(pokemons, 6).map((pokemon, idx) => (
-            <div key={pokemon?.id || idx}>
+        <Carousel ref={carouselRef}>
+          {dataValidation(pokemons, POKEMON_LIMIT).map((pokemon, idx) => (
+            <div key={pokemon?.id ?? `load-${idx}`}>
               <ShapePokemonCard
                 pokemon={pokemon}
-                onClick={() => pokemon && setCurrentPokemon(pokemon.id)}
+                onClick={setSelectedId}
+                isSelected={Boolean(currentPokemonId) && currentPokemonId === pokemon?.id}
               />
             </div>
           ))}
+
+          {isFetching &&
+            dataValidation([], 3).map((_, idx) => (
+              <div key={`fetch-${idx}`}>
+                <ShapePokemonCard />
+              </div>
+            ))}
+
+          <Sentinel ref={sentinelRef} />
         </Carousel>
 
         <ArrowBox data-right>
           <Arrow />
         </ArrowBox>
       </CarouselBox>
-    </>
+    </Content>
   );
-};
+});
 
 const Content = styled.div`
-  padding: 24px 24px;
+  padding-inline: 24px;
 
   @media ${({ theme }) => theme.breakpoints.desktop} {
-    padding: 40px 158px 24px;
+    padding-inline: 158px;
   }
 `;
 
 const Line = styled.div`
-  margin-right: 60px;
   border-bottom: 1px solid ${({ theme }) => theme.dynamicTheme.color};
-
-  @media ${({ theme }) => theme.breakpoints.mobile} {
-    margin-right: 12px;
-  }
 `;
 
 const ShapeTitle = styled(TitleH1)`
@@ -103,20 +119,19 @@ const ShapeTitle = styled(TitleH1)`
 
 const CarouselBox = styled.div`
   display: flex;
-  margin: 0 8px;
+  margin-inline: -16px;
 
   @media ${({ theme }) => theme.breakpoints.desktop} {
-    margin: 0 158px;
+    margin-inline: 0;
   }
 `;
 
 const Carousel = styled.div`
   display: flex;
   width: 100%;
+  padding-block: 12px;
+  margin-inline: 16px;
   overflow-x: scroll;
-
-  padding: 12px 0;
-  margin: 0 24px;
 
   ::-webkit-scrollbar {
     height: 3px;
@@ -125,6 +140,10 @@ const Carousel = styled.div`
   ::-webkit-scrollbar-thumb {
     background-color: ${({ theme }) => theme.dynamicTheme.color}80;
     border-radius: 999px;
+  }
+
+  @media ${({ theme }) => theme.breakpoints.desktop} {
+    margin-inline: 24px;
   }
 `;
 
@@ -147,4 +166,10 @@ const ArrowBox = styled.div`
       transform: rotate(180deg);
     }
   }
+`;
+
+const Sentinel = styled.div`
+  flex: none;
+  width: 1px;
+  align-self: stretch;
 `;

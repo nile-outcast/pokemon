@@ -23,7 +23,9 @@ export const PokemonCard = ({ pokemon, onClick }: Props): JSX.Element => {
     <Container onClick={handleClick}>
       <Info>
         <div>
-          <Name data-empty={!pokemon}>{getTextFormat(pokemon?.name, true)}</Name>
+          <Name data-empty={!pokemon} ellipsis capitalize>
+            {pokemon?.name}
+          </Name>
         </div>
 
         <StatsBox>

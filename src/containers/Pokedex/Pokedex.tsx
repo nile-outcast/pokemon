@@ -53,7 +53,7 @@ export const Pokedex = (): React.ReactElement => {
     return fetchMore({ variables: { offset: loaded } });
   }, [fetchMore, loaded]);
 
-  const { sentinelRef, isLoading } = useIntersectionObserver<HTMLDivElement>({
+  const { sentinelRef, isFetching } = useIntersectionObserver<HTMLDivElement>({
     fetchMoreFn: handleFetchMore,
     root: gridContainerRef.current,
     hasMore,
@@ -79,15 +79,13 @@ export const Pokedex = (): React.ReactElement => {
             <GridContainer ref={gridContainerRef}>
               {dataValidation(data?.pokemon, limit).map((pokemon, idx) => (
                 <PokemonCard
-                  key={pokemon?.id || idx}
+                  key={pokemon?.id ?? `load-${idx}`}
                   pokemon={pokemon}
                   onClick={setActivePokemonId}
                 />
               ))}
-              {isLoading &&
-                dataValidation([], 6).map((pokemon, idx) => (
-                  <PokemonCard key={idx} pokemon={pokemon} />
-                ))}
+              {isFetching &&
+                dataValidation([], 6).map((_, idx) => <PokemonCard key={`fetch-${idx}`} />)}
               <Sentinel ref={sentinelRef} />
             </GridContainer>
           )}

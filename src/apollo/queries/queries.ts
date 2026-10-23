@@ -90,25 +90,34 @@ export const Get_Pokemon_By_Id = gql`
   }
 `;
 
-export const Get_Pokemons_Shape = gql`
-  query GetPokemonsShape {
-    pokemonshape {
+export const Get_Pokemon_Shapes = gql`
+  query GetPokemonShapes($limit: Int, $offset: Int) {
+    pokemonshape(limit: $limit, offset: $offset) {
       id
       name
+    }
+    pokemonshape_aggregate {
+      aggregate {
+        count
+      }
     }
   }
 `;
 
-export const Get_Pokemons_Shape_By_Id = gql`
+export const Get_Pokemons_By_Shape_Id = gql`
   ${Core_Pokemon}
-  query GetPokemonsShapeById($id: Int!) {
-    pokemonshape(where: { id: { _eq: $id } }, limit: 1) {
-      id
-      name
-      pokemonspecies {
-        pokemons {
-          ...CorePokemon
-        }
+  query GetPokemonsByShapeId($shapeId: Int, $limit: Int, $offset: Int) {
+    pokemon(
+      where: { pokemonspecy: { pokemon_shape_id: { _eq: $shapeId } } }
+      limit: $limit
+      offset: $offset
+      order_by: { id: asc }
+    ) {
+      ...CorePokemon
+    }
+    pokemon_aggregate(where: { pokemonspecy: { pokemon_shape_id: { _eq: $shapeId } } }) {
+      aggregate {
+        count
       }
     }
   }

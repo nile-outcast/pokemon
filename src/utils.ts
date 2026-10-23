@@ -1,5 +1,6 @@
 const MAX_LENGTH = 9 as const;
 
+// TODO: Удалить хелпер
 export const getTextFormat = (text?: string, isName?: boolean): string => {
   if (!text) return ' ';
 

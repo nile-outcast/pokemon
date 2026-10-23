@@ -13,7 +13,7 @@ export const RightBoxHeader = ({ pokemon }: Props): JSX.Element => (
   <BoxHeader>
     {/* TODO: modal for full name */}
     <Name title={pokemon?.name} data-empty={!pokemon}>
-      {getTextFormat(pokemon?.name, true) ?? ''}
+      {pokemon?.name ?? ''}
     </Name>
 
     <Generation data-empty={!pokemon}>
@@ -36,19 +36,20 @@ export const RightBoxHeader = ({ pokemon }: Props): JSX.Element => (
 );
 
 const Name = styled.h3`
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  width: 53%;
-  overflow-wrap: anywhere;
   color: ${({ theme }) => theme.colors.white};
   margin: 0;
+  height: 42px;
+  width: 53%;
   font-weight: 700;
   font-size: 36px;
   line-height: 42px;
-  height: 42px;
   border-radius: 21px;
   cursor: pointer;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: capitalize;
 
   @media ${({ theme }) => theme.breakpoints.tablet} {
     width: 45%;
@@ -58,9 +59,6 @@ const Name = styled.h3`
   }
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
-    justify-content: center;
-    align-items: center;
-    text-align: center;
     position: fixed;
     top: 35px;
     left: 50px;
@@ -91,6 +89,10 @@ const Generation = styled.div`
   line-height: 30px;
   height: 30px;
   border-radius: 15px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   @media ${({ theme }) => theme.breakpoints.tablet} {
     font-size: 21px;
@@ -148,6 +150,7 @@ const BoxHeader = styled.div`
   justify-content: flex-end;
   align-items: flex-end;
   margin-bottom: 25px;
+  width: 100%;
 
   @media ${({ theme }) => theme.breakpoints.tablet} {
     margin-bottom: 12px;

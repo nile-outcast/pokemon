@@ -3,9 +3,9 @@ import { QueryResult, useQuery } from '@apollo/client';
 import { BasePokemonData, CorePokemon, FullPokemon, GetPokemonsVars } from '../types';
 import {
   Get_Pokemon_By_Id,
+  Get_Pokemon_Shapes,
   Get_Pokemons,
-  Get_Pokemons_Shape,
-  Get_Pokemons_Shape_By_Id,
+  Get_Pokemons_By_Shape_Id,
 } from './queries';
 
 type GetPokemonsData = {
@@ -44,7 +44,7 @@ export const useGetPokemons = ({
   });
 
 type GetPokemonByIdVars = {
-  id: number;
+  id?: number;
 };
 
 type GetPokemonByIdData = {
@@ -56,28 +56,53 @@ export const useGetPokemonById = (
 ): QueryResult<GetPokemonByIdData, GetPokemonByIdVars> =>
   useQuery<GetPokemonByIdData, GetPokemonByIdVars>(Get_Pokemon_By_Id, {
     variables: vars,
+    /* без id запрашивать нечего */
+    skip: !vars.id,
   });
 
-type GetPokemonsShapeData = {
+type GetPokemonShapesVars = {
+  limit: number;
+  offset: number;
+};
+
+type GetPokemonShapesData = {
   pokemonshape: Array<BasePokemonData>;
+  /* Общее количество форм */
+  pokemonshape_aggregate: {
+    aggregate: {
+      count: number;
+    };
+  };
 };
 
-export const useGetPokemonsShape = (): QueryResult<GetPokemonsShapeData> =>
-  useQuery<GetPokemonsShapeData>(Get_Pokemons_Shape);
-
-type GetPokemonsShapeByIdData = {
-  pokemonshape: Array<
-    BasePokemonData & {
-      pokemonspecies: Array<{
-        pokemons: Array<CorePokemon>;
-      }>;
-    }
-  >;
-};
-
-export const useGetPokemonsShapeById = (
-  vars: GetPokemonByIdVars,
-): QueryResult<GetPokemonsShapeByIdData, GetPokemonByIdVars> =>
-  useQuery<GetPokemonsShapeByIdData, GetPokemonByIdVars>(Get_Pokemons_Shape_By_Id, {
+export const useGetPokemonShapes = (
+  vars: GetPokemonShapesVars,
+): QueryResult<GetPokemonShapesData, GetPokemonShapesVars> =>
+  useQuery<GetPokemonShapesData, GetPokemonShapesVars>(Get_Pokemon_Shapes, {
     variables: vars,
+  });
+
+type GetPokemonsByShapeIdVars = {
+  shapeId?: number;
+  limit: number;
+  offset: number;
+};
+
+type GetPokemonsByShapeIdData = {
+  pokemon: Array<CorePokemon>;
+  /* Общее количество покемонов выбранной формы */
+  pokemon_aggregate: {
+    aggregate: {
+      count: number;
+    };
+  };
+};
+
+export const useGetPokemonsByShapeId = (
+  vars: GetPokemonsByShapeIdVars,
+): QueryResult<GetPokemonsByShapeIdData, GetPokemonsByShapeIdVars> =>
+  useQuery<GetPokemonsByShapeIdData, GetPokemonsByShapeIdVars>(Get_Pokemons_By_Shape_Id, {
+    variables: vars,
+    /* skeleton-Shape без shapeId не должен стрелять запросом */
+    skip: !vars.shapeId,
   });

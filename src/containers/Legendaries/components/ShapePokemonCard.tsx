@@ -1,33 +1,47 @@
-import { HTMLAttributes } from 'react';
+import React from 'react';
 import { CorePokemon } from 'src/apollo/types';
 import { Image as Img, TitleH5 } from 'src/components/ui';
-import { getTextFormat } from 'src/utils';
 import styled from 'styled-components';
 
 type Props = {
   pokemon?: CorePokemon;
-} & HTMLAttributes<HTMLDivElement>;
-
-export const ShapePokemonCard = ({ pokemon, ...props }: Props): JSX.Element => {
-  return (
-    <Container {...props}>
-      <ImageBox>
-        <Image src={pokemon?.pokemonsprites.at(0)?.sprites} data-empty={!pokemon} />
-      </ImageBox>
-      <NameBox>
-        <TitleH5 data-empty={!pokemon} style={{ overflow: 'hidden' }}>
-          {getTextFormat(pokemon?.name, true)}
-        </TitleH5>
-      </NameBox>
-    </Container>
-  );
+  onClick?: (pokemonId: number) => void;
+  isSelected?: boolean;
 };
+
+export const ShapePokemonCard = React.memo(
+  ({ pokemon, isSelected = false, onClick }: Props): JSX.Element => {
+    const handleClick = (): void => {
+      if (pokemon && onClick) {
+        onClick(pokemon.id);
+      }
+    };
+
+    return (
+      <Container onClick={handleClick} data-selected={isSelected}>
+        <ImageBox>
+          <Image src={pokemon?.pokemonsprites.at(0)?.sprites} data-empty={!pokemon} />
+        </ImageBox>
+        <NameBox>
+          <TitleH5 data-empty={!pokemon} ellipsis capitalize>
+            {pokemon?.name}
+          </TitleH5>
+        </NameBox>
+      </Container>
+    );
+  },
+);
 
 const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+
+  margin: 0 12px;
+  width: 86px;
+  height: 122px;
+
   cursor: pointer;
   background: linear-gradient(
     215.78deg,
@@ -40,9 +54,9 @@ const Container = styled.div`
   );
   border-radius: 18px;
 
-  width: 86px;
-  height: 122px;
-  margin: 0 12px;
+  &[data-selected='false'] {
+    opacity: 0.5;
+  }
 
   @media ${({ theme }) => theme.breakpoints.desktop} {
     width: 128px;
