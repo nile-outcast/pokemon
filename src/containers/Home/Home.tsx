@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Footer } from 'src/components';
 import { BaseButton, TitleH1 } from 'src/components/ui';
@@ -9,7 +9,7 @@ import { BannerComplete } from './components/BannerComplete';
 export const Home = (): JSX.Element => {
   const history = useHistory();
 
-  const handleClick = useCallback(() => history.push('/pokedex'), [history]);
+  const handleClick = React.useCallback(() => history.push('/pokedex'), [history]);
 
   return (
     <Container>
@@ -40,9 +40,9 @@ const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  flex: 1;
   background: ${({ theme }) => theme.dynamicTheme.homeBG};
-  height: calc(100vh - 93px);
-  overflow: hidden;
+  overflow-y: scroll;
 
   &::-webkit-scrollbar {
     width: 0;
@@ -54,7 +54,6 @@ const Container = styled.div`
   }
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
-    min-height: calc(100vh - 64px);
     padding: 38px 0 0;
   }
 `;

@@ -1,17 +1,21 @@
 import { useGetPokemonsShape } from 'src/apollo/queries/apollo-hooks';
+import { Footer } from 'src/components';
 import styled from 'styled-components';
 
 import { Shape } from './components/Shape';
 
 export const Legendaries = (): JSX.Element => {
-  const { data, loading } = useGetPokemonsShape();
+  const { data } = useGetPokemonsShape();
 
   return (
     <Container>
-      {loading && <div>{'loading'}</div>}
-      {data?.pokemonshape.map(({ id }) => (
-        <Shape key={id} id={id} />
-      ))}
+      <Content>
+        {data?.pokemonshape.map(({ id }) => (
+          <Shape key={id} id={id} />
+        ))}
+      </Content>
+
+      <Footer />
     </Container>
   );
 };
@@ -19,14 +23,15 @@ export const Legendaries = (): JSX.Element => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
+  width: 100%;
   background-color: ${({ theme }) => theme.dynamicTheme.pageBG};
-  /* height: calc(100vh - 93px); */
+  overflow-y: scroll;
+`;
 
-  @media ${({ theme }) => theme.breakpoints.mobile} {
-    /* min-height: calc(100vh - 64px); */
-
-    /* & > :last-child {
-      display: none;
-    } */
-  }
+const Content = styled.div`
+  flex: 1;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1440px;
 `;

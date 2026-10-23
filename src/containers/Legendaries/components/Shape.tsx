@@ -32,8 +32,9 @@ export const Shape = ({ id }: Props): JSX.Element => {
   React.useEffect(() => {
     const firstPokemon = pokemons?.at(0);
 
-    if (firstPokemon) setCurrentPokemon((prev) => (prev === 0 ? firstPokemon.id : prev));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (firstPokemon) {
+      setCurrentPokemon((prev) => (prev === 0 ? firstPokemon.id : prev));
+    }
   }, [pokemons]);
 
   return (

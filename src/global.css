@@ -16,7 +16,7 @@
 *[data-empty='true'] {
   background: linear-gradient(to right, #bababa 0%, #f6f7f9 40%, #bababa 100%);
   background-size: 400% 400%;
-  animation: pulse 1s linear infinite;  
+  animation: pulse 1s linear infinite;
 }
 
 html,
@@ -25,6 +25,7 @@ body {
   padding: 0;
   font-family: 'Karla', 'Source Sans Pro', sans-serif;
   font-weight: 400;
+  overflow: hidden;
 }
 
 button {
@@ -37,6 +38,5 @@ a {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

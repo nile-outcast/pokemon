@@ -50,7 +50,7 @@ export const Header = (): JSX.Element => {
   );
 };
 
-const Back = styled.div`
+const Back = styled.header`
   position: relative;
   height: 93px;
 
@@ -66,8 +66,12 @@ const BackGround = styled.div`
   left: 0;
   width: 100%;
   height: 93px;
+  box-shadow: 0px 4px 16px rgba(1, 28, 64, 0.2);
+  background-color: ${({ theme }) => theme.dynamicTheme.headerBG};
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
+    box-shadow: none;
+
     &[data-menu='false'] {
       height: 64px;
       background-color: ${({ theme }) => theme.colors.black}00;
@@ -84,14 +88,14 @@ const BackGround = styled.div`
   }
 `;
 
-const Container = styled.header`
+const Container = styled.div`
   display: flex;
   align-items: center;
-  background-color: ${({ theme }) => theme.dynamicTheme.headerBG};
-  box-shadow: 0px 4px 16px rgba(1, 28, 64, 0.2);
-  overflow: hidden;
-  height: 93px;
   padding: 0 83px 0 157px;
+  margin: 0 auto;
+  height: 93px;
+  max-width: 1440px;
+  overflow: hidden;
 
   transition-property: border-radius, height;
   transition-duration: 1s, 1s;
@@ -101,6 +105,9 @@ const Container = styled.header`
   }
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
+    background-color: ${({ theme }) => theme.dynamicTheme.headerBG};
+    box-shadow: 0px 4px 16px rgba(1, 28, 64, 0.2);
+
     & > :first-child {
       flex: 0;
     }

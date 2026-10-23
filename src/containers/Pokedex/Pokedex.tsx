@@ -121,12 +121,11 @@ export const Pokedex = (): React.ReactElement => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
   background-color: ${({ theme }) => theme.dynamicTheme.pageBG};
-  height: calc(100vh - 93px);
+  overflow: hidden;
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
-    min-height: calc(100vh - 64px);
-
     & > :last-child {
       display: none;
     }
@@ -134,10 +133,13 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
+  align-self: center;
+  flex: 1;
   padding: 73px 158px 0;
+  width: 100%;
+  max-width: 1440px;
   overflow: hidden;
 
   @media ${({ theme }) => theme.breakpoints.tablet} {
@@ -154,7 +156,7 @@ const GridContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: min-content;
   gap: 45px 34px;
-  margin: 50px 0 32px;
+  margin-top: 50px;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
@@ -165,13 +167,13 @@ const GridContainer = styled.div`
   @media ${({ theme }) => theme.breakpoints.tablet} {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px 18px;
-    margin: 80px 0 62px;
+    margin-top: 80px;
   }
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
     grid-template-columns: repeat(1, 1fr);
     gap: 24px;
-    margin: 30px 0 0;
+    margin-top: 30px;
   }
 `;
 

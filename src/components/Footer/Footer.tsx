@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 export const Footer = (): JSX.Element => (
@@ -8,29 +7,25 @@ export const Footer = (): JSX.Element => (
   </Container>
 );
 
-const Container = styled.div`
+const Container = styled.footer`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 28px;
-  padding-left: 127px;
-  padding-right: 220px;
+  padding-inline: 160px 188px;
+  margin: 80px auto 28px;
+  width: 100%;
+  max-width: 1440px;
 
   @media ${({ theme }) => theme.breakpoints.tablet} {
-    padding-left: 37px;
-    padding-right: 68px;
-    margin-bottom: 20px;
+    padding-inline: 38px 68px;
+    margin-block: 40px 20px;
   }
 
   @media ${({ theme }) => theme.breakpoints.mobile} {
-    margin-bottom: 16px;
-    padding: 0;
     flex-direction: column-reverse;
-    width: max-content;
     align-self: center;
-
-    & > :last-child {
-      margin-bottom: 5px;
-    }
+    padding: 0;
+    margin-block: 28px 16px;
+    width: max-content;
   }
 `;
 

@@ -22,7 +22,9 @@ export const App = (): React.ReactElement => {
 };
 
 const PageLayout = styled.div`
-  max-width: 1440px;
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   margin: auto;
+  width: 100%;
+  height: 100dvh;
 `;
