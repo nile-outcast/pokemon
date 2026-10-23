@@ -94,6 +94,7 @@ export const Get_Pokemons_Shape = gql`
   query GetPokemonsShape {
     pokemonshape {
       id
+      name
     }
   }
 `;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useGetPokemonsShapeById } from 'src/apollo/queries/apollo-hooks';
-import { CorePokemon } from 'src/apollo/types';
+import { BasePokemonData, CorePokemon } from 'src/apollo/types';
 import { TitleH1 } from 'src/components/ui';
 import { ArrowCarousel } from 'src/components/ui/icons/ArrowCarousel';
 import { dataValidation, getTextFormat } from 'src/utils';
@@ -10,11 +10,11 @@ import { CurrentPokemonCard } from './CurrentPokemonCard';
 import { ShapePokemonCard } from './ShapePokemonCard';
 
 type Props = {
-  id: number;
+  shape: BasePokemonData;
 };
 
-export const Shape = ({ id }: Props): JSX.Element => {
-  const { data } = useGetPokemonsShapeById({ id });
+export const Shape = ({ shape }: Props): JSX.Element => {
+  const { data } = useGetPokemonsShapeById({ id: shape.id });
 
   const pokemons = React.useMemo(
     () =>
@@ -40,7 +40,7 @@ export const Shape = ({ id }: Props): JSX.Element => {
   return (
     <>
       <Content>
-        <ShapeTitle data-empty={!data}>{getTextFormat(data?.pokemonshape.at(0)?.name)}</ShapeTitle>
+        <ShapeTitle data-empty={!shape}>{getTextFormat(shape.name)}</ShapeTitle>
         <Line />
 
         <CurrentPokemonCard id={currentPokemon} />

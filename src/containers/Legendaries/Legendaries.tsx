@@ -10,8 +10,8 @@ export const Legendaries = (): JSX.Element => {
   return (
     <Container>
       <Content>
-        {data?.pokemonshape.map(({ id }) => (
-          <Shape key={id} id={id} />
+        {data?.pokemonshape.map((shape) => (
+          <Shape key={shape.id} shape={shape} />
         ))}
       </Content>
 

@@ -5,6 +5,11 @@ type Range = {
   to: number;
 };
 
+export type BasePokemonData<Name = string> = {
+  id: number;
+  name: Name;
+};
+
 export type GetPokemonsVars = {
   limit: number;
   offset: number;
@@ -14,25 +19,16 @@ export type GetPokemonsVars = {
   types: Array<string>;
 };
 
-export type CorePokemon = {
-  id: number;
-  name: string;
-
+export type CorePokemon = BasePokemonData & {
   pokemonspecy: {
-    pokemoncolor: {
-      name: ColorNameType;
-    };
+    pokemoncolor: BasePokemonData<ColorNameType>;
   };
   pokemontypes: Array<{
-    type: {
-      name: ColorTypeKey;
-    };
+    type: BasePokemonData<ColorTypeKey>;
   }>;
   pokemonstats: Array<{
     base_stat: number;
-    stat: {
-      name: StatName;
-    };
+    stat: BasePokemonData<StatName>;
   }>;
   pokemonsprites: Array<{
     sprites: string;
@@ -49,9 +45,7 @@ export type FullPokemon = CorePokemon & {
     }>;
   };
   pokemonabilities: Array<{
-    ability: {
-      name: string;
-    };
+    ability: BasePokemonData;
   }>;
 };
 
