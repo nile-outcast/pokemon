@@ -82,7 +82,7 @@ const Container = styled.div`
 `;
 
 const ImageBox = styled.div`
-  position: absolute;
+  position: absolute !important;
   top: 0;
   right: -5%;
   width: 70%;

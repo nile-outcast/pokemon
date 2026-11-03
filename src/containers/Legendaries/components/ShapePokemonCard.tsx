@@ -18,12 +18,12 @@ export const ShapePokemonCard = React.memo(
     };
 
     return (
-      <Container onClick={handleClick} data-selected={isSelected}>
+      <Container onClick={handleClick} data-selected={isSelected} data-empty={!pokemon}>
         <ImageBox>
           <Image src={pokemon?.pokemonsprites.at(0)?.sprites} data-empty={!pokemon} />
         </ImageBox>
         <NameBox>
-          <TitleH5 data-empty={!pokemon} ellipsis capitalize>
+          <TitleH5 ellipsis capitalize>
             {pokemon?.name}
           </TitleH5>
         </NameBox>
@@ -83,11 +83,11 @@ const NameBox = styled.div`
 `;
 
 const ImageBox = styled.div`
-  z-index: 10;
   position: absolute;
   top: -10%;
   left: -15%;
   width: 130%;
+  z-index: 10;
 `;
 
 const Image = styled(Img)`
