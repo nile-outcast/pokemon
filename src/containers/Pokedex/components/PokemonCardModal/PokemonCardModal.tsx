@@ -24,7 +24,7 @@ export const PokemonCardModal = React.memo(({ id, closeModal }: Props): JSX.Elem
       <Container>
         <CloseIcon onClick={closeModal} />
         <LeftBox data-empty={!pokemon} bgcolor={pokemon?.pokemonspecy.pokemoncolor.name}>
-          <Image data-empty={!pokemon} src={pokemon?.pokemonsprites.at(0)?.sprites} />
+          {pokemon && <Image src={pokemon.pokemonsprites.at(0)?.sprites} />}
 
           <Types>
             {dataValidation(pokemon?.pokemontypes, 2).map((type, idx) => (
@@ -117,10 +117,6 @@ const Image = styled(Img)`
     z-index: 100;
     position: absolute;
     top: 65px;
-
-    &[data-empty='true'] {
-      display: none;
-    }
   }
 `;
 

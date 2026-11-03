@@ -53,12 +53,15 @@ export const PokemonCard = ({ pokemon, onClick }: Props): JSX.Element => {
         </Types>
       </Info>
 
-      <ImageBox data-empty={!pokemon}>
-        <Image
-          src={pokemon?.pokemonsprites.at(0)?.sprites}
-          bgcolor={pokemon?.pokemonspecy.pokemoncolor.name}
-          data-empty={!pokemon}
-        />
+      <ImageBox>
+        {pokemon ? (
+          <Image
+            src={pokemon.pokemonsprites.at(0)?.sprites}
+            bgcolor={pokemon.pokemonspecy.pokemoncolor.name}
+          />
+        ) : (
+          <ImageSkeleton data-empty="true" />
+        )}
       </ImageBox>
     </Container>
   );
@@ -82,7 +85,7 @@ const Container = styled.div`
 `;
 
 const ImageBox = styled.div`
-  position: absolute !important;
+  position: absolute;
   top: 0;
   right: -5%;
   width: 70%;
@@ -92,10 +95,11 @@ const ImageBox = styled.div`
 const Image = styled(Img)`
   width: 100%;
   height: 100%;
+`;
 
-  &[data-empty='true'] {
-    display: none;
-  }
+const ImageSkeleton = styled.div`
+  width: 100%;
+  height: 100%;
 `;
 
 const Name = styled(TitleH5)`
