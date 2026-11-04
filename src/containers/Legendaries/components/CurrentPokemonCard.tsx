@@ -14,7 +14,7 @@ export const CurrentPokemonCard = ({ id }: Props): JSX.Element => {
   return (
     <Content>
       <ImageBox data-empty={!pokemon}>
-        <Image src={pokemon?.pokemonsprites.at(0)?.sprites} data-empty={!data} />
+        {pokemon && <Image src={pokemon.pokemonsprites.at(0)?.sprites} />}
       </ImageBox>
       <Info>
         <NameTitle data-empty={!pokemon} ellipsis capitalize>
@@ -67,10 +67,6 @@ const ImageBox = styled.div`
 const Image = styled(Img)`
   width: 100%;
   height: 100%;
-
-  &[data-empty='true'] {
-    display: none;
-  }
 `;
 
 const Info = styled.div`
